@@ -27,9 +27,17 @@ public class Oddity {
 
             while ((line=br.readLine()) != null) {
                 for (int i = 0;i < line.length();i++) {
-                    System.out.print(line.charAt(i));
+
+                    //System.out.print(line.indexOf("\"" + presetPick + "\""));
+                    if (line.contains("\t\"" + presetPick + "\":")) {
+                        System.out.print(line.charAt(i));
+                    }
+                    if (line.contains("\"" + presetPick + "\"")) {
+                        System.out.print(line.charAt(i));
+                    }
+
                 }
-                System.out.println();
+                //System.out.println();
             }
             br.close();
         }
