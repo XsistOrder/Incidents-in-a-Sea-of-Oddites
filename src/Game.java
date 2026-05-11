@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JPanel{
+    Oddity interrogatedOddity = new Oddity();
     public Game() {
 
     }
