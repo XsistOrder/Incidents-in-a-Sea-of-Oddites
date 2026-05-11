@@ -1,11 +1,16 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Game extends JPanel{
-    public Game(){
+    public Game() {
 
     }
     public void move() {
 
+    }
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
     }
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("City Scape Assigment");
