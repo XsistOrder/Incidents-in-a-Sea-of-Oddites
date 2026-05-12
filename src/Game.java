@@ -7,7 +7,7 @@ public class Game extends JPanel{
     Background background = new Background();
 
     public Game() {
-
+        Background.changeBackground("Main_Menu");
     }
     public void move() {
 
@@ -23,13 +23,16 @@ public class Game extends JPanel{
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
+        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
         while (true)
         {
-
+            game.move();
+            game.repaint();
+            Thread.sleep(10);
         }
     }
 }

@@ -11,13 +11,16 @@ public class Oddity {
     };
     private Random random = new Random();
     private String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
-    int presetPick = random.nextInt(5) + 1;
+    int presetPick = random.nextInt(4) + 1;
     private String skinColor = "";
 
     public Oddity () {
         switch (species) {
             case "Yokai":
                 System.out.println(presetPick);
+                break;
+            case "Still_Life":
+
                 break;
         }
         try {
