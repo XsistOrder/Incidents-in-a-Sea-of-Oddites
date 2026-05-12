@@ -33,9 +33,12 @@ public class Background {
     public void paint(Graphics2D g2d) {
         switch (setting) {
             case "main_menu":
-                g2d.drawImage(mainMenu, 0, 0, 1000, 700, null);
+                //g2d.drawImage(mainMenu, 0, 0, 1000, 700, null);
+                //graphics.addObject(0,0,1000,700, "res\\textures\\backgrounds\\main_menu.jpg", 5);
+                graphics.setImageDir(0,"res\\textures\\backgrounds\\main_menu.jpg");
                 break;
             case "checkpoint_menu":
+                graphics.setImageDir(0,"res\\textures\\backgrounds\\checkpoint_menu.jpg");
                 break;
             case "results_menu":
                 break;
@@ -43,7 +46,7 @@ public class Background {
                 break;
         }
 
-        //graphics.addObject(0,0,1000,700, "res\\textures\\backgrounds\\main_menu.jpg", 5);
+
     }
 
 }

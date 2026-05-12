@@ -19,11 +19,11 @@ public class Game extends JPanel{
         graphics.drawAll(g2d);
     }
     public static void main(String[] args) throws InterruptedException{
-        JFrame frame = new JFrame("City Scape Assigment");
+        JFrame frame = new JFrame("Incidents in a Sea of Oddities");
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
-        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg");
+        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg", 0);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
