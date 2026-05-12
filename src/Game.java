@@ -3,6 +3,7 @@ import java.awt.*;
 
 public class Game extends JPanel{
     Oddity interrogatedOddity = new Oddity();
+    GraphicsManager graphics = new GraphicsManager();
     public Game() {
 
     }
@@ -12,6 +13,7 @@ public class Game extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+        graphics.drawAll(g2d);
     }
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("City Scape Assigment");

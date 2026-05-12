@@ -1,0 +1,319 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
+/*
+    Graphics Manager - handles all object rendering for the game
+
+    Each object is stored across parallel ArrayLists (one per property).
+    Objects are drawn in ascending priority order, so higher priority objects
+    appear on top of lower priority ones.
+
+    examples:
+
+                                     X  Y  Width Height  Directory   Priority
+                                     |  |    |    |          |         |
+            int bgId = gfx.addObject(0, 0, 1000, 700, "assets/bg.png", 0)
+
+            gfx.translate(playerID, 10, 0);   move player right 10px
+            gfx.setAlpha(bgId, 0.5f);         make image semi-transparent
+ */
+
+public class GraphicsManager {
+
+    //ArrayLists - one entry per managed object
+
+    private final ArrayList<Integer> ids;               //unique id per object
+    private final ArrayList<Integer> xPositions;        //top-left x
+    private final ArrayList<Integer> yPositions;        //top-left y
+    private final ArrayList<Integer> widths;            //draw widths
+    private final ArrayList<Integer> heights;           // draw heights
+    private final ArrayList<String> imageDirs;          //file paths to images
+    private final ArrayList<Integer> priorities;        //draw order
+    private final ArrayList<Boolean> visibilities;      //whether objects are visible or not
+    private final ArrayList<Float> rotations;           // rotation in degrees
+    private final ArrayList<Float> alphas;              //opacity 0 - 1
+    private final ArrayList<BufferedImage> imageCache;  //pre-loaded images
+
+
+    //Auto-incrementing id counter
+    private int nextId = 0;
+
+    public GraphicsManager() {
+
+        ids = new ArrayList<>();
+        xPositions = new ArrayList<>();
+        yPositions = new ArrayList<>();
+        widths = new ArrayList<>();
+        heights = new ArrayList<>();
+        imageDirs = new ArrayList<>();
+        priorities = new ArrayList<>();
+        visibilities = new ArrayList<>();
+        rotations = new ArrayList<>();
+        alphas = new ArrayList<>();
+        imageCache = new ArrayList<>();
+    }
+
+    //Adding / Removing Objects
+
+    //Adds an object and returns it's unique ID
+
+    public int addObject(int x, int y, int width, int height, String imageDir, int priority) {
+
+        int id = nextId++;
+        ids.add(id);
+        xPositions.add(x);
+        yPositions.add(y);
+        widths.add(width);
+        heights.add(height);
+        imageDirs.add(imageDir);
+        priorities.add(priority);
+        visibilities.add(true);
+        rotations.add(0f);
+        alphas.add(1f);
+        imageCache.add(loadImage(imageDir));
+        return id;
+    }
+
+//Adds a new object with a default priority of 0
+
+    public int addObject(int x, int y, int width, int height, String imageDir) {
+        return addObject(x, y, width, height, imageDir, 0);
+    }
+
+//removes an object with the given id
+//returns true if the object existed and was removed successfully
+//otherwise, returns false
+
+    public boolean removeObject(int id) {
+        int idx = indexOf(id);
+        if (idx == -1) return false;
+        ids.remove(idx);
+        xPositions.remove(idx);
+        yPositions.remove(idx);
+        widths.remove(idx);
+        heights.remove(idx);
+        imageDirs.remove(idx);
+        priorities.remove(idx);
+        visibilities.remove(idx);
+        rotations.remove(idx);
+        alphas.remove(idx);
+        imageCache.remove(idx);
+        return true;
+    }
+
+//removes all objects
+
+    public void clearAll() {
+        ids.clear();
+        xPositions.clear();
+        yPositions.clear();
+        widths.clear();
+        heights.clear();
+        imageDirs.clear();
+        priorities.clear();
+        visibilities.clear();
+        rotations.clear();
+        alphas.clear();
+        imageCache.clear();
+    }
+
+//getters
+
+    public int     getX          (int id) { return xPositions.get(indexOf(id)); }
+    public int     getY          (int id) { return yPositions.get(indexOf(id)); }
+    public int     getWidth      (int id) { return widths.get(indexOf(id)); }
+    public int     getHeight     (int id) { return heights.get(indexOf(id)); }
+    public String  getImageDir   (int id) { return imageDirs.get(indexOf(id)); }
+    public int     getPriority   (int id) { return priorities.get(indexOf(id)); }
+    public boolean getVisibility (int id) { return visibilities.get(indexOf(id)); }
+    public float   getRotation   (int id) { return rotations.get(indexOf(id)); }
+    public float   getAlpha      (int id) { return alphas.get(indexOf(id)); }
+
+
+//Returns a copy of all active ids
+
+    public ArrayList<Integer> getAllIds() {
+        return new ArrayList<>(ids);
+    }
+
+//returns the number of managed objects
+
+    public int getObjectCount() {
+        return ids.size();
+    }
+
+
+//setters
+
+    public void setX (int id, int x) {
+        xPositions.set(indexOf(id), x);
+    }
+
+    public void setY (int id, int y) {
+        yPositions.set(indexOf(id), y);
+    }
+
+    public void setWidth (int id, int w) {
+        widths.set(indexOf(id), w);
+    }
+
+    public void setHeight (int id, int h) {
+        heights.set(indexOf(id), h);
+    }
+
+    public void setPriority (int id, int p) {
+        priorities.set(indexOf(id), p);
+    }
+
+    public void setVisible (int id, boolean v) {
+        visibilities.set(indexOf(id), v);
+    }
+
+    public void setRotation (int id, float degrees) {
+        rotations.set(indexOf(id), degrees);
+    }
+
+//sets opacity. Clamped to 0.0 - 1.0
+
+    public void setAlpha(int id, float alpha) {
+        alphas.set(indexOf(id), Math.max(0f, Math.min(1f, alpha)));
+    }
+
+//sets the image path and reloads the cached image
+
+    public void setImageDir(int id, String imageDir) {
+        int idx = indexOf(id);
+        imageDirs.set(idx, imageDir);
+        imageCache.set(idx, loadImage(imageDir));
+    }
+
+//sets both x and y position at once
+
+    public void setPosition(int id, int x, int y) {
+        setX(id, x);
+        setY(id, y);
+    }
+
+//sets both width and height at once
+
+    public void setSize(int id, int width, int height) {
+        setWidth(id, width);
+        setHeight(id, height);
+    }
+
+//changers
+
+//moves the object by (dx, dy) relative to its current position
+
+    public void translate(int id, int dx, int dy) {
+        setX(id, getX(id) + dx);
+        setY(id, getY(id) + dy);
+    }
+
+//scales width and height by the given factors
+
+    public void scale(int id, float scaleX, float scaleY) {
+        setWidth(id, Math.round(getWidth(id) * scaleX));
+        setHeight(id, Math.round(getHeight(id) * scaleY));
+    }
+
+//adds degrees to the current rotation
+
+    public void rotate(int id, float degrees) {
+        setRotation(id, getRotation(id) + degrees);
+    }
+
+//increases or decreases priority by a number
+
+    public void changePriority(int id, int value) {
+        setPriority(id, getPriority(id) + value);
+    }
+
+//bulk operations
+
+//make all objects visible
+
+    public void showAll() {
+        for (int i = 0; i < ids.size(); i++) visibilities.set(i, true);
+    }
+
+//hides all objects
+
+    public void hideAll() {
+        for (int i = 0; i < ids.size(); i++) visibilities.set(i, false);
+    }
+
+//shifts every object by (dx, dy)
+
+    public void translateAll(int dx, int dy) {
+        for (int id : ids) translate(id, dx, dy);
+    }
+
+//drawing
+
+    public void drawAll(Graphics2D g2d) {
+        for (int idx : getSortedIndices()) {
+            if (!visibilities.get(idx)) continue;
+
+            BufferedImage img = imageCache.get(idx);
+            if (img == null) continue;
+
+            int x = xPositions.get(idx);
+            int y = yPositions.get(idx);
+            int w = widths.get(idx);
+            int h = heights.get(idx);
+            float angle = rotations.get(idx);
+            float opacity = alphas.get(idx);
+
+            Composite original = g2d.getComposite();
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+
+            if (angle != 0f) {
+                int cx = x + w / 2;
+                int cy = y + h / 2;
+                g2d.rotate(Math.toRadians(angle), cx, cy);
+                g2d.drawImage(img, x, y, w, h, null);
+                g2d.rotate(-Math.toRadians(angle), cx, cy);
+            }
+
+            else {
+                g2d.drawImage(img, x, y, w, h, null);
+            }
+
+            g2d.setComposite(original);
+        }
+    }
+
+//Private helpers
+
+//returns the internal index for a given ID, or -1 if not found
+
+    private int indexOf(int id) {
+        return ids.indexOf(id);
+    }
+
+//returns internal indices sorted by ascending priority
+//so that the highest priority object is drawn last (on top)
+
+    private ArrayList<Integer> getSortedIndices() {
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < ids.size(); i++) indices.add(i);
+        indices.sort((a, b) -> priorities.get(a) - priorities.get(b));
+        return indices;
+    }
+
+//loads a BufferedImage from disk, prints a warning and returns null on failure
+
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(new File(path));
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("[Graphics] Could not load image: " + path);
+            return null;
+        }
+    }
+}
