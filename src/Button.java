@@ -1,4 +1,7 @@
-import java.awt.Rectangle;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class Button {
     private int id;
@@ -18,7 +21,35 @@ public class Button {
     public String getHoverText() {
         return hoverText;
     }
-    public boolean isHovered() {
+    public boolean isHoveredOver() {
+        System.out.println("1");
+        Point m = MouseInfo.getPointerInfo().getLocation();
+        if (m.x >= bounds.x && m.y >= bounds.y && m.x <= bounds.x+bounds.width && m.y <= bounds.y+bounds.height) {
+            isHovered = true;
+            System.out.println("2");
+        } else {
+            isHovered = false;
+        }
         return isHovered;
+    }
+    public void keyPressed (KeyEvent e, String action) {
+        if (isHoveredOver()) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                if (action.equals("main_menu_to_checkpoint_menu") && Objects.equals(Background.getBackground(), "main_menu")) {
+                    Background.changeBackground("checkpoint_menu");
+                }
+            }
+        }
+    }
+    // the action string signifies what method within other classes is triggered
+    public void mousePressed (MouseEvent e, String action) {
+
+        if (isHoveredOver()) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
+                    Background.changeBackground("checkpoint_menu");
+                }
+            }
+        }
     }
 }

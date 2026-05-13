@@ -17,7 +17,7 @@ public class Oddity {
     public Oddity () {
         switch (species) {
             case "Yokai":
-                System.out.println(presetPick);
+                //System.out.println(presetPick);
                 break;
             case "Still_Life":
 
@@ -33,10 +33,10 @@ public class Oddity {
 
                     //System.out.print(line.indexOf("\"" + presetPick + "\""));
                     if (line.contains("\t\"" + presetPick + "\":")) {
-                        System.out.print(line.charAt(i));
+                        //System.out.print(line.charAt(i));
                     }
                     if (line.contains("\"" + presetPick + "\"")) {
-                        System.out.print(line.charAt(i));
+                        //System.out.print(line.charAt(i));
                     }
 
                 }

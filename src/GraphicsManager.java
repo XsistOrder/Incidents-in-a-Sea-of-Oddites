@@ -312,7 +312,7 @@ public class GraphicsManager {
         try {
             return ImageIO.read(new File(path));
         } catch (IOException | IllegalArgumentException e) {
-            System.err.println("[Graphics] Could not load image: " + path);
+            System.err.println("[GraphicsManager] Could not load image: " + path);
             return null;
         }
     }
