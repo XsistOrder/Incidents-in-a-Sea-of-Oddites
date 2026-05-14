@@ -6,10 +6,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
-    Oddity interrogatedOddity = new Oddity();
-    GraphicsManager graphics = new GraphicsManager();
-    Background background = new Background(this);
-    Button button = new Button(1,50,50,50,50,"help me");
+    private Oddity interrogatedOddity = new Oddity();
+    public GraphicsManager graphics = new GraphicsManager();
+    private Background background = new Background(this);
+    private Button button = new Button(1,50,50,50,50,"help me");
+
     public Game() {
         addKeyListener(new KeyListener() {
             @Override

@@ -10,9 +10,14 @@ public class Oddity {
             "Yokai"
     };
     private Random random = new Random();
+    private boolean foundPreset = true;
     private String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
-    int presetPick = random.nextInt(4) + 1;
+    private int presetPick = random.nextInt(4) + 1;
     private String skinColor = "";
+    private String eyeColor = "";
+    private boolean eyeDialation;
+    private String teethColor = "";
+    private String blood = "";
 
     public Oddity () {
         switch (species) {
@@ -31,12 +36,31 @@ public class Oddity {
             while ((line=br.readLine()) != null) {
                 for (int i = 0;i < line.length();i++) {
 
-                    //System.out.print(line.indexOf("\"" + presetPick + "\""));
-                    if (line.contains("\t\"" + presetPick + "\":")) {
-                        //System.out.print(line.charAt(i));
+                    if (line.contains(" \"" + presetPick + "\"")) {
+                        foundPreset = true;
                     }
-                    if (line.contains("\"" + presetPick + "\"")) {
-                        //System.out.print(line.charAt(i));
+                    if (line.contains("  \"skinColor\":") && foundPreset) {
+                        if (i > line.indexOf(':')) {
+                            skinColor += line.charAt(i);
+                        }
+                    }
+                    if (line.contains("  \"eyeColor\":") && foundPreset) {
+                        if (i > line.indexOf(':')) {
+                            eyeColor += line.charAt(i);
+                        }
+                    }
+                    if (line.contains("  \"eyeDilation\":") && foundPreset) {
+                        if (i > line.indexOf(':')) {
+                            String lineSub = line.substring(line.indexOf(':'));
+                            switch
+                            eyeColor += line.charAt(i);
+                        }
+                    }
+                    if (line.contains(" }") && foundPreset) {
+                        skinColor = skinColor.replace(" ", "").replace("\"", "");
+                        eyeColor = eyeColor.replace(" ", "").replace("\"", "");
+                        foundPreset = false;
+                        System.out.print(skinColor);
                     }
 
                 }

@@ -32,6 +32,7 @@ public class Button {
         }
         return isHovered;
     }
+    // the action string signifies what method within other classes is triggered
     public void keyPressed (KeyEvent e, String action) {
         if (isHoveredOver()) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -41,7 +42,6 @@ public class Button {
             }
         }
     }
-    // the action string signifies what method within other classes is triggered
     public void mousePressed (MouseEvent e, String action) {
 
         if (isHoveredOver()) {
