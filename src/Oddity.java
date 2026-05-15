@@ -5,90 +5,101 @@ import java.util.Random;
 
 public class Oddity {
     private String[] possibleOdditySpecies = {
-            "Yokai",
-            "Yokai",
-            "Yokai"
+            "yokai",
+            "yokai",
+            "yokai"
     };
     private Random random = new Random();
+    private static Game game;
     private boolean foundPreset = true;
     private String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
-    private int presetPick = random.nextInt(4) + 1;
+    private int presetPick = 1;
+            //random.nextInt(4) + 1;
     private String skinColor;
     private String eyeColor;
     private boolean eyeDialation;
     private String teethColor;
     private String blood;
+    private int age;
+    private String birthday;
+    private String birthPlace;
 
-    public Oddity () {
-        switch (species) {
-            case "Yokai":
-                //System.out.println(presetPick);
-                break;
-            case "Still_Life":
-
-                break;
-        }
+    public Oddity (Game game) {
+        this.game = game;
+    }
+    public void generate () {
         try {
             FileReader fr = new FileReader("res/presets/" + species + "_Oddities_Presets.json");
             BufferedReader br = new BufferedReader(fr);
             String line;
 
             while ((line=br.readLine()) != null) {
-                for (int i = 0;i < line.length();i++) {
-
-                    if (line.contains(" \"" + presetPick + "\"")) {
-                        foundPreset = true;
-                    }
-                    if (line.contains("  \"skinColor\":") && foundPreset) {
-                        if (i > line.indexOf(':')) {
-                            skinColor += line.charAt(i);
-                        }
-                        skinColor = skinColor.replace(" ", "").replace("\"", "");
-                    }
-                    if (line.contains("  \"eyeColor\":") && foundPreset) {
-                        if (i > line.indexOf(':')) {
-                            eyeColor += line.charAt(i);
-                        }
-                        eyeColor = eyeColor.replace(" ", "").replace("\"", "");
-                    }
-                    if (line.contains("  \"eyeDilation\":") && foundPreset) {
-                        if (i > line.indexOf(':')) {
-                            String lineSub = line.substring(line.indexOf(':'));
-                            lineSub = lineSub.replace(" ", "").replace("\"", "");
-                            switch (lineSub) {
-                                case "true" :
-                                    eyeDialation = true;
-                                    break;
-                                case "false" :
-                                    eyeDialation = false;
-                                    break;
-                            }
-                        }
-                    }
-                    if (line.contains("  \"teethColor\":") && foundPreset) {
-                        if (i > line.indexOf(':')) {
-                            teethColor += line.charAt(i);
-                        }
-                        teethColor = teethColor.replace(" ", "").replace("\"", "");
-                    }
-                    if (line.contains("  \"blood\":") && foundPreset) {
-                        if (i > line.indexOf(':')) {
-                            blood += line.charAt(i);
-                        }
-                        blood = blood.replace(" ", "").replace("\"", "");
-                    }
-                    if (line.contains(" }") && foundPreset) {
-
-                        foundPreset = false;
-                        System.out.print(skinColor);
-                    }
-
+                if (line.contains(" \"" + presetPick + "\"")) {
+                    foundPreset = true;
                 }
-                //System.out.println();
+                if (line.contains("  \"skinColor\":") && foundPreset) {
+                    skinColor = line.substring(line.indexOf(':'));
+                    skinColor = skinColor.replace(" ", "").replace("\"", "");
+                }
+                if (line.contains("  \"eyeColor\":") && foundPreset) {
+                    eyeColor = line.substring(line.indexOf(':'));
+                    eyeColor = eyeColor.replace(" ", "").replace("\"", "");
+                }
+                if (line.contains("  \"eyeDilation\":") && foundPreset) {
+                    String lineSub = line.substring(line.indexOf(':'));
+                    lineSub = lineSub.replace(" ", "").replace("\"", "");
+                    switch (lineSub) {
+                        case "true" :
+                            eyeDialation = true;
+                            break;
+                        case "false" :
+                            eyeDialation = false;
+                            break;
+                    }
+                }
+                if (line.contains("  \"teethColor\":") && foundPreset) {
+                    teethColor = line.substring(line.indexOf(':'));
+                    teethColor = teethColor.replace(" ", "").replace("\"", "");
+                }
+                if (line.contains("  \"blood\":") && foundPreset) {
+                    blood = line.substring(line.indexOf(':'));
+                    blood = blood.replace(" ", "").replace("\"", "");
+                }
+                if (line.contains(" }") && foundPreset) {
+
+
+                    foundPreset = false;
+                }
             }
             br.close();
         }
         catch(IOException e) {
+        }
+        visibility(true);
+    }
+    public void visibility (boolean visibility) {
+        if (visibility) {
+            game.graphics.setVisible(1, true);
+        } else {
+            game.graphics.setVisible(1, false);
+        }
+    }
+    public void animation (String state, int tick) {
+
+        switch (state) {
+            case "idle" :
+                game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_1.png");
+                if (tick <= 20) {
+                    game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_2.png");
+                }
+                break;
+            case "think" :
+                game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_1.png");
+                if (tick <= 20) {
+                    game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_2.png");
+                }
+                break;
+
         }
     }
 }

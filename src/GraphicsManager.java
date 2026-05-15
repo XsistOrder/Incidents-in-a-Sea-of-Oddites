@@ -61,7 +61,7 @@ public class GraphicsManager {
 
     //Adds an object and returns it's unique ID
 
-    public int addObject(int x, int y, int width, int height, String imageDir, int priority) {
+    public int addObject(int x, int y, int width, int height, String imageDir, int priority, boolean visibility) {
 
         int id = nextId++;
         ids.add(id);
@@ -71,7 +71,7 @@ public class GraphicsManager {
         heights.add(height);
         imageDirs.add(imageDir);
         priorities.add(priority);
-        visibilities.add(true);
+        visibilities.add(visibility);
         rotations.add(0f);
         alphas.add(1f);
         imageCache.add(loadImage(imageDir));
@@ -80,8 +80,8 @@ public class GraphicsManager {
 
 //Adds a new object with a default priority of 0
 
-    public int addObject(int x, int y, int width, int height, String imageDir) {
-        return addObject(x, y, width, height, imageDir, 0);
+    public int addObject(int x, int y, int width, int height, String imageDir, int priority) {
+        return addObject(x, y, width, height, imageDir, 0, true);
     }
 
 //removes an object with the given id

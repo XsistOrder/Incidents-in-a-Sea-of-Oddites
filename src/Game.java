@@ -6,8 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
-    private Oddity interrogatedOddity = new Oddity();
+    private int tick = 0;
+    private Oddity interrogatedOddity = new Oddity(this);
     public GraphicsManager graphics = new GraphicsManager();
+    public AudioManager audio = new AudioManager();
     private Background background = new Background(this);
     private Button button = new Button(1,50,50,50,50,"help me");
 
@@ -54,7 +56,11 @@ public class Game extends JPanel{
         setFocusable(true);
     }
     public void move() {
-
+        tick++;
+        interrogatedOddity.animation("idle", tick);
+        if (tick >= 40) {
+            tick = 0;
+        }
     }
     public void paint(Graphics g) {
         super.paint(g);
@@ -67,11 +73,12 @@ public class Game extends JPanel{
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
-        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg", 0);
+        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg", 0, true);
+        game.graphics.addObject(80,0,400,300,"", 0, true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
+        game.audio.play("res/music/test.wav");
         while (true)
         {
             game.move();
