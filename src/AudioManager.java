@@ -153,7 +153,7 @@ public class AudioManager {
                 sleep(stepDelay);
             }
             stop();
-            currentVolume = startVolume  //restore volume for next track
+            currentVolume = startVolume; //restore volume for next track
         });
         fadeThread.setDaemon(true);
         fadeThread.start();
@@ -352,7 +352,7 @@ public class AudioManager {
                     (FloatControl) target.getControl(FloatControl.Type.MASTER_GAIN);
             float dB = volume <= 0f
                     ? gainControl.getMinimum()
-                    : 20f * (float Math.log10(volume);
+                    : 20f * (float) Math.log10(volume);
                     dB = Math.max(gainControl.getMinimum(), Math.min(gainControl.getMaximum(), dB));
                     gainControl.setValue(dB);
         } catch (IllegalArgumentException e) {
@@ -378,16 +378,4 @@ public class AudioManager {
             Thread.currentThread().interrupt();
         }
     }
-}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

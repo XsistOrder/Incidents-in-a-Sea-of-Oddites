@@ -13,11 +13,11 @@ public class Oddity {
     private boolean foundPreset = true;
     private String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
     private int presetPick = random.nextInt(4) + 1;
-    private String skinColor = "";
-    private String eyeColor = "";
+    private String skinColor;
+    private String eyeColor;
     private boolean eyeDialation;
-    private String teethColor = "";
-    private String blood = "";
+    private String teethColor;
+    private String blood;
 
     public Oddity () {
         switch (species) {
@@ -43,22 +43,42 @@ public class Oddity {
                         if (i > line.indexOf(':')) {
                             skinColor += line.charAt(i);
                         }
+                        skinColor = skinColor.replace(" ", "").replace("\"", "");
                     }
                     if (line.contains("  \"eyeColor\":") && foundPreset) {
                         if (i > line.indexOf(':')) {
                             eyeColor += line.charAt(i);
                         }
+                        eyeColor = eyeColor.replace(" ", "").replace("\"", "");
                     }
                     if (line.contains("  \"eyeDilation\":") && foundPreset) {
                         if (i > line.indexOf(':')) {
                             String lineSub = line.substring(line.indexOf(':'));
-                            switch
-                            eyeColor += line.charAt(i);
+                            lineSub = lineSub.replace(" ", "").replace("\"", "");
+                            switch (lineSub) {
+                                case "true" :
+                                    eyeDialation = true;
+                                    break;
+                                case "false" :
+                                    eyeDialation = false;
+                                    break;
+                            }
                         }
                     }
+                    if (line.contains("  \"teethColor\":") && foundPreset) {
+                        if (i > line.indexOf(':')) {
+                            teethColor += line.charAt(i);
+                        }
+                        teethColor = teethColor.replace(" ", "").replace("\"", "");
+                    }
+                    if (line.contains("  \"blood\":") && foundPreset) {
+                        if (i > line.indexOf(':')) {
+                            blood += line.charAt(i);
+                        }
+                        blood = blood.replace(" ", "").replace("\"", "");
+                    }
                     if (line.contains(" }") && foundPreset) {
-                        skinColor = skinColor.replace(" ", "").replace("\"", "");
-                        eyeColor = eyeColor.replace(" ", "").replace("\"", "");
+
                         foundPreset = false;
                         System.out.print(skinColor);
                     }
