@@ -1,17 +1,16 @@
-public class Background {
-
+public class Popup {
     private static String setting = "main_menu";
     private static Game game;
 
-    public Background(Game game) {
+    public Popup(Game game) {
         this.game = game;
     }
-    public static void changeBackground(String background) {
+    public static void changeAndShowPopup(String background, boolean visibility) {
 
         setting = background;
         switch (setting) {
 
-            case "main_menu":
+            case "settings_menu":
                 game.graphics.setImageDir(0,"res\\textures\\menus\\main_menu.jpg");
                 break;
             case "checkpoint_menu":

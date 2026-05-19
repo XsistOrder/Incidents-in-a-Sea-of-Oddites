@@ -75,14 +75,7 @@ public class Oddity {
         }
         catch(IOException e) {
         }
-        visibility(true);
-    }
-    public void visibility (boolean visibility) {
-        if (visibility) {
-            game.graphics.setVisible(1, true);
-        } else {
-            game.graphics.setVisible(1, false);
-        }
+        game.graphics.setVisible(1, true);
     }
     public void animation (String state, int tick) {
 

@@ -7,11 +7,13 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
     private int tick = 0;
-    private Oddity interrogatedOddity = new Oddity(this);
+    public Oddity interrogatedOddity = new Oddity(this);
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     private Background background = new Background(this);
-    private Button button = new Button(1,50,50,50,50,"help me");
+    private Button playButton = new Button(0,50,50,50,50,"help me");
+    private Button settingsButton = new Button(1, 120,120, 50,50, "placeholder");
+
 
     public Game() {
         addKeyListener(new KeyListener() {
@@ -24,13 +26,14 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                button.keyPressed(e, "main_menu_to_checkpoint_menu");
+                playButton.keyPressed(e, "show_diffculty_popup");
             }
         });
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                button.mousePressed(e,"main_menu_to_checkpoint_menu");
+
+                playButton.mousePressed(e,"show_diffculty_popup");
             }
 
             @Override
@@ -73,12 +76,14 @@ public class Game extends JPanel{
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
-        game.graphics.addObject(0,0,1000,700,"res/textures/backgrounds/main_menu.jpg", 0, true);
-        game.graphics.addObject(80,0,400,300,"", 0, true);
+        game.graphics.addObject(0,0,1000,700,"res\\textures\\menus\\main_menu.jpg", 0, true);
+        game.graphics.addObject(80,0,400,300,"", 0, false);
+        game.graphics.addObject(500,350, 500, 450, "res\\textures\\menus\\settings_menu.jpg", 0, false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        game.audio.play("res/music/test.wav");
+        //game.audio.play("res/music/test.wav");
+
         while (true)
         {
             game.move();

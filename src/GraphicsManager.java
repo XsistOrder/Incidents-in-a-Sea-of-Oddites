@@ -3,6 +3,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 /*
@@ -14,12 +16,32 @@ import javax.imageio.ImageIO;
 
     examples:
 
-                                     X  Y  Width Height  Directory   Priority
-                                     |  |    |    |          |         |
-            int bgId = gfx.addObject(0, 0, 1000, 700, "assets/bg.png", 0)
+                                     X  Y  Width Height  Directory Priority Visibility
+                                     |  |    |    |          |         |     |
+            int bgId = gfx.addObject(0, 0, 1000, 700, "assets/bg.png", 0, true)
 
             gfx.translate(playerID, 10, 0);   move player right 10px
             gfx.setAlpha(bgId, 0.5f);         make image semi-transparent
+
+
+            push/restore stack examples:
+
+            gfx.push(id);  saves a full copy of the objects current state
+            gfx.restore(id); restores the most recently pushed copy (in reverse order aka like a normal stack)
+            gfx.clearStack(id); discards all saved copies for a object
+            gfx.stackSize(id); returns how many copies of an object are currently saved
+
+            example:
+
+            object starts at x = 10
+
+            gfx.push(id);  saves x = 10
+            gfx.setX(id, 50);  object is now at x = 50
+            gfx.push(id);  saves x = 50
+            gfx.setX(id, 99); object is now at x = 99
+            gfx.restore(id);  restores x = 50 (most recent push)
+            gfx.restore(id);  restores x = 10 (next in line)
+
  */
 
 public class GraphicsManager {
@@ -38,9 +60,43 @@ public class GraphicsManager {
     private final ArrayList<Float> alphas;              //opacity 0 - 1
     private final ArrayList<BufferedImage> imageCache;  //pre-loaded images
 
+    //Push / restore stacks
+
+    //Each object ID maps to its own stack
+
+    private final HashMap<Integer, ArrayDeque<ObjectState>> stacks;
+
 
     //Auto-incrementing id counter
     private int nextId = 0;
+
+
+    //inner class - saves copies of a single object's state
+
+    private static class ObjectState {
+        final int          x;
+        final int          y;
+        final int          width;
+        final int          height;
+        final String       imageDir;
+        final int          priority;
+        final boolean      visibility;
+        final float        rotation;
+        final float        alpha;
+
+        ObjectState(int x, int y, int width, int height, String imageDir,
+                    int priority, boolean visibility, float rotation, float alpha) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.imageDir = imageDir;
+            this.priority = priority;
+            this.visibility = visibility;
+            this.rotation = rotation;
+            this.alpha = alpha;
+        }
+    }
 
     public GraphicsManager() {
 
@@ -55,6 +111,7 @@ public class GraphicsManager {
         rotations = new ArrayList<>();
         alphas = new ArrayList<>();
         imageCache = new ArrayList<>();
+        stacks = new HashMap<>();
     }
 
     //Adding / Removing Objects
@@ -75,6 +132,7 @@ public class GraphicsManager {
         rotations.add(0f);
         alphas.add(1f);
         imageCache.add(loadImage(imageDir));
+        stacks.put(id, new ArrayDeque<>()); //create an empty stack for this object
         return id;
     }
 
@@ -102,6 +160,7 @@ public class GraphicsManager {
         rotations.remove(idx);
         alphas.remove(idx);
         imageCache.remove(idx);
+        stacks.remove(idx);
         return true;
     }
 
@@ -119,6 +178,69 @@ public class GraphicsManager {
         rotations.clear();
         alphas.clear();
         imageCache.clear();
+        stacks.clear();
+    }
+
+    //push / restore stack
+
+    public void push(int id) {
+        int idx = indexOf(id);
+        if (idx == -1) {
+            System.err.println("[GraphicsManager] push: unknown id " + id);
+            return;
+        }
+        ObjectState snapshot = new ObjectState(
+                xPositions.get(idx),
+                yPositions.get(idx),
+                widths.get(idx),
+                heights.get(idx),
+                imageDirs.get(idx),
+                priorities.get(idx),
+                visibilities.get(idx),
+                rotations.get(idx),
+                alphas.get(idx)
+        );
+        stacks.get(id).push(snapshot);
+    }
+
+    //restores the most recently pushed copy for the object
+
+    public void restore(int id) {
+        ArrayDeque<ObjectState> stack = stacks.get(id);
+        if (stack == null || stack.isEmpty()) {
+            System.err.println("[GraphicsManager] restore: no saved state for id " + id);
+            return;
+        }
+        ObjectState s = stack.pop();
+        int idx = indexOf(id);
+
+        xPositions.set(idx, s.x);
+        yPositions.set(idx, s.y);
+        widths.set(idx, s.width);
+        heights.set(idx, s.height);
+        priorities.set(idx, s.priority);
+        visibilities.set(idx, s.visibility);
+        rotations.set(idx, s.rotation);
+        alphas.set(idx, s.alpha);
+
+        //only reload the image if the path changed
+
+        if (!imageDirs.get(idx).equals(s.imageDir)) {
+            imageDirs.set(idx, s.imageDir);
+            imageCache.set(idx, loadImage(s.imageDir));
+        }
+    }
+
+    //discard all copies for the object without restoring
+
+    public void clearStack(int id) {
+        ArrayDeque<ObjectState> stack = stacks.get(id);
+        if (stack != null) stack.clear();
+    }
+    //returns how many copies are currently saved for the given object
+    public int stackSize(int id) {
+        ArrayDeque<ObjectState> stack = stacks.get(id);
+        return (stack == null) ? 0 : stack.size();
     }
 
 //getters

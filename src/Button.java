@@ -36,9 +36,20 @@ public class Button {
     public void keyPressed (KeyEvent e, String action) {
         if (isHoveredOver()) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                if (action.equals("show_diffculty_popup")) {
+
+                }
                 if (action.equals("main_menu_to_checkpoint_menu") && Objects.equals(Background.getBackground(), "main_menu")) {
                     Background.changeBackground("checkpoint_menu");
+                    //add checkpoint difficulty changer
                 }
+                if (action.equals("show_settings_popup")) {
+
+                }
+                if (action.equals("show_controls_popup")) {
+
+                }
+
             }
         }
     }
@@ -46,6 +57,9 @@ public class Button {
 
         if (isHoveredOver()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
+                if (action.equals("show_diffculty_popup")) {
+
+                }
                 if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
                     Background.changeBackground("checkpoint_menu");
                 }
