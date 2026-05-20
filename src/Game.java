@@ -63,7 +63,7 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
-        interrogatedOddity.animation("idle", tick);
+        //interrogatedOddity.animation("idle", tick);
         if (tick >= 40) {
             tick = 0;
         }
