@@ -139,7 +139,7 @@ public class GraphicsManager {
 //Adds a new object with a default priority of 0
 
     public int addObject(int x, int y, int width, int height, String imageDir, int priority) {
-        return addObject(x, y, width, height, imageDir, 0, true);
+        return addObject(x, y, width, height, imageDir, priority, true);
     }
 
 //removes an object with the given id
@@ -160,7 +160,7 @@ public class GraphicsManager {
         rotations.remove(idx);
         alphas.remove(idx);
         imageCache.remove(idx);
-        stacks.remove(idx);
+        stacks.remove(id);
         return true;
     }
 

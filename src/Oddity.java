@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Oddity {
+    private static Game game;
+    private int id;
     private String[] possibleOdditySpecies = {
             "yokai",
             "yokai",
             "yokai"
     };
     private Random random = new Random();
-    private static Game game;
+
     private boolean foundPreset = true;
     private String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
     private int presetPick = 1;
@@ -24,8 +26,9 @@ public class Oddity {
     private String birthday;
     private String birthPlace;
 
-    public Oddity (Game game) {
+    public Oddity (Game game, int x, int y, int width, int height, int priority) {
         this.game = game;
+        id = game.graphics.addObject(x,y,width,height, "", priority, true);
     }
     public void generate () {
         try {
@@ -81,18 +84,19 @@ public class Oddity {
 
         switch (state) {
             case "idle" :
-                game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_1.png");
+                game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_1.png");
                 if (tick <= 20) {
-                    game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_2.png");
+                    game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\idle\\idle_2.png");
                 }
                 break;
             case "think" :
-                game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_1.png");
+                game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_1.png");
                 if (tick <= 20) {
-                    game.graphics.setImageDir(1,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_2.png");
+                    game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + presetPick + "\\think\\think_2.png");
                 }
                 break;
 
         }
     }
+
 }

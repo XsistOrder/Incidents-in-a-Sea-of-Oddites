@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -6,13 +7,15 @@ import java.util.Objects;
 public class Button {
     private int id;
     private String hoverText;
-    private Rectangle bounds;
+    private static Game game;
+    //private Rectangle bounds;
     private boolean isHovered = false;
 
-    public Button(int id, int x, int y, int width, int height, String hoverText) {
-        this.id = id;
+    public Button(Game game, int x, int y, int width, int height,String directory, int priority,String hoverText) {
+        this.game = game;
         this.hoverText = hoverText;
-        this.bounds = new Rectangle(x, y, width, height);
+        //this.bounds = new Rectangle(x, y, width, height);
+        id = game.graphics.addObject(x,y,width,height, directory, priority, true);
     }
 
     public int getId() {
@@ -24,11 +27,13 @@ public class Button {
     public boolean isHoveredOver() {
         System.out.println("1");
         Point m = MouseInfo.getPointerInfo().getLocation();
-        if (m.x >= bounds.x && m.y >= bounds.y && m.x <= bounds.x+bounds.width && m.y <= bounds.y+bounds.height) {
+        SwingUtilities.convertPointFromScreen(m, game);
+        if (m.x >= game.graphics.getX(id) && m.y >= game.graphics.getY(id) && m.x <= game.graphics.getX(id)+game.graphics.getWidth(id) && m.y <= game.graphics.getY(id)+game.graphics.getHeight(id)) {
             isHovered = true;
             System.out.println("2");
         } else {
             isHovered = false;
+            System.out.println("3");
         }
         return isHovered;
     }
@@ -55,6 +60,7 @@ public class Button {
     }
     public void mousePressed (MouseEvent e, String action) {
 
+        game.audio.playSFX("res\\music\\click.wav");
         if (isHoveredOver()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 if (action.equals("show_diffculty_popup")) {
@@ -63,6 +69,14 @@ public class Button {
                 if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
                     Background.changeBackground("checkpoint_menu");
                 }
+                if (action.equals("show_settings_popup")) {
+
+                }
+                if (action.equals("show_controls_popup")) {
+
+                }
+
+
             }
         }
     }

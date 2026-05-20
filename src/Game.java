@@ -7,12 +7,13 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
     private int tick = 0;
-    public Oddity interrogatedOddity = new Oddity(this);
+
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
-    private Background background = new Background(this);
-    private Button playButton = new Button(0,50,50,50,50,"help me");
-    private Button settingsButton = new Button(1, 120,120, 50,50, "placeholder");
+    public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
+    private Background background = new Background(this, 0, 0, 1000, 700);
+    private Button playButton = new Button(this,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
+    private Button settingsButton = new Button(this, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
 
 
     public Game() {
@@ -27,6 +28,7 @@ public class Game extends JPanel{
             public void keyPressed(KeyEvent e) {
 
                 playButton.keyPressed(e, "show_diffculty_popup");
+                settingsButton.keyPressed(e, "show_settings_popup");
             }
         });
         addMouseListener(new MouseListener() {
@@ -34,6 +36,7 @@ public class Game extends JPanel{
             public void mouseClicked(MouseEvent e) {
 
                 playButton.mousePressed(e,"show_diffculty_popup");
+                settingsButton.mousePressed(e, "show_settings_popup");
             }
 
             @Override
@@ -69,20 +72,17 @@ public class Game extends JPanel{
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         graphics.drawAll(g2d);
-        g2d.drawRect(50,50,50,50);
     }
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("Incidents in a Sea of Oddities");
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
-        game.graphics.addObject(0,0,1000,700,"res\\textures\\menus\\main_menu.jpg", 0, true);
-        game.graphics.addObject(80,0,400,300,"", 0, false);
         game.graphics.addObject(500,350, 500, 450, "res\\textures\\menus\\settings_menu.jpg", 0, false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        //game.audio.play("res/music/test.wav");
+        //game.audio.play("res\\music\\test.wav");
 
         while (true)
         {
