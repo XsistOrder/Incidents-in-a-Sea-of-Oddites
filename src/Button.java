@@ -8,6 +8,7 @@ public class Button {
     private int id;
     private String hoverText;
     private static Game game;
+    private boolean enabled = false;
     //private Rectangle bounds;
     private boolean isHovered = false;
 
@@ -15,7 +16,7 @@ public class Button {
         this.game = game;
         this.hoverText = hoverText;
         //this.bounds = new Rectangle(x, y, width, height);
-        id = game.graphics.addObject(x,y,width,height, directory, priority, true);
+        id = game.graphics.addObject(x,y,width,height, directory, priority, false);
     }
 
     public int getId() {
@@ -24,16 +25,27 @@ public class Button {
     public String getHoverText() {
         return hoverText;
     }
-    public boolean isHoveredOver() {
-        System.out.println("1");
-        Point m = MouseInfo.getPointerInfo().getLocation();
-        SwingUtilities.convertPointFromScreen(m, game);
-        if (m.x >= game.graphics.getX(id) && m.y >= game.graphics.getY(id) && m.x <= game.graphics.getX(id)+game.graphics.getWidth(id) && m.y <= game.graphics.getY(id)+game.graphics.getHeight(id)) {
-            isHovered = true;
-            System.out.println("2");
+    public void enabledAndHide(boolean disable, boolean visibility) {
+        if (disable) {
+            enabled = true;
+            game.graphics.setVisible(id, true);
         } else {
-            isHovered = false;
-            System.out.println("3");
+            enabled = false;
+            game.graphics.setVisible(id, visibility);
+        }
+    }
+    public boolean isHoveredOver() {
+        if (enabled) {
+            System.out.println("1");
+            Point m = MouseInfo.getPointerInfo().getLocation();
+            SwingUtilities.convertPointFromScreen(m, game);
+            if (m.x >= game.graphics.getX(id) && m.y >= game.graphics.getY(id) && m.x <= game.graphics.getX(id)+game.graphics.getWidth(id) && m.y <= game.graphics.getY(id)+game.graphics.getHeight(id)) {
+                isHovered = true;
+                System.out.println("2");
+            } else {
+                isHovered = false;
+                System.out.println("3");
+            }
         }
         return isHovered;
     }
@@ -48,8 +60,11 @@ public class Button {
                     Background.changeBackground("checkpoint_menu");
                     //add checkpoint difficulty changer
                 }
-                if (action.equals("show_settings_popup")) {
-
+                if (action.equals("open_settings_popup")) {
+                    game.popup.changeAndShowPopup("settings_popup", true);
+                }
+                if (action.equals("close_settings_popup")) {
+                    game.popup.changeAndShowPopup("settings_popup", false);
                 }
                 if (action.equals("show_controls_popup")) {
 
@@ -70,7 +85,7 @@ public class Button {
                     Background.changeBackground("checkpoint_menu");
                 }
                 if (action.equals("show_settings_popup")) {
-
+                    game.popup.changeAndShowPopup("settings_popup", true);
                 }
                 if (action.equals("show_controls_popup")) {
 

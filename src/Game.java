@@ -12,11 +12,14 @@ public class Game extends JPanel{
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
     private Background background = new Background(this, 0, 0, 1000, 700);
-    private Button playButton = new Button(this,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
-    private Button settingsButton = new Button(this, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+    public Popup popup = new Popup(this, 80, 80, 820, 540);
+    private Details details = new Details();
+    public Button playButton = new Button(this,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
+    public Button settingsButton = new Button(this, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
 
 
     public Game() {
+        Background.changeBackground("main_menu");
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {

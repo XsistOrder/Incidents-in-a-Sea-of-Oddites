@@ -1,34 +1,55 @@
 public class Popup {
     private static String setting = "main_menu";
+    private static int id;
     private static Game game;
 
-    public Popup(Game game) {
+    public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
+        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_menu.jpg", 20, false);
     }
-    public static void changeAndShowPopup(String background, boolean visibility) {
+    public void changeAndShowPopup(String popup, boolean visibility) {
 
-        setting = background;
+        setting = popup;
         switch (setting) {
 
-            case "settings_menu":
-                game.graphics.setImageDir(0,"res\\textures\\menus\\main_menu.jpg");
+            case "settings_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\settings_menu.jpg");
+                game.playButton.enabledAndHide(false, true);
+                game.settingsButton.enabledAndHide(false, true);
+                generateButtons();
                 break;
-            case "checkpoint_menu":
-                game.graphics.setImageDir(0,"res\\textures\\menus\\checkpoint_menu.jpg");
+            case "controls_popup":
+
                 break;
-            case "results_menu":
-                game.graphics.setImageDir(0,"res\\textures\\menus\\results_menu.jpg");
+            case "difficulty_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.playButton.enabledAndHide(false, true);
+                game.settingsButton.enabledAndHide(false, true);
                 break;
-            case "game_over_menu":
-                game.graphics.setImageDir(0,"res\\textures\\menus\\game_over_menu.jpg");
+            case "pause_popup":
+
+                break;
+            case "information_popup":
+
+                break;
+            case "documentation_popup":
+
+                break;
+            case "encyclopedia_popup":
+
                 break;
             default:
                 System.out.println("Opps you got an error from background: the settings field is incorrect");
                 break;
         }
+        game.graphics.setVisible(id, visibility);
+    }
+    public void generateButtons(){
+        Button closeButton = new Button(game, 200,200,200,200, "res\\textures\\interactive\\button.jpg", 25, "helphelphelp");
+        closeButton.enabledAndHide(true,true);
     }
 
-    public static String getBackground() {
+    public static String getPopup() {
 
         return setting;
     }

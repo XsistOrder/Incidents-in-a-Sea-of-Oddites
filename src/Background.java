@@ -15,9 +15,13 @@ public class Background {
 
             case "main_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\main_menu.jpg");
+                game.playButton.enabledAndHide(true, true);
+                game.settingsButton.enabledAndHide(true, true);
                 break;
             case "checkpoint_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu.jpg");
+                game.playButton.enabledAndHide(false, true);
+                game.settingsButton.enabledAndHide(false, true);
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");
