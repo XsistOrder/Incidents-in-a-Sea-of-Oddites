@@ -31,7 +31,8 @@ public class Game extends JPanel{
             public void keyPressed(KeyEvent e) {
 
                 playButton.keyPressed(e, "show_diffculty_popup");
-                settingsButton.keyPressed(e, "show_settings_popup");
+                settingsButton.keyPressed(e, "open_settings_popup");
+                popup.closeButton.keyPressed(e, "close_settings_popup");
             }
         });
         addMouseListener(new MouseListener() {
@@ -39,7 +40,8 @@ public class Game extends JPanel{
             public void mouseClicked(MouseEvent e) {
 
                 playButton.mousePressed(e,"show_diffculty_popup");
-                settingsButton.mousePressed(e, "show_settings_popup");
+                settingsButton.mousePressed(e, "open_settings_popup");
+                popup.closeButton.mousePressed(e, "close_settings_popup");
             }
 
             @Override
@@ -70,18 +72,20 @@ public class Game extends JPanel{
         if (tick >= 40) {
             tick = 0;
         }
+        //System.out.println(graphics.nextId);
     }
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         graphics.drawAll(g2d);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
     }
     public static void main(String[] args) throws InterruptedException{
         JFrame frame = new JFrame("Incidents in a Sea of Oddities");
         Game game = new Game();
         frame.add(game);
         frame.setSize(1000, 700);
-        game.graphics.addObject(500,350, 500, 450, "res\\textures\\menus\\settings_menu.jpg", 0, false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);

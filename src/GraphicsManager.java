@@ -68,7 +68,7 @@ public class GraphicsManager {
 
 
     //Auto-incrementing id counter
-    private int nextId = 0;
+    public int nextId = 0;
 
 
     //inner class - saves copies of a single object's state

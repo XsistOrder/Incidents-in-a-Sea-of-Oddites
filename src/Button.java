@@ -75,7 +75,6 @@ public class Button {
     }
     public void mousePressed (MouseEvent e, String action) {
 
-        game.audio.playSFX("res\\music\\click.wav");
         if (isHoveredOver()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 if (action.equals("show_diffculty_popup")) {
@@ -84,8 +83,13 @@ public class Button {
                 if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
                     Background.changeBackground("checkpoint_menu");
                 }
-                if (action.equals("show_settings_popup")) {
+                if (action.equals("open_settings_popup")) {
                     game.popup.changeAndShowPopup("settings_popup", true);
+                    game.audio.playSFX("res\\music\\click.wav");
+                }
+                if (action.equals("close_settings_popup")) {
+                    game.popup.changeAndShowPopup("settings_popup", false);
+                    game.audio.playSFX("res\\music\\click.wav");
                 }
                 if (action.equals("show_controls_popup")) {
 
