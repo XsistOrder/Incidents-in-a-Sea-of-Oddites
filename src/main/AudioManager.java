@@ -1,9 +1,11 @@
+package main;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
 /*
-    AudioManager - handles all audio for the game
+    main.AudioManager - handles all audio for the game
 
     Loads and plays .WAV files. Songs loop automatically when they end.
     Only one music track and one sound effect can be playing at a time.
@@ -331,7 +333,7 @@ public class AudioManager {
             c.open(stream);
             return c;
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.err.println("[AudioManager] Could not load audio: " + path);
+            System.err.println("[main.AudioManager] Could not load audio: " + path);
             return null;
         }
     }
@@ -356,7 +358,7 @@ public class AudioManager {
                     dB = Math.max(gainControl.getMinimum(), Math.min(gainControl.getMaximum(), dB));
                     gainControl.setValue(dB);
         } catch (IllegalArgumentException e) {
-            System.err.println("[AudioManager] Volume control not supported for this clip");
+            System.err.println("[main.AudioManager] Volume control not supported for this clip");
         }
     }
 

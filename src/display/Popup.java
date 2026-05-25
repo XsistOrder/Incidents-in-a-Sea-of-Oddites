@@ -1,36 +1,48 @@
+package display;
+
+import interactive.Button;
+import main.Game;
+
 public class Popup {
-    private static String setting = "settings_menu";
+    private static String setting = "settings_popup";
     private static int id;
     private static int id2;
     private static Game game;
     public Button closeButton;
+    public Button diffculty1Button;
+    public Button diffculty2Button;
+    public Button diffculty3Button;
 
 
     public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_menu.png", 20, false);
-        closeButton = new Button(game, 200,200,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
+        id2 = game.graphics.addObject(0,0, game.getWidth(), game.getHeight(),"res\\textures\\menus\\popup_overlay.png", 19, false);
+        game.graphics.setAlpha(id2, 0.5f);
+        closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
+        diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
     }
 
     public void changeAndShowPopup(String popup, boolean visibility) {
 
         setting = popup;
         game.graphics.setVisible(id, visibility);
+        game.graphics.setVisible(id2, visibility);
         switch (setting) {
 
             case "settings_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\settings_menu.png");
-                game.playButton.enabledAndHide(false, true);
+                game.playButton.enabledAndHide(false, );
                 game.settingsButton.enabledAndHide(false, true);
-                closeButton.enabledAndHide(true,true);
+                closeButton.enabledAndHide(true, visibility);
                 break;
             case "controls_popup":
 
                 break;
             case "difficulty_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
-                game.playButton.enabledAndHide(false, true);
-                game.settingsButton.enabledAndHide(false, true);
+                game.playButton.enabledAndHide(false, visibility);
+                game.settingsButton.enabledAndHide(false, visibility);
                 break;
             case "pause_popup":
 

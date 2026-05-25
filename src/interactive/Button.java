@@ -1,3 +1,8 @@
+package interactive;
+
+import main.Game;
+import display.Background;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,11 +13,11 @@ public class Button {
     private int id;
     private String hoverText;
     private static Game game;
-    private boolean enabled = false;
+    private boolean enable = false;
     //private Rectangle bounds;
     private boolean isHovered = false;
 
-    public Button(Game game, int x, int y, int width, int height,String directory, int priority,String hoverText) {
+    public Button(Game game, int x, int y, int width, int height, String directory, int priority, String hoverText) {
         this.game = game;
         this.hoverText = hoverText;
         //this.bounds = new Rectangle(x, y, width, height);
@@ -25,17 +30,24 @@ public class Button {
     public String getHoverText() {
         return hoverText;
     }
-    public void enabledAndHide(boolean disable, boolean visibility) {
-        if (disable) {
-            enabled = true;
-            game.graphics.setVisible(id, true);
+    public void enabledAndHide(boolean enabled, boolean visibility) {
+        if (enabled) {
+            enable = true;
+            game.graphics.setVisible(id, visibility);
         } else {
-            enabled = false;
+            enable = false;
             game.graphics.setVisible(id, visibility);
         }
     }
-    public boolean isHoveredOver() {
+    public void enable(boolean enabled) {
         if (enabled) {
+            enable = true;
+        } else {
+            enable = false;
+        }
+    }
+    public boolean isHoveredOver() {
+        if (enable) {
             System.out.println("1");
             Point m = MouseInfo.getPointerInfo().getLocation();
             SwingUtilities.convertPointFromScreen(m, game);
@@ -52,22 +64,10 @@ public class Button {
     // the action string signifies what method within other classes is triggered
     public void keyPressed (KeyEvent e, String action) {
         if (isHoveredOver()) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                if (action.equals("show_diffculty_popup")) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
-                }
-                if (action.equals("main_menu_to_checkpoint_menu") && Objects.equals(Background.getBackground(), "main_menu")) {
-                    Background.changeBackground("checkpoint_menu");
-                    //add checkpoint difficulty changer
-                }
-                if (action.equals("open_settings_popup")) {
-                    game.popup.changeAndShowPopup("settings_popup", true);
-                }
                 if (action.equals("close_settings_popup")) {
                     game.popup.changeAndShowPopup("settings_popup", false);
-                }
-                if (action.equals("show_controls_popup")) {
-
                 }
 
             }
@@ -85,11 +85,11 @@ public class Button {
                 }
                 if (action.equals("open_settings_popup")) {
                     game.popup.changeAndShowPopup("settings_popup", true);
-                    game.audio.playSFX("res\\music\\click.wav");
+                    //game.audio.playSFX("res\\music\\click.wav");
                 }
                 if (action.equals("close_settings_popup")) {
                     game.popup.changeAndShowPopup("settings_popup", false);
-                    game.audio.playSFX("res\\music\\click.wav");
+                    //game.audio.playSFX("res\\music\\click.wav");
                 }
                 if (action.equals("show_controls_popup")) {
 

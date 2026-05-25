@@ -1,3 +1,11 @@
+package main;
+
+import display.Background;
+import display.Details;
+import display.Popup;
+import interactive.Button;
+import interactive.Oddity;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -30,8 +38,6 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                playButton.keyPressed(e, "show_diffculty_popup");
-                settingsButton.keyPressed(e, "open_settings_popup");
                 popup.closeButton.keyPressed(e, "close_settings_popup");
             }
         });

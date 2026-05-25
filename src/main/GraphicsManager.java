@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -186,7 +188,7 @@ public class GraphicsManager {
     public void push(int id) {
         int idx = indexOf(id);
         if (idx == -1) {
-            System.err.println("[GraphicsManager] push: unknown id " + id);
+            System.err.println("[main.GraphicsManager] push: unknown id " + id);
             return;
         }
         ObjectState snapshot = new ObjectState(
@@ -208,7 +210,7 @@ public class GraphicsManager {
     public void restore(int id) {
         ArrayDeque<ObjectState> stack = stacks.get(id);
         if (stack == null || stack.isEmpty()) {
-            System.err.println("[GraphicsManager] restore: no saved state for id " + id);
+            System.err.println("[main.GraphicsManager] restore: no saved state for id " + id);
             return;
         }
         ObjectState s = stack.pop();
@@ -434,7 +436,7 @@ public class GraphicsManager {
         try {
             return ImageIO.read(new File(path));
         } catch (IOException | IllegalArgumentException e) {
-            System.err.println("[GraphicsManager] Could not load image: " + path);
+            System.err.println("[main.GraphicsManager] Could not load image: " + path);
             return null;
         }
     }

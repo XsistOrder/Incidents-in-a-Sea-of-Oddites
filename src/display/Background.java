@@ -1,3 +1,7 @@
+package display;
+
+import main.Game;
+
 public class Background {
 
     private static String setting = "main_menu";
