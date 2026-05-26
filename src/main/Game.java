@@ -2,6 +2,7 @@ package main;
 
 import display.Background;
 import display.Details;
+import display.Impatience;
 import display.Popup;
 import interactive.Button;
 import interactive.Oddity;
@@ -22,12 +23,21 @@ public class Game extends JPanel{
     private Background background = new Background(this, 0, 0, 1000, 700);
     public Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
+    public Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
     public Button playButton = new Button(this,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
     public Button settingsButton = new Button(this, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
 
 
     public Game() {
         Background.changeBackground("main_menu");
+
+
+        graphics.createGroup("main_menu_buttons");
+        graphics.addToGroup("main_menu_buttons", playButton.getId());
+        System.out.println(graphics.isInGroup("main_menu_buttons", playButton.getId()));
+
+
+
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
