@@ -34,6 +34,7 @@ public class Game extends JPanel{
 
         graphics.createGroup("main_menu_buttons");
         graphics.addToGroup("main_menu_buttons", playButton.getId());
+        graphics.addToGroup("main_menu_buttons", settingsButton.getId());
         //System.out.println(graphics.isInGroup("main_menu_buttons", playButton.getId()));
 
 
