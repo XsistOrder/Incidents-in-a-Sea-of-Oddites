@@ -48,15 +48,15 @@ public class Button {
     }
     public boolean isHoveredOver() {
         if (enable) {
-            System.out.println("1");
+            System.out.println("click");
             Point m = MouseInfo.getPointerInfo().getLocation();
             SwingUtilities.convertPointFromScreen(m, game);
             if (m.x >= game.graphics.getX(id) && m.y >= game.graphics.getY(id) && m.x <= game.graphics.getX(id)+game.graphics.getWidth(id) && m.y <= game.graphics.getY(id)+game.graphics.getHeight(id)) {
                 isHovered = true;
-                System.out.println("2");
+                System.out.println("click hit");
             } else {
                 isHovered = false;
-                System.out.println("3");
+                System.out.println("click miss");
             }
         }
         return isHovered;
@@ -77,25 +77,26 @@ public class Button {
 
         if (isHoveredOver()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                if (action.equals("show_diffculty_popup")) {
+                if (game.graphics.clickAllowed(id)) {
 
-                }
-                if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
-                    Background.changeBackground("checkpoint_menu");
-                }
-                if (action.equals("open_settings_popup")) {
-                    game.popup.changeAndShowPopup("settings_popup", true);
-                    //game.audio.playSFX("res\\music\\click.wav");
-                }
-                if (action.equals("close_settings_popup")) {
-                    game.popup.changeAndShowPopup("settings_popup", false);
-                    //game.audio.playSFX("res\\music\\click.wav");
-                }
-                if (action.equals("show_controls_popup")) {
+                    if (action.equals("show_diffculty_popup")) {
 
+                    }
+                    if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
+                        Background.changeBackground("checkpoint_menu");
+                    }
+                    if (action.equals("open_settings_popup")) {
+                        game.popup.changeAndShowPopup("settings_popup", true);
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
+                    if (action.equals("close_settings_popup")) {
+                        game.popup.changeAndShowPopup("settings_popup", false);
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
+                    if (action.equals("show_controls_popup")) {
+
+                    }
                 }
-
-
             }
         }
     }

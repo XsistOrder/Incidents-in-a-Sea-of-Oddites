@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.HashSet;
 import javax.imageio.ImageIO;
 
 /*
@@ -44,6 +45,34 @@ import javax.imageio.ImageIO;
             gfx.restore(id);  restores x = 50 (most recent push)
             gfx.restore(id);  restores x = 10 (next in line)
 
+            visibility group examples:
+
+            gfx.createGroup("main_menu_buttons");
+
+            gfx.addToGroup("main_menu_buttons", playButtonId);
+            gfx.addToGroup("main_menu_buttons", settingsButtonId);
+            gfx.addToGroup("main_menu_buttons", creditsButtonId);
+
+            gfx.showGroup("main_menu_butons");
+            gfx.hideGroup("main_menu_buttons");
+            gfx.setGroupVisible("main_menu_buttons", true);
+            gfx.setGroupVisible("main_menu_butons", false);
+
+            gfx.removeFromGroup("main_menu_buttons", creditsButtonId);
+
+            gfx.deleteGroup("main_menu_buttons");
+
+            gfx.groupExists("main_menu_buttons");
+
+            gfx.getGroupIds("main_menu_buttons");
+
+            gfx.isInGroup("main_menu_buttons", playButtonId);
+
+            An object can be in multiple groups at the same time
+
+            gfx.addToGroup("all_buttons", playButtonId);
+            gfx.addToGroup("main_menu_buttons", playButtonId);
+
  */
 
 public class GraphicsManager {
@@ -68,7 +97,9 @@ public class GraphicsManager {
 
     private final HashMap<Integer, ArrayDeque<ObjectState>> stacks;
 
+    //visibility groups
 
+    private final HashMap<String, HashSet<Integer>> groups;
     //Auto-incrementing id counter
     public int nextId = 0;
 
@@ -114,6 +145,7 @@ public class GraphicsManager {
         alphas = new ArrayList<>();
         imageCache = new ArrayList<>();
         stacks = new HashMap<>();
+        groups = new HashMap<>();
     }
 
     //Adding / Removing Objects
@@ -163,6 +195,8 @@ public class GraphicsManager {
         alphas.remove(idx);
         imageCache.remove(idx);
         stacks.remove(id);
+        //remove from all groups automatically
+        for (HashSet<Integer> members : groups.values()) members.remove(id);
         return true;
     }
 
@@ -181,6 +215,107 @@ public class GraphicsManager {
         alphas.clear();
         imageCache.clear();
         stacks.clear();
+        groups.clear();
+    }
+
+
+    //visibility groups
+
+    public void createGroup(String groupName) {
+        if (!groups.containsKey(groupName)) {
+            groups.put(groupName, new HashSet<>());
+        } else {
+            System.err.println("[GraphicsManager] createGroup: group \"" + groupName + "\" already exists");
+        }
+    }
+
+    //Adds an object to a group.
+
+    public void addToGroup(String groupName, int id) {
+        if (indexOf(id) == -1) {
+            System.err.println("[GraphicsManager] addToGroup: unknown id " + id);
+            return;
+        }
+        groups.computeIfAbsent(groupName, k -> new HashSet<>()).add(id);
+    }
+
+    //removes one object from a group
+
+    public void removeFromGroup(String groupName, int id) {
+        HashSet<Integer> members = groups.get(groupName);
+        if (members == null) {
+            System.err.println("[GraphicsManager] removeFromGroup: group \"" + groupName + "\" not found");
+            return;
+        }
+        members.remove(id);
+    }
+
+    //deletes an entire group
+
+    public void deleteGroup(String groupName) {
+        if (groups.remove(groupName) == null) {
+            System.err.println("[GraphicsManager] deleteGroup: group \"" + groupName + "\" not found");
+        }
+    }
+
+    //show all objects in group
+
+    public void showGroup(String groupName) {
+        setGroupVisible(groupName, true);
+    }
+
+    //hides all objects in group
+
+    public void hideGroup(String groupName) {
+        setGroupVisible(groupName, false);
+    }
+
+    //sets visibility for every object in group
+
+    public void setGroupVisible(String groupName, boolean visible) {
+        HashSet<Integer> members = groups.get(groupName);
+        if (members == null) {
+            System.err.println("[GraphicsManager] setGroupVisible: group \"" + groupName + "\" not found");
+            return;
+        }
+        for (int id : members) {
+            int idx = indexOf(id);
+            if (idx != -1) visibilities.set(idx, visible);
+        }
+    }
+
+    //returns true if the named group exists
+
+    public boolean groupExists(String groupName) {
+        return groups.containsKey(groupName);
+    }
+
+    //returns a copy of all object ids currently in the group
+
+    public ArrayList<Integer> getGroupIds(String groupName) {
+        HashSet<Integer> members = groups.get(groupName);
+        if (members == null) return new ArrayList<>();
+        return new ArrayList<>(members);
+    }
+
+    //returns true if the given object is a member of the named group
+
+    public boolean isInGroup(String groupName, int id) {
+        HashSet<Integer> members = groups.get(groupName);
+        return members != null && members.contains(id);
+    }
+
+    //returns the names of all currently existing groups
+
+    public ArrayList<String> getAllGroupNames() {
+        return new ArrayList<>(groups.keySet());
+    }
+
+    //returns how many objects are in the given group
+
+    public int getGroupSize(String groupName) {
+        HashSet<Integer> members = groups.get(groupName);
+        return (members == null) ? 0 : members.size();
     }
 
     //push / restore stack
@@ -270,6 +405,9 @@ public class GraphicsManager {
         return ids.size();
     }
 
+    public boolean clickAllowed(int id) {
+        return visibilities.get(indexOf(id));
+    }
 
 //setters
 
@@ -314,7 +452,6 @@ public class GraphicsManager {
         imageDirs.set(idx, imageDir);
         imageCache.set(idx, loadImage(imageDir));
     }
-
 //sets both x and y position at once
 
     public void setPosition(int id, int x, int y) {
