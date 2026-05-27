@@ -28,6 +28,7 @@ public class Game extends JPanel{
 
     public Game() {
         Background.changeBackground("main_menu");
+        //help
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
