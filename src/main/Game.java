@@ -21,23 +21,12 @@ public class Game extends JPanel{
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
     private Background background = new Background(this, 0, 0, 1000, 700);
-    public Popup popup = new Popup(this, 80, 80, 820, 540);
+    private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
-    public Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
-    public Button playButton = new Button(this,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
-    public Button settingsButton = new Button(this, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-
+    private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
 
     public Game() {
         Background.changeBackground("main_menu");
-
-
-        graphics.createGroup("main_menu_buttons");
-        graphics.addToGroup("main_menu_buttons", playButton.getId());
-        graphics.addToGroup("main_menu_buttons", settingsButton.getId());
-        //System.out.println(graphics.isInGroup("main_menu_buttons", playButton.getId()));
-
-
 
         addKeyListener(new KeyListener() {
             @Override
@@ -49,16 +38,17 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                popup.closeButton.keyPressed(e, "close_settings_popup");
+                Popup.closeButton.keyPressed(e, "close_settings_popup");
             }
         });
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                playButton.mousePressed(e,"show_diffculty_popup");
-                settingsButton.mousePressed(e, "open_settings_popup");
-                popup.closeButton.mousePressed(e, "close_settings_popup");
+                Background.playButton.mousePressed(e,"open_diffculty_popup");
+                Background.settingsButton.mousePressed(e, "open_settings_popup");
+                Background.infomationButton.mousePressed(e, "open_information_popup");
+                Popup.closeButton.mousePressed(e, "close_settings_popup");
             }
 
             @Override
@@ -86,6 +76,8 @@ public class Game extends JPanel{
     public void move() {
         tick++;
         //interrogatedOddity.animation("idle", tick);
+        Impatience.fill(tick);
+
         if (tick >= 40) {
             tick = 0;
         }

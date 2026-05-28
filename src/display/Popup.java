@@ -8,22 +8,22 @@ public class Popup {
     private static int id;
     private static int id2;
     private static Game game;
-    public Button closeButton;
-    public Button diffculty1Button;
-    public Button diffculty2Button;
-    public Button diffculty3Button;
+    public static Button closeButton;
+    private static Button diffculty1Button;
+    private static Button diffculty2Button;
+    private static Button diffculty3Button;
 
 
     public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
-        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_menu.png", 20, false);
+        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_popup.png", 20, false);
         id2 = game.graphics.addObject(0,0, game.getWidth(), game.getHeight(),"res\\textures\\menus\\popup_overlay.png", 19, false);
         //game.graphics.setAlpha(id2, 0.5f);
         closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
     }
 
-    public void changeAndShowPopup(String popup, boolean visibility) {
+    public static void changeAndShowPopup(String popup, boolean visibility) {
 
         setting = popup;
         game.graphics.setVisible(id, visibility);
@@ -31,39 +31,65 @@ public class Popup {
         switch (setting) {
 
             case "settings_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\settings_menu.png");
-                game.playButton.enabledAndHide(false, true);
-                game.settingsButton.enabledAndHide(false, true);
+                game.graphics.setImageDir(id, "res\\textures\\menus\\settings_popup.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
+
                 closeButton.enabledAndHide(true, visibility);
+
+                Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "controls_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\settings_popup.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
 
+
+
+                Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "difficulty_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
-                game.playButton.enabledAndHide(false, visibility);
-                game.settingsButton.enabledAndHide(false, visibility);
+                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_popup.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
+
+
+
+                Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "pause_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\pause_popup.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
 
+
+
+                Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "information_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
 
+
+
+                Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "documentation_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
 
+
+
+                Impatience.pauseFillAndSetVisibility(false,true);
                 break;
             case "encyclopedia_popup":
+                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.graphics.setGroupClickable("all_menu_buttons", false);
 
+
+
+                Impatience.pauseFillAndSetVisibility(false,true);
                 break;
             default:
                 System.out.println("Opps you got an error from background: the settings field is incorrect");
                 break;
         }
-    }
-    public void generateButtons(){
-
-
     }
 
     public static String getPopup() {

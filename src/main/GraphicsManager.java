@@ -90,6 +90,7 @@ public class GraphicsManager {
     private final ArrayList<Float> rotations;           // rotation in degrees
     private final ArrayList<Float> alphas;              //opacity 0 - 1
     private final ArrayList<BufferedImage> imageCache;  //pre-loaded images
+    private final ArrayList<Boolean> clickables;
 
     //Push / restore stacks
 
@@ -146,6 +147,7 @@ public class GraphicsManager {
         imageCache = new ArrayList<>();
         stacks = new HashMap<>();
         groups = new HashMap<>();
+        clickables = new ArrayList<>();
     }
 
     //Adding / Removing Objects
@@ -165,6 +167,7 @@ public class GraphicsManager {
         visibilities.add(visibility);
         rotations.add(0f);
         alphas.add(1f);
+        clickables.add(true);
         imageCache.add(loadImage(imageDir));
         stacks.put(id, new ArrayDeque<>()); //create an empty stack for this object
         return id;
@@ -194,6 +197,7 @@ public class GraphicsManager {
         rotations.remove(idx);
         alphas.remove(idx);
         imageCache.remove(idx);
+        clickables.remove(idx);
         stacks.remove(id);
         //remove from all groups automatically
         for (HashSet<Integer> members : groups.values()) members.remove(id);
@@ -214,6 +218,7 @@ public class GraphicsManager {
         rotations.clear();
         alphas.clear();
         imageCache.clear();
+        clickables.clear();
         stacks.clear();
         groups.clear();
     }
@@ -284,6 +289,26 @@ public class GraphicsManager {
         }
     }
 
+    public void enableGroupClicks(String groupName) {
+        setGroupClickable(groupName, true);
+    }
+
+    public void disableGroupClicks(String groupName) {
+        setGroupClickable(groupName, false);
+    }
+
+    public void setGroupClickable(String groupName, boolean clickable) {
+        HashSet<Integer> members = groups.get(groupName);
+        if (members == null) {
+            System.err.println("[GraphicsManager] setGroupClickable: group \"" + groupName + "\" not found");
+            return;
+        }
+        for (int id : members) {
+            int idx = indexOf(id);
+            if (idx != -1) clickables.set(idx, clickable);
+        }
+    }
+
     //returns true if the named group exists
 
     public boolean groupExists(String groupName) {
@@ -316,6 +341,15 @@ public class GraphicsManager {
     public int getGroupSize(String groupName) {
         HashSet<Integer> members = groups.get(groupName);
         return (members == null) ? 0 : members.size();
+    }
+
+    public void mergeIntoGroup(String sourceGroup, String targetGroup) {
+        HashSet<Integer> source = groups.get(sourceGroup);
+        if (source == null) {
+            System.err.println("GraphicsManager] mergeIntoGroup: source group \"" + sourceGroup + "\" not found");
+            return;
+        }
+        groups.computeIfAbsent(targetGroup, k -> new HashSet<>()).addAll(source);
     }
 
     //push / restore stack
@@ -406,7 +440,7 @@ public class GraphicsManager {
     }
 
     public boolean clickAllowed(int id) {
-        return visibilities.get(indexOf(id));
+        return clickables.get(indexOf(id));
     }
 
 //setters
@@ -437,6 +471,14 @@ public class GraphicsManager {
 
     public void setRotation (int id, float degrees) {
         rotations.set(indexOf(id), degrees);
+    }
+
+    public void setClickable(int id, boolean clickable) {
+        clickables.set(indexOf(id), clickable);
+    }
+
+    public boolean getClickable(int id) {
+        return clickables.get(indexOf(id));
     }
 
 //sets opacity. Clamped to 0.0 - 1.0

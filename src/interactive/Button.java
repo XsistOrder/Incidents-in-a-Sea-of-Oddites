@@ -1,5 +1,6 @@
 package interactive;
 
+import display.Popup;
 import main.Game;
 import display.Background;
 
@@ -39,8 +40,8 @@ public class Button {
             game.graphics.setVisible(id, visibility);
         }
     }
-    public void enable(boolean enabled) {
-        if (enabled) {
+    public void enable(boolean b) {
+        if (b) {
             enable = true;
         } else {
             enable = false;
@@ -63,11 +64,14 @@ public class Button {
     }
     // the action string signifies what method within other classes is triggered
     public void keyPressed (KeyEvent e, String action) {
-        if (isHoveredOver()) {
+        if (enable) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
                 if (action.equals("close_settings_popup")) {
-                    game.popup.changeAndShowPopup("settings_popup", false);
+                    Popup.changeAndShowPopup("settings_popup", false);
+                }
+                if (action.equals("close_difficulty_popup")) {
+                    Popup.changeAndShowPopup("difficulty_popup", false);
                 }
 
             }
@@ -78,19 +82,18 @@ public class Button {
         if (isHoveredOver()) {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 if (game.graphics.clickAllowed(id)) {
-
-                    if (action.equals("show_diffculty_popup")) {
-
+                    if (action.equals("open_diffculty_popup")) {
+                        Popup.changeAndShowPopup("difficulty_popup", true);
                     }
                     if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
                         Background.changeBackground("checkpoint_menu");
                     }
                     if (action.equals("open_settings_popup")) {
-                        game.popup.changeAndShowPopup("settings_popup", true);
+                        Popup.changeAndShowPopup("settings_popup", true);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("close_settings_popup")) {
-                        game.popup.changeAndShowPopup("settings_popup", false);
+                        Popup.changeAndShowPopup("settings_popup", false);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("show_controls_popup")) {
