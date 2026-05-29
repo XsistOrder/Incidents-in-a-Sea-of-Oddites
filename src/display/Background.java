@@ -18,12 +18,13 @@ public class Background {
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu.jpg", 0, true);
         playButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
         settingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-        infomationButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+        infomationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
 
 
         game.graphics.createGroup("main_menu_buttons");
         game.graphics.addToGroup("main_menu_buttons", playButton.getId());
         game.graphics.addToGroup("main_menu_buttons", settingsButton.getId());
+        game.graphics.addToGroup("main_menu_buttons", infomationButton.getId());
 
 
         game.graphics.createGroup("checkpoint_menu_buttons");
@@ -56,6 +57,7 @@ public class Background {
                 game.graphics.setGroupVisible("main_menu_buttons", true);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+                game.graphics.setVisible(CheckpointHealth.getId(), false);
                 break;
             case "checkpoint_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu.jpg");
@@ -67,6 +69,7 @@ public class Background {
                 game.graphics.setGroupVisible("checkpoint_menu_buttons", true);
 
                 Impatience.pauseFillAndSetVisibility(false,true);
+                game.graphics.setVisible(CheckpointHealth.getId(), true);
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");

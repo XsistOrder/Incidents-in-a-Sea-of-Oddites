@@ -16,8 +16,9 @@ public class Impatience {
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\non_interactive\\impatience_meter.jpg", 30, true);
         id2 = game.graphics.addObject(x,y, width,  height/100,"res\\textures\\non_interactive\\impatience_meter_fill.jpg", 31, true);
     }
-    // add method to a tick within game
+
     public static void fill (int tick) {
+        //System.out.println(paused);
         if (!paused) {
             if (tick == 20) {
                 game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + 1 * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));
@@ -53,14 +54,13 @@ public class Impatience {
         permanentImpatienceMultiplier = 1.0f;
         temporaryImpatienceMultiplier = 1.0f;
     }
-    public static void pauseFillAndSetVisibility (boolean paused, boolean visibility) {
-        if (paused) {
+    public static void pauseFillAndSetVisibility (boolean pause, boolean visibility) {
+        if (pause) {
             paused = true;
         } else {
             paused = false;
         }
         if (visibility) {
-            paused = false;
             game.graphics.setVisible(id, true);
             game.graphics.setVisible(id2, true);
         } else {

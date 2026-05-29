@@ -14,13 +14,11 @@ public class Button {
     private int id;
     private String hoverText;
     private static Game game;
-    //private Rectangle bounds;
     private boolean isHovered = false;
 
     public Button(Game game, int x, int y, int width, int height, String directory, int priority, String hoverText) {
         this.game = game;
         this.hoverText = hoverText;
-        //this.bounds = new Rectangle(x, y, width, height);
         id = game.graphics.addObject(x,y,width,height, directory, priority, false);
     }
 
@@ -31,15 +29,15 @@ public class Button {
         return hoverText;
     }
     public boolean isHoveredOver() {
-        System.out.println("click");
+        //System.out.println("click");
         Point m = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(m, game);
         if (m.x >= game.graphics.getX(id) && m.y >= game.graphics.getY(id) && m.x <= game.graphics.getX(id)+game.graphics.getWidth(id) && m.y <= game.graphics.getY(id)+game.graphics.getHeight(id)) {
             isHovered = true;
-            System.out.println("click hit");
+            //System.out.println("click hit");
         } else {
             isHovered = false;
-            System.out.println("click miss");
+            //System.out.println("click miss");
         }
         return isHovered;
     }
@@ -63,20 +61,36 @@ public class Button {
         if (isHoveredOver()) {
             if (game.graphics.clickAllowed(id)) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (action.equals("open_diffculty_popup")) {
+                    if (action.equals("open_difficulty_popup")) {
                         Popup.changeAndShowPopup("difficulty_popup", true);
+                    }
+                    if (action.equals("close_difficulty_popup")) {
+                        Popup.changeAndShowPopup("", false);
+                        //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
                         Background.changeBackground("checkpoint_menu");
+                        Popup.changeAndShowPopup("", false);
                     }
+
                     if (action.equals("open_settings_popup")) {
                         Popup.changeAndShowPopup("settings_popup", true);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("close_settings_popup")) {
-                        Popup.changeAndShowPopup("settings_popup", false);
+                        Popup.changeAndShowPopup("", false);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
+
+                    if (action.equals("open_information_popup")) {
+                        Popup.changeAndShowPopup("information_popup", true);
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
+                    if (action.equals("close_information_popup")) {
+                        Popup.changeAndShowPopup("", false);
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
+
                 }
 
             }

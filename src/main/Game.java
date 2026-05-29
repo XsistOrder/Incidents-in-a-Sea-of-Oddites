@@ -38,17 +38,20 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                Popup.closeButton.keyPressed(e, "close_settings_popup");
+                Popup.closeButton.keyPressed(e, "close_" + Popup.getPopup() + "");
             }
         });
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                Background.playButton.mousePressed(e,"open_diffculty_popup");
+                Background.playButton.mousePressed(e,"open_difficulty_popup");
                 Background.settingsButton.mousePressed(e, "open_settings_popup");
                 Background.infomationButton.mousePressed(e, "open_information_popup");
-                Popup.closeButton.mousePressed(e, "close_settings_popup");
+                Popup.diffculty1Button.mousePressed(e, "main_menu_to_checkpoint_menu");
+                Popup.diffculty2Button.mousePressed(e, "main_menu_to_checkpoint_menu");
+                Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
+                Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
             }
 
             @Override
