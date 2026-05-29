@@ -21,6 +21,30 @@ public class Popup {
         //game.graphics.setAlpha(id2, 0.5f);
         closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+
+        game.graphics.createGroup("settings_popup_buttons");
+        game.graphics.addToGroup("settings_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("difficulty_popup_buttons");
+        game.graphics.addToGroup("difficulty_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("pause_popup_buttons");
+        game.graphics.addToGroup("pause_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("information_popup_buttons");
+        game.graphics.addToGroup("information_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("documentation_popup_buttons");
+        game.graphics.addToGroup("documentation_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("encyclopedia_popup_buttons");
+        game.graphics.addToGroup("encyclopedia_popup_buttons", closeButton.getId());
+
+        game.graphics.createGroup("all_popup_buttons");
+        game.graphics.mergeIntoGroup("settings_popup_buttons", "all_popup_buttons");
+        game.graphics.mergeIntoGroup("difficulty_popup_buttons", "all_popup_buttons");
+        game.graphics.mergeIntoGroup("information_popup_buttons", "all_popup_buttons");
+        game.graphics.mergeIntoGroup("documentation_popup_buttons", "all_popup_buttons");
     }
 
     public static void changeAndShowPopup(String popup, boolean visibility) {
@@ -32,23 +56,16 @@ public class Popup {
 
             case "settings_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\settings_popup.png");
+
                 game.graphics.setGroupClickable("all_menu_buttons", false);
 
-                closeButton.enabledAndHide(true, visibility);
-
-                Impatience.pauseFillAndSetVisibility(true,false);
-                break;
-            case "controls_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\settings_popup.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
-
-
+                //closeButton.enabledAndHide(true, visibility);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "difficulty_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_popup.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
+                //game.graphics.setGroupClickable("all_menu_buttons", false);
 
 
 
@@ -56,7 +73,7 @@ public class Popup {
                 break;
             case "pause_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\pause_popup.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
+                //game.graphics.setGroupClickable("all_menu_buttons", false);
 
 
 
@@ -64,7 +81,7 @@ public class Popup {
                 break;
             case "information_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
+                //game.graphics.setGroupClickable("all_menu_buttons", false);
 
 
 
@@ -72,7 +89,7 @@ public class Popup {
                 break;
             case "documentation_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
+                //game.graphics.setGroupClickable("all_menu_buttons", false);
 
 
 
@@ -80,7 +97,7 @@ public class Popup {
                 break;
             case "encyclopedia_popup":
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
-                game.graphics.setGroupClickable("all_menu_buttons", false);
+                //game.graphics.setGroupClickable("all_menu_buttons", false);
 
 
 

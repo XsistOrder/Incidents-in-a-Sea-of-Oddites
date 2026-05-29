@@ -20,7 +20,7 @@ public class Game extends JPanel{
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
-    private Background background = new Background(this, 0, 0, 1000, 700);
+    public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
     private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
