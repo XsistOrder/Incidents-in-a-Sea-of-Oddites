@@ -1,5 +1,6 @@
 package display;
 
+import interactive.Oddity;
 import main.Game;
 
 public class Impatience {

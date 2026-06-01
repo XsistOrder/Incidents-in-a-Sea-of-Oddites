@@ -1,7 +1,10 @@
 package display;
 
 import interactive.Button;
+import interactive.Slider;
 import main.Game;
+
+import java.awt.*;
 
 public class Popup {
     private static String setting = "settings_popup";
@@ -12,6 +15,7 @@ public class Popup {
     public static Button diffculty1Button;
     public static Button diffculty2Button;
     public static Button diffculty3Button;
+    private static int musicText;
 
 
     public Popup(Game game, int x, int y, int width, int height) {
@@ -23,9 +27,19 @@ public class Popup {
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
-
+        musicText = game.graphics.addText("Music Volume:", 100, 500, 50, Color.WHITE, 25);
+        Slider musicVolume = new Slider(game, 100, 500, 500, 10, 0, 100, 25, true, true);
         game.graphics.createGroup("settings_popup_buttons");
         game.graphics.addToGroup("settings_popup_buttons", closeButton.getId());
+        game.graphics.addToGroup("settings_popup_buttons", musicVolume.getFillId());
+        game.graphics.addToGroup("settings_popup_buttons", musicVolume.getThumbId());
+        game.graphics.addToGroup("settings_popup_buttons", musicVolume.getLabelId());
+        game.graphics.addToGroup("settings_popup_buttons", musicVolume.getTrackId());
+        game.graphics.addToGroup("settings_popup_buttons", musicText);
+        musicVolume.setVisible(false);
+        musicVolume.setDraggable(true);
+        musicVolume.attachListeners();
+
 
         game.graphics.createGroup("difficulty_popup_buttons");
         game.graphics.addToGroup("difficulty_popup_buttons", closeButton.getId());
@@ -71,6 +85,8 @@ public class Popup {
                 game.graphics.setGroupClickable("settings_popup_buttons", visibility);
                 game.graphics.setGroupVisible("settings_popup_buttons", visibility);
 
+
+
                 Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "difficulty_popup":
@@ -100,7 +116,7 @@ public class Popup {
                 Impatience.pauseFillAndSetVisibility(true,false);
                 break;
             case "information_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.graphics.setImageDir(id, "res\\textures\\menus\\information_popup.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
 

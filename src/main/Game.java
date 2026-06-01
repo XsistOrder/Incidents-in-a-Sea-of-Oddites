@@ -6,6 +6,7 @@ import display.Impatience;
 import display.Popup;
 import interactive.Button;
 import interactive.Oddity;
+import interactive.Slider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class Game extends JPanel{
     private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
 
     public Game() {
+        Oddity.generate();
         Background.changeBackground("main_menu");
 
         addKeyListener(new KeyListener() {
@@ -49,8 +51,8 @@ public class Game extends JPanel{
                 Background.settingsButton.mousePressed(e, "open_settings_popup");
                 Background.infomationButton.mousePressed(e, "open_information_popup");
                 Popup.diffculty1Button.mousePressed(e, "main_menu_to_checkpoint_menu");
-                Popup.diffculty2Button.mousePressed(e, "main_menu_to_checkpoint_menu");
-                Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
+                //Popup.diffculty2Button.mousePressed(e, "main_menu_to_checkpoint_menu");
+                //Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
                 Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
             }
 
@@ -80,7 +82,6 @@ public class Game extends JPanel{
         tick++;
         //interrogatedOddity.animation("idle", tick);
         Impatience.fill(tick);
-
         if (tick >= 40) {
             tick = 0;
         }

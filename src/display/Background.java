@@ -1,6 +1,7 @@
 package display;
 
 import interactive.Button;
+import interactive.Oddity;
 import main.Game;
 
 public class Background {
@@ -70,6 +71,8 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(false,true);
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
+
+                game.graphics.setVisible(Oddity.getId(), true);
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");

@@ -73,11 +73,45 @@ import javax.imageio.ImageIO;
             gfx.addToGroup("all_buttons", playButtonId);
             gfx.addToGroup("main_menu_buttons", playButtonId);
 
+        Shapes use the same id system, priority, visibility, groups, push/restore, etc.
+        as image objects. The only difference is they are drawn with Graphics2D instead
+        of a BufferedImage, so no image file is needed.
+
+        Supported shape types (pass as the type String):
+            "rect"        filled rectangle
+            "rect_outline"  rectangle outline only (no fill)
+            "oval"        filled oval / circle
+            "oval_outline"  oval outline only
+            "line"        straight line from (x,y) to (x+width, y+height)
+
+        int trackId = gfx.addShape("rect", 100, 200, 300, 10, Color.GRAY, 5, true);
+        int thumbId = gfx.addShape("oval", 180, 195, 20, 20, Color.WHITE, 6, true);
+
+        gfx.setShapeColor(trackId, Color.DARK_GRAY);
+        gfx.setX(thumbId, 250);          // all normal setters work on shapes too
+        gfx.setVisible(trackId, false);  // visibility, groups, push/restore all work
+
+        Text object examples
+
+        Text objects render a string at a given position with a given font and color.
+        They obey priority, visibility, groups, push/restore like everything else.
+        Width/height are used as the font size (width) — height is ignored for text.
+
+        int labelId = gfx.addText("100", 50, 200, 18, Color.WHITE, 7, true);
+
+        gfx.setText(labelId, "75");            // update the displayed string
+        gfx.setTextColor(labelId, Color.RED);  // change the color
+        gfx.setX(labelId, 60);                 // reposition
+
+
  */
 
 public class GraphicsManager {
 
     //ArrayLists - one entry per managed object
+    private static final int TYPE_IMAGE = 0;
+    private static final int TYPE_SHAPE = 1;
+    private static final int TYPE_TEXT = 2;
 
     private final ArrayList<Integer> ids;               //unique id per object
     private final ArrayList<Integer> xPositions;        //top-left x
@@ -91,6 +125,12 @@ public class GraphicsManager {
     private final ArrayList<Float> alphas;              //opacity 0 - 1
     private final ArrayList<BufferedImage> imageCache;  //pre-loaded images
     private final ArrayList<Boolean> clickables;
+
+    //shape / text extras (null for image objects)
+    private final ArrayList<Integer> objectTypes;
+    private final ArrayList<String> shapeTypes;
+    private final ArrayList<Color> shapeColors;
+    private final ArrayList<String> textStrings;
 
     //Push / restore stacks
 
@@ -117,9 +157,11 @@ public class GraphicsManager {
         final boolean      visibility;
         final float        rotation;
         final float        alpha;
+        final Color color;
+        final String textOrShapeType;
 
         ObjectState(int x, int y, int width, int height, String imageDir,
-                    int priority, boolean visibility, float rotation, float alpha) {
+                    int priority, boolean visibility, float rotation, float alpha, Color color, String textOrShapeType) {
             this.x = x;
             this.y = y;
             this.width = width;
@@ -129,6 +171,8 @@ public class GraphicsManager {
             this.visibility = visibility;
             this.rotation = rotation;
             this.alpha = alpha;
+            this.color = color;
+            this.textOrShapeType = textOrShapeType;
         }
     }
 
@@ -148,6 +192,10 @@ public class GraphicsManager {
         stacks = new HashMap<>();
         groups = new HashMap<>();
         clickables = new ArrayList<>();
+        objectTypes = new ArrayList<>();
+        shapeTypes = new ArrayList<>();
+        shapeColors = new ArrayList<>();
+        textStrings = new ArrayList<>();
     }
 
     //Adding / Removing Objects
@@ -169,6 +217,10 @@ public class GraphicsManager {
         alphas.add(1f);
         clickables.add(true);
         imageCache.add(loadImage(imageDir));
+        objectTypes.add(TYPE_IMAGE);
+        shapeTypes.add(null);
+        shapeColors.add(null);
+        textStrings.add(null);
         stacks.put(id, new ArrayDeque<>()); //create an empty stack for this object
         return id;
     }
@@ -177,6 +229,86 @@ public class GraphicsManager {
 
     public int addObject(int x, int y, int width, int height, String imageDir, int priority) {
         return addObject(x, y, width, height, imageDir, priority, true);
+    }
+
+    //add shape object and return it's unique id
+
+    public int addShape(String type, int x, int y, int width, int height, Color color, int priority, boolean visibility) {
+        int id = nextId++;
+        ids.add(id);
+        xPositions.add(x);
+        yPositions.add(y);
+        widths.add(width);
+        heights.add(height);
+        imageDirs.add("");
+        priorities.add(priority);
+        visibilities.add(visibility);
+        rotations.add(0f);
+        alphas.add(1f);
+        clickables.add(true);
+        imageCache.add(null);
+        objectTypes.add(TYPE_SHAPE);
+        shapeTypes.add(type);
+        shapeColors.add(color);
+        textStrings.add(null);
+        stacks.put(id, new ArrayDeque<>());
+        return id;
+    }
+
+    public int addShape(String type, int x, int y, int width, int height, Color color, int priority) {
+        return addShape(type, x, y, width, height, color, priority, true);
+    }
+
+    public int addText(String text, int x, int y, int fontSize, Color color, int priority, boolean visibility) {
+        int id = nextId++;
+        ids.add(id);
+        xPositions.add(x);
+        yPositions.add(y);
+        widths.add(fontSize); //fontSize stored here
+        heights.add(0);
+        imageDirs.add("");
+        priorities.add(priority);
+        visibilities.add(visibility);
+        rotations.add(0f);
+        alphas.add(1f);
+        clickables.add(true);
+        imageCache.add(null);
+        objectTypes.add(TYPE_TEXT);
+        shapeTypes.add(null);
+        shapeColors.add(color);
+        textStrings.add(text);
+        stacks.put(id, new ArrayDeque<>());
+        return id;
+    }
+
+    public int addText(String text, int x, int y, int fontSize, Color color, int priority) {
+        return addText(text, x, y, fontSize, color, priority, true);
+    }
+
+    //shape / text setters
+
+    public void setShapeColor(int id, Color color) {
+        shapeColors.set(indexOf(id), color);
+    }
+
+    public void setText(int id, String text) {
+        textStrings.set(indexOf(id), text);
+    }
+
+    public String getText(int id) {
+        return textStrings.get(indexOf(id));
+    }
+
+    public Color getShapeColor(int id) {
+        return shapeColors.get(indexOf(id));
+    }
+
+    public void setShapeType(int id, String type) {
+        shapeTypes.set(indexOf(id), type);
+    }
+
+    public void setFontSize(int id, int fontSize) {
+        widths.set(indexOf(id), fontSize);
     }
 
 //removes an object with the given id
@@ -198,6 +330,10 @@ public class GraphicsManager {
         alphas.remove(idx);
         imageCache.remove(idx);
         clickables.remove(idx);
+        objectTypes.remove(idx);
+        shapeTypes.remove(idx);
+        shapeColors.remove(idx);
+        textStrings.remove(idx);
         stacks.remove(id);
         //remove from all groups automatically
         for (HashSet<Integer> members : groups.values()) members.remove(id);
@@ -219,6 +355,10 @@ public class GraphicsManager {
         alphas.clear();
         imageCache.clear();
         clickables.clear();
+        objectTypes.clear();
+        shapeTypes.clear();
+        shapeColors.clear();
+        textStrings.clear();
         stacks.clear();
         groups.clear();
     }
@@ -360,18 +500,14 @@ public class GraphicsManager {
             System.err.println("[main.GraphicsManager] push: unknown id " + id);
             return;
         }
-        ObjectState snapshot = new ObjectState(
-                xPositions.get(idx),
-                yPositions.get(idx),
-                widths.get(idx),
-                heights.get(idx),
-                imageDirs.get(idx),
-                priorities.get(idx),
-                visibilities.get(idx),
-                rotations.get(idx),
-                alphas.get(idx)
-        );
-        stacks.get(id).push(snapshot);
+        stacks.get(id).push(new ObjectState(
+                xPositions.get(idx), yPositions.get(idx),
+                widths.get(idx), heights.get(idx),
+                imageDirs.get(idx), priorities.get(idx),
+                visibilities.get(idx), rotations.get(idx), alphas.get(idx),
+                shapeColors.get(idx),
+                objectTypes.get(idx) == TYPE_TEXT ? textStrings.get(idx) : shapeTypes.get(idx)
+        ));
     }
 
     //restores the most recently pushed copy for the object
@@ -393,10 +529,11 @@ public class GraphicsManager {
         visibilities.set(idx, s.visibility);
         rotations.set(idx, s.rotation);
         alphas.set(idx, s.alpha);
-
-        //only reload the image if the path changed
-
-        if (!imageDirs.get(idx).equals(s.imageDir)) {
+        if (s.color != null) shapeColors.set(idx, s.color);
+        int type = objectTypes.get(idx);
+        if (type == TYPE_TEXT && s.textOrShapeType != null) textStrings.set(idx, s.textOrShapeType);
+        if (type == TYPE_SHAPE && s.textOrShapeType != null) shapeTypes.set(idx, s.textOrShapeType);
+        if (type == TYPE_IMAGE && !imageDirs.get(idx).equals(s.imageDir)) {
             imageDirs.set(idx, s.imageDir);
             imageCache.set(idx, loadImage(s.imageDir));
         }
@@ -559,32 +696,22 @@ public class GraphicsManager {
 //drawing
 
     public void drawAll(Graphics2D g2d) {
+        if (ids.isEmpty()) return;
         for (int idx : getSortedIndices()) {
             if (!visibilities.get(idx)) continue;
 
-            BufferedImage img = imageCache.get(idx);
-            if (img == null) continue;
-
-            int x = xPositions.get(idx);
-            int y = yPositions.get(idx);
-            int w = widths.get(idx);
-            int h = heights.get(idx);
-            float angle = rotations.get(idx);
             float opacity = alphas.get(idx);
-
             Composite original = g2d.getComposite();
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
-            if (angle != 0f) {
-                int cx = x + w / 2;
-                int cy = y + h / 2;
-                g2d.rotate(Math.toRadians(angle), cx, cy);
-                g2d.drawImage(img, x, y, w, h, null);
-                g2d.rotate(-Math.toRadians(angle), cx, cy);
-            }
+            int type = objectTypes.get(idx);
 
-            else {
-                g2d.drawImage(img, x, y, w, h, null);
+            if (type == TYPE_IMAGE) {
+                drawImage(g2d, idx);
+            } else if (type == TYPE_SHAPE) {
+                drawShape(g2d, idx);
+            } else if (type == TYPE_TEXT) {
+                drawText(g2d, idx);
             }
 
             g2d.setComposite(original);
@@ -592,6 +719,75 @@ public class GraphicsManager {
     }
 
 //Private helpers
+
+    private void drawImage(Graphics2D g2d, int idx) {
+        BufferedImage img = imageCache.get(idx);
+        if (img == null) return;
+        int x = xPositions.get(idx);
+        int y = yPositions.get(idx);
+        int w = widths.get(idx);
+        int h = heights.get(idx);
+        float angle = rotations.get(idx);
+        if (angle != 0f) {
+            int cx = x + w / 2, cy = y + h / 2;
+            g2d.rotate(-Math.toRadians(angle), cx, cy);
+        } else {
+            g2d.drawImage(img, x, y, w, h, null);
+        }
+    }
+
+    private void drawShape(Graphics2D g2d, int idx) {
+        int x = xPositions.get(idx);
+        int y = yPositions.get(idx);
+        int w = widths.get(idx);
+        int h = heights.get(idx);
+        Color color = shapeColors.get(idx);
+        String type = shapeTypes.get(idx);
+        float angle = rotations.get(idx);
+
+        Color prevColor = g2d.getColor();
+        g2d.setColor(color != null ? color : Color.WHITE);
+
+        if (angle != 0f) {
+            int cx = x + w / 2, cy = y + h / 2;
+            g2d.rotate(Math.toRadians(angle), cx, cy);
+        }
+
+        if (type == null) {
+            //nothing
+        }
+        else if (type.equals("rect")) g2d.fillRect(x, y, w, h);
+        else if (type.equals("rect_outline")) g2d.drawRect(x, y, w, h);
+        else if (type.equals("oval")) g2d.fillOval(x, y, w, h);
+        else if (type.equals("oval_outline")) g2d.drawOval(x, y, w, h);
+        else if (type.equals("line")) g2d.drawLine(x, y, x + w, y + h);
+
+        if (angle != 0f) {
+            int cx = x + w / 2, cy = y + h / 2;
+            g2d.rotate(-Math.toRadians(angle), cx, cy);
+        }
+
+        g2d.setColor(prevColor);
+    }
+
+    private void drawText(Graphics2D g2d, int idx) {
+        int x = xPositions.get(idx);
+        int y = yPositions.get(idx);
+        int fontSize = widths.get(idx);
+        Color color = shapeColors.get(idx);
+        String text = textStrings.get(idx);
+        if (text == null) return;
+
+        Color prevColor = g2d.getColor();
+        Font prevFont = g2d.getFont();
+
+        g2d.setColor(color != null ? color : Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        g2d.drawString(text, x, y);
+
+        g2d.setColor(prevColor);
+        g2d.setFont(prevFont);
+    }
 
 //returns the internal index for a given ID, or -1 if not found
 
