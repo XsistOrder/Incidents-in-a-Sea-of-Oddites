@@ -50,17 +50,17 @@ public class Oddity {
                 if (line.contains("\"" + presetPick + "\"")) {
                     foundPreset = true;
                 }
-                if (line.contains("\"skinColor\":") && foundPreset) {
+                if (line.contains("\"skinColor\" :") && foundPreset) {
                     skinColor = line.substring(line.indexOf(':'));
                     skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     System.out.println(skinColor);
                 }
-                if (line.contains("\"eyeColor\":") && foundPreset) {
+                if (line.contains("\"eyeColor\" :") && foundPreset) {
                     eyeColor = line.substring(line.indexOf(':'));
                     eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     System.out.println(eyeColor);
                 }
-                if (line.contains("\"eyeDilation\":") && foundPreset) {
+                if (line.contains("\"eyeDilation\" :") && foundPreset) {
                     String lineSub = line.substring(line.indexOf(':'));
                     lineSub = lineSub.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     switch (lineSub) {
@@ -74,17 +74,17 @@ public class Oddity {
                     }
                     System.out.println(eyeDialation);
                 }
-                if (line.contains("\"teethColor\":") && foundPreset) {
+                if (line.contains("\"teethColor\" :") && foundPreset) {
                     teethColor = line.substring(line.indexOf(':'));
                     teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     System.out.println(teethColor);
                 }
-                if (line.contains("\"blood\":") && foundPreset) {
+                if (line.contains("\"blood\" :") && foundPreset) {
                     blood = line.substring(line.indexOf(':'));
                     blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     System.out.println(blood);
                 }
-                if (line.contains("\"portrait\":") && foundPreset) {
+                if (line.contains("\"portrait\" :") && foundPreset) {
                     portrait = line.substring(line.indexOf(':'));
                     portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
