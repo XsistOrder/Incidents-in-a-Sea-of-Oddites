@@ -30,6 +30,16 @@ public class Slider {
     private boolean draggable;
     private boolean dragging = false;
 
+    public interface OnChangeListener {
+        void valueChanged(float newValue);
+    }
+
+    private OnChangeListener changeListener;
+
+    public void setOnChangeListener(OnChangeListener listener) {
+        this.changeListener = listener;
+    }
+
 
     public Slider(Game game, int x, int y, int width, int height, float minValue, float maxValue,
                   int priority, boolean visibility, boolean draggable) {
@@ -60,6 +70,7 @@ public class Slider {
         game.graphics.setClickable(fillId, draggable);
         game.graphics.setClickable(thumbId, draggable);
         game.graphics.setClickable(labelId, false); //label is never clickable
+        updateVisuals();
     }
     //CALL ONCE AFTER CREATING SLIDER
 
@@ -189,6 +200,10 @@ public class Slider {
         float ratio = (float) (clampedX - trackX) / trackW;
         currentValue = minValue + ratio * (maxValue - minValue);
         updateVisuals();
+
+        if (changeListener != null) {
+            changeListener.valueChanged(currentValue);
+        }
     }
 
     private void updateVisuals() {

@@ -27,8 +27,8 @@ public class Popup {
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
-        musicText = game.graphics.addText("Music Volume:", 100, 500, 50, Color.WHITE, 25);
-        Slider musicVolume = new Slider(game, 100, 500, 500, 10, 0, 100, 25, true, true);
+        musicText = game.graphics.addText("Music Volume", 175, 225, 25, Color.WHITE, 25, false);
+        Slider musicVolume = new Slider(game, 150, 250, 250, 10, 0, 100, 25, true, true);
         game.graphics.createGroup("settings_popup_buttons");
         game.graphics.addToGroup("settings_popup_buttons", closeButton.getId());
         game.graphics.addToGroup("settings_popup_buttons", musicVolume.getFillId());
@@ -39,6 +39,11 @@ public class Popup {
         musicVolume.setVisible(false);
         musicVolume.setDraggable(true);
         musicVolume.attachListeners();
+
+        musicVolume.setOnChangeListener(newValue -> {
+            float volumePercentage = newValue / 100f;
+            game.audio.setVolume(volumePercentage);
+        });
 
 
         game.graphics.createGroup("difficulty_popup_buttons");
@@ -169,4 +174,6 @@ public class Popup {
 
         return setting;
     }
+
+
 }

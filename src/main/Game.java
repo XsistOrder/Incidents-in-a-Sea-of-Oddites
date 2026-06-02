@@ -28,7 +28,8 @@ public class Game extends JPanel{
 
     public Game() {
         Oddity.generate();
-        Background.changeBackground("main_menu");
+        //controls menu you start on
+        Background.changeBackground("checkpoint_menu");
 
         addKeyListener(new KeyListener() {
             @Override
@@ -54,6 +55,7 @@ public class Game extends JPanel{
                 //Popup.diffculty2Button.mousePressed(e, "main_menu_to_checkpoint_menu");
                 //Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
                 Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
+                interrogatedOddity.mousePressed(e, "oddity_clicked");
             }
 
             @Override
@@ -80,7 +82,8 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
-        //interrogatedOddity.animation("idle", tick);
+        Oddity.ask(tick);
+        Oddity.animation("idle", tick);
         Impatience.fill(tick);
         if (tick >= 40) {
             tick = 0;

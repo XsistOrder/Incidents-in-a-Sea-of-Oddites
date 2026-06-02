@@ -1,14 +1,19 @@
 package interactive;
 
+import display.Background;
+import display.Popup;
 import main.Game;
 
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
-public class Oddity {
+public class Oddity extends Button {
     private static Game game;
+    private static int ticked = 0;
+    private static boolean isOnscreen = false;
     private static int id;
     private static String[] possibleOdditySpecies = {
             "yokai",
@@ -32,10 +37,10 @@ public class Oddity {
     private static String birthPlace;
 
     public Oddity (Game game, int x, int y, int width, int height, int priority) {
-        this.game = game;
-        id = game.graphics.addObject(x,y,width,height, "", priority, true);
+        super(this.game = game, x, y, width, height, "", priority, "");
+        id = game.graphics.addObject(x,y,width,height, "", priority, false);
     }
-    public static int getId() {
+    public int getId () {
         return id;
     }
     public static void generate () {
@@ -53,12 +58,12 @@ public class Oddity {
                 if (line.contains("\"skinColor\" :") && foundPreset) {
                     skinColor = line.substring(line.indexOf(':'));
                     skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    System.out.println(skinColor);
+                    //System.out.println(skinColor);
                 }
                 if (line.contains("\"eyeColor\" :") && foundPreset) {
                     eyeColor = line.substring(line.indexOf(':'));
                     eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    System.out.println(eyeColor);
+                    //System.out.println(eyeColor);
                 }
                 if (line.contains("\"eyeDilation\" :") && foundPreset) {
                     String lineSub = line.substring(line.indexOf(':'));
@@ -72,39 +77,38 @@ public class Oddity {
                             break;
 
                     }
-                    System.out.println(eyeDialation);
+                    //System.out.println(eyeDialation);
                 }
                 if (line.contains("\"teethColor\" :") && foundPreset) {
                     teethColor = line.substring(line.indexOf(':'));
                     teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    System.out.println(teethColor);
+                    //System.out.println(teethColor);
                 }
                 if (line.contains("\"blood\" :") && foundPreset) {
                     blood = line.substring(line.indexOf(':'));
                     blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    System.out.println(blood);
+                    //System.out.println(blood);
                 }
                 if (line.contains("\"portrait\" :") && foundPreset) {
                     portrait = line.substring(line.indexOf(':'));
                     portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
-                    System.out.println(game.graphics.getImageDir(id));
+                    //System.out.println(game.graphics.getImageDir(id));
                 }
                 if (line.contains(" }") && foundPreset) {
 
-                    System.out.println("stop");
+                    //System.out.println("stop");
                     foundPreset = false;
                 }
-                System.out.println(line);
+                //System.out.println(line);
             }
             br.close();
         }
         catch(IOException e) {
             System.err.println("oddity preset did not read the bible");
         }
-        game.graphics.setVisible(id, true);
     }
-    public void animation (String state, int tick) {
+    public static void animation (String state, int tick) {
 
         switch (state) {
             case "idle" :
@@ -120,6 +124,41 @@ public class Oddity {
                 }
                 break;
 
+        }
+    }
+    public static void ask (int tick) {
+        if (!isOnscreen) {
+            //display prompt to let in
+            if (tick == 20) {
+                ticked++;
+            }
+            if (ticked == 10) {
+                isOnscreen = true;
+                game.graphics.setVisible(id, true);
+                game.graphics.setClickable(id, true);
+            }
+        } else {
+
+        }
+
+    }
+    public static void walkover () {
+
+    }
+    @Override
+    public void mousePressed (MouseEvent e, String action) {
+
+        if (isHoveredOver()) {
+            if (game.graphics.clickAllowed(id)) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (action.equals("oddity_clicked")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity");
+                    }
+
+                }
+
+            }
         }
     }
 

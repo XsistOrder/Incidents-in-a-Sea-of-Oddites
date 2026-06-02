@@ -42,6 +42,7 @@ public class Background {
         game.graphics.mergeIntoGroup("checkpoint_menu_buttons", "all_menu_buttons");
         game.graphics.mergeIntoGroup("results_menu_buttons", "all_menu_buttons");
         game.graphics.mergeIntoGroup("gameover_menu_buttons", "all_menu_buttons");
+        game.graphics.addToGroup("all_menu_buttons", game.interrogatedOddity.getId());
     }
     public static void changeBackground(String background) {
 
@@ -71,8 +72,6 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(false,true);
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
-
-                game.graphics.setVisible(Oddity.getId(), true);
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");
@@ -84,6 +83,7 @@ public class Background {
                 game.graphics.setGroupVisible("results_menu_buttons", true);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+                game.graphics.setVisible(CheckpointHealth.getId(), false);
                 break;
             case "game_over_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\gameover_menu.jpg");
@@ -95,6 +95,7 @@ public class Background {
                 game.graphics.setGroupVisible("gameover_menu_buttons", true);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+                game.graphics.setVisible(CheckpointHealth.getId(), false);
                 break;
             default:
                 System.err.println("da background ain't right bro");
