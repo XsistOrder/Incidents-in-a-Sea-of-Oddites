@@ -1,10 +1,10 @@
 package main;
 
-import display.Background;
-import display.Details;
-import display.Impatience;
+import display.*;
 import display.Popup;
 import interactive.Button;
+import interactive.DispatchItem;
+import interactive.InterrogationItem;
 import interactive.Oddity;
 import interactive.Slider;
 
@@ -17,17 +17,21 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
     private int tick = 0;
+    public String pickup;
 
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
+    public InterrogationItem syringe = new InterrogationItem(this, 0, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public InterrogationItem magnifyingGlass = new InterrogationItem(this, 50, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public InterrogationItem laserPointer = new InterrogationItem(this, 100, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public InterrogationItem questioner = new InterrogationItem(this, 150, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
     public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
     private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
 
     public Game() {
-        Oddity.generate();
         //controls menu you start on
         Background.changeBackground("checkpoint_menu");
 
@@ -56,6 +60,11 @@ public class Game extends JPanel{
                 //Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
                 Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
                 interrogatedOddity.mousePressed(e, "oddity_clicked");
+                syringe.mousePressed(e, "pickup_syringe");
+                magnifyingGlass.mousePressed(e, "pickup_magnifying_glass");
+                laserPointer.mousePressed(e, "pickup_laser_pointer");
+                questioner.mousePressed(e, "pickup_questioner");
+
             }
 
             @Override
@@ -87,6 +96,7 @@ public class Game extends JPanel{
         Impatience.fill(tick);
         if (tick >= 40) {
             tick = 0;
+            System.out.println(CheckpointHealth.getCheckpointHealth());
         }
         //System.out.println(graphics.nextId);
     }

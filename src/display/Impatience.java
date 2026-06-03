@@ -8,7 +8,7 @@ public class Impatience {
     private static int id2;
     private static Game game;
     private static boolean paused = true;
-    private static float permanentImpatienceMultiplier = 1.0f;
+    private static float permanentImpatienceMultiplier = 10.0f;
     private static float temporaryImpatienceMultiplier = 1.0f;
 
 
@@ -41,9 +41,9 @@ public class Impatience {
 
     public static void filledAggressiveOddityReset () {
         game.graphics.setHeight(id2, game.graphics.getHeight(id)/100);
-        permanentImpatienceMultiplier = 1.0f;
+        permanentImpatienceMultiplier = 10.0f;
         temporaryImpatienceMultiplier = 1.0f;
-        //call to subtract checkpoint hp
+        CheckpointHealth.subtractCheckpointHealth();
     }
     public static void filledNormalOddityReset () {
         game.graphics.setHeight(id2, game.graphics.getHeight(id)/100);

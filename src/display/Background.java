@@ -29,7 +29,10 @@ public class Background {
 
 
         game.graphics.createGroup("checkpoint_menu_buttons");
-
+        game.graphics.addToGroup("checkpoint_menu_buttons", game.syringe.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", game.magnifyingGlass.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", game.laserPointer.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", game.questioner.getId());
 
         game.graphics.createGroup("results_menu_buttons");
 
@@ -72,6 +75,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(false,true);
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
+                Oddity.generate();
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");

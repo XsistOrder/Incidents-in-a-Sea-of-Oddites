@@ -4,6 +4,7 @@ import display.Background;
 import display.Popup;
 import main.Game;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +16,7 @@ public class Oddity extends Button {
     private static int ticked = 0;
     private static boolean isOnscreen = false;
     private static int id;
+    private static boolean clickedInto = false;
     private static String[] possibleOdditySpecies = {
             "yokai",
             "yokai",
@@ -35,6 +37,8 @@ public class Oddity extends Button {
     private static int age;
     private static String birthday;
     private static String birthPlace;
+
+    private static Boolean aggression;
 
     public Oddity (Game game, int x, int y, int width, int height, int priority) {
         super(this.game = game, x, y, width, height, "", priority, "");
@@ -133,6 +137,7 @@ public class Oddity extends Button {
                 ticked++;
             }
             if (ticked == 10) {
+                System.out.println("help");
                 isOnscreen = true;
                 game.graphics.setVisible(id, true);
                 game.graphics.setClickable(id, true);
@@ -146,16 +151,43 @@ public class Oddity extends Button {
 
     }
     @Override
+    public void keyPressed (KeyEvent e, String action) {
+        if (game.graphics.clickAllowed(id)) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+                if (action.equals("close_settings_popup")) {
+                    Popup.changeAndShowPopup("settings_popup", false);
+                }
+                if (action.equals("close_difficulty_popup")) {
+                    Popup.changeAndShowPopup("difficulty_popup", false);
+                }
+
+            }
+        }
+    }
+    @Override
     public void mousePressed (MouseEvent e, String action) {
 
         if (isHoveredOver()) {
             if (game.graphics.clickAllowed(id)) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (action.equals("oddity_clicked")) {
+                    if (action.equals("oddity_clicked") && game.pickup.equals("syringe")) {
                         //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
-                        System.out.println("clicked oddity");
-                    }
+                        System.out.println("clicked oddity with syringe");
 
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("magnifying_glass")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with magnifying_glass");
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("laser_pointer")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with laser_pointer");
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("questioner")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with questioner");
+                    }
                 }
 
             }
