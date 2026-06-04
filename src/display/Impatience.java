@@ -21,12 +21,16 @@ public class Impatience {
     public static void fill (int tick) {
         //System.out.println(paused);
         if (!paused) {
-            if (tick == 20) {
+            if (tick == 20 || tick == 40) {
                 game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + 1 * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));
             }
             if (game.graphics.getHeight(id) <= game.graphics.getHeight(id2)) {
-                // call to check oddity aggression
-                filledAggressiveOddityReset();
+                if (Oddity.getAggression()) {
+                    filledAggressiveOddityReset();
+                } else {
+                    filledNormalOddityReset();
+                }
+
             }
         }
     }

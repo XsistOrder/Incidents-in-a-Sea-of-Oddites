@@ -12,6 +12,7 @@ public class Background {
     public static Button playButton;
     public static Button settingsButton;
     public static Button infomationButton;
+    public static Clock clock;
     //private static Button
 
     public Background(Game game, int x, int y, int width, int height) {
@@ -20,7 +21,10 @@ public class Background {
         playButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
         settingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         infomationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-
+        clock = new Clock(game, 420, 120, 50, 15);
+        clock.setTime(3, 0);
+        clock.attachHoverListener();
+        clock.setVisible(true);
 
         game.graphics.createGroup("main_menu_buttons");
         game.graphics.addToGroup("main_menu_buttons", playButton.getId());

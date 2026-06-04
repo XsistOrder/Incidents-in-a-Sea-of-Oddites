@@ -91,9 +91,15 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
-        Oddity.ask(tick);
+        Oddity.askAnimation(tick);
         Oddity.animation("idle", tick);
         Impatience.fill(tick);
+        //syringe.trackToMouse();
+        //magnifyingGlass.trackToMouse();
+        //laserPointer.trackToMouse();
+        //questioner.trackToMouse();
+        background.clock.tick(tick, 20);
+
         if (tick >= 40) {
             tick = 0;
             System.out.println(CheckpointHealth.getCheckpointHealth());
@@ -116,6 +122,7 @@ public class Game extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         //game.audio.play("res\\music\\test.wav");
+
 
         while (true)
         {

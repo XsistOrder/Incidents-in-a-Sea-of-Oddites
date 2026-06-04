@@ -65,12 +65,12 @@ public class Clock {
         this.centerY = y + size / 2;
         this.radius = (int) (size * 0.38f);
 
-        faceId = game.graphics.addObject(x, y, size, size, "res\\textures\\interactive\\clock.png", priority, true);
-        minuteHandId = game.graphics.addShape("line", centerX, centerY, 0, -radius, new Color(30, 30, 30), priority + 1, true);
+        faceId = this.game.graphics.addObject(x, y, size, size, "res\\textures\\interactive\\clock.png", priority, true);
+        minuteHandId = this.game.graphics.addShape("line", centerX, centerY, 0, -radius, new Color(30, 30, 30), priority + 1, true);
         int secondRadius = (int) (size * 0.43f);
-        secondHandId = game.graphics.addShape("line", centerX, centerY, 0, -secondRadius, new Color(200, 50, 50), priority + 2, true);
+        secondHandId = this.game.graphics.addShape("line", centerX, centerY, 0, -secondRadius, new Color(200, 50, 50), priority + 2, true);
         int labelFontSize = Math.max(12, size / 8);
-        hoverLabelId = game.graphics.addText("", x + size / 2 - 20, y - 8, labelFontSize, Color.WHITE, priority + 3, false);
+        hoverLabelId = this.game.graphics.addText("", x + size / 2 - 20, y - 8, labelFontSize, Color.WHITE, priority + 3, false);
         updateHands();
 
     }
@@ -87,6 +87,112 @@ public class Clock {
     }
 
     public void tick(int currentTick, int ticksPerSecond) {
+        if (paused || finished) return;
+        if (currentTick % ticksPerSecond != 0) return;
 
-            }
+        if (totalSeconds > 0) {
+            totalSeconds--;
+            updateHands();
+            updateHoverLabel();
         }
+        if (totalSeconds == 0) {
+            finished = true;
+            updateHands();
+        }
+    }
+
+    public void attachHoverListener() {
+        game.addMouseMotionListener(new MouseMotionListener() {
+            @Override public void mouseDragged(MouseEvent e) {}
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                boolean over = e.getX() >= faceX && e.getX() <= faceX + faceSize && e.getY() >= faceY && e.getY() <= faceY + faceSize;
+                boolean clockVisible = game.graphics.getVisibility(faceId);
+                game.graphics.setVisible(hoverLabelId, over && clockVisible && !finished);
+            }
+        });
+    }
+
+    public boolean isFinished() { return finished; }
+
+    public int getTotalSecondsRemaining() { return totalSeconds; }
+
+    public int getMinutesRemaining() { return totalSeconds / 60; }
+
+    public int getSecondsRemaining() { return totalSeconds % 60; }
+
+    public void setPaused(boolean paused) { this.paused = paused; }
+    public boolean isPaused() { return paused; }
+
+    public void setVisible(boolean visible) {
+        game.graphics.setVisible(faceId, visible);
+        game.graphics.setVisible(minuteHandId, visible);
+        game.graphics.setVisible(secondHandId, visible);
+        if (!visible) game.graphics.setVisible(hoverLabelId, false);
+    }
+
+    public void addToGroup(String groupName) {
+        game.graphics.addToGroup(groupName, faceId);
+        game.graphics.addToGroup(groupName, minuteHandId);
+        game.graphics.addToGroup(groupName, secondHandId);
+        game.graphics.addToGroup(groupName, hoverLabelId);
+    }
+
+    public void removeFromGroup(String groupName) {
+        game.graphics.removeFromGroup(groupName, faceId);
+        game.graphics.removeFromGroup(groupName, minuteHandId);
+        game.graphics.removeFromGroup(groupName, secondHandId);
+        game.graphics.removeFromGroup(groupName, hoverLabelId);
+    }
+
+    public int getFaceId() { return faceId; }
+    public int getMinuteHandId() { return minuteHandId; }
+    public int getSecondHandId() { return secondHandId; }
+    public int getHoverLabelId() { return hoverLabelId; }
+
+    private void updateHands() {
+        int mins = totalSeconds / 60;
+        int secs = totalSeconds % 60;
+
+        //Minute hand angle:
+        //0 min = 12 o'clock (270 degrees in standard math, or -90 degrees)
+        //each minute = 6 degrees clockwise
+        //also moves slightly based on seconds
+
+        double minuteAngleDeg = (mins % 60) * 6.0 + (secs / 60.0) * 6.0 - 90.0;
+        double minuteRad = Math.toRadians(minuteAngleDeg);
+
+        int minuteHandRadius = (int) (faceSize * 0.33f);
+        int mDx = (int) (Math.cos(minuteRad) * minuteHandRadius);
+        int mDy = (int) (Math.sin(minuteRad) * minuteHandRadius);
+
+        //second hand angle
+        //0 sec = 12 o'clock, each second = 6 degrees clickwise;
+
+        double secondAngleDeg = secs * 6.0 - 90.0;
+        double secondRad = Math.toRadians(secondAngleDeg);
+
+        int secondHandRadius = (int) (faceSize * 0.38f);
+        int sDx = (int) (Math.cos(secondRad) * secondHandRadius);
+        int sDy = (int) (Math.sin(secondRad) * secondHandRadius);
+
+        game.graphics.setX(minuteHandId, centerX);
+        game.graphics.setY(minuteHandId, centerY);
+        game.graphics.setWidth(minuteHandId, mDx);
+        game.graphics.setHeight(minuteHandId, mDy);
+
+        game.graphics.setX(secondHandId, centerX);
+        game.graphics.setY(secondHandId, centerY);
+        game.graphics.setWidth(secondHandId, sDx);
+        game.graphics.setHeight(secondHandId, sDy);
+    }
+
+    private void updateHoverLabel() {
+        int m = totalSeconds / 60;
+        int s = totalSeconds % 60;
+        game.graphics.setText(hoverLabelId, String.format("%d:%02d", m, s));
+
+        int approxLabelWidth = String.format("%d:%02d", m, s).length() * (faceSize / 10);
+        game.graphics.setX(hoverLabelId, faceX + faceSize / 2 - approxLabelWidth / 2);
+    }
+}

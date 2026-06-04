@@ -18,7 +18,6 @@ public class Popup {
     private static int musicText;
     private static int SFXText;
 
-
     public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_popup.png", 20, false);

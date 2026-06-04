@@ -33,10 +33,10 @@ public class Oddity extends Button {
     private static boolean eyeDialation;
     private static String teethColor;
     private static String blood;
-    private static String portrait;
     private static int age;
     private static String birthday;
-    private static String birthPlace;
+
+    private static String portrait;
 
     private static Boolean aggression;
 
@@ -47,6 +47,31 @@ public class Oddity extends Button {
     public int getId () {
         return id;
     }
+    public static String getSkinColor () {
+        return skinColor;
+    }
+    public static String getEyeColor () {
+        return skinColor;
+    }
+    public static boolean getEyeDialation () {
+        return eyeDialation;
+    }
+    public static String getTeethColor () {
+        return teethColor;
+    }
+    public static String getBlood () {
+        return blood;
+    }
+    private static int getAge () {
+        return age;
+    }
+    private static String getBirthday () {
+        return birthday;
+    }
+    public static boolean getAggression () {
+        return aggression;
+    }
+
     public static void generate () {
 
         try {
@@ -104,7 +129,7 @@ public class Oddity extends Button {
                     //System.out.println("stop");
                     foundPreset = false;
                 }
-                //System.out.println(line);
+                aggression = random.nextBoolean();
             }
             br.close();
         }
@@ -130,7 +155,7 @@ public class Oddity extends Button {
 
         }
     }
-    public static void ask (int tick) {
+    public static void askAnimation (int tick) {
         if (!isOnscreen) {
             //display prompt to let in
             if (tick == 20) {
@@ -142,8 +167,6 @@ public class Oddity extends Button {
                 game.graphics.setVisible(id, true);
                 game.graphics.setClickable(id, true);
             }
-        } else {
-
         }
 
     }
