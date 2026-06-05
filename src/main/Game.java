@@ -3,8 +3,7 @@ package main;
 import display.*;
 import display.Popup;
 import interactive.Button;
-import interactive.DispatchItem;
-import interactive.InterrogationItem;
+import interactive.Item;
 import interactive.Oddity;
 import interactive.Slider;
 
@@ -18,22 +17,22 @@ import java.awt.event.MouseListener;
 public class Game extends JPanel{
     private int tick = 0;
     public String pickup;
-
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
-    public InterrogationItem syringe = new InterrogationItem(this, 0, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public InterrogationItem magnifyingGlass = new InterrogationItem(this, 50, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public InterrogationItem laserPointer = new InterrogationItem(this, 100, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public InterrogationItem questioner = new InterrogationItem(this, 150, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item syringe = new Item(this, 0, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item magnifyingGlass = new Item(this, 50, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item laserPointer = new Item(this, 100, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item questioner = new Item(this, 150, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
     public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
     private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
-
+    public static int gameWidth = 1000;
+    public static int gameHeight = 700;
     public Game() {
         //controls menu you start on
-        Background.changeBackground("checkpoint_menu");
+        Background.changeBackground("main_menu");
 
         addKeyListener(new KeyListener() {
             @Override
@@ -91,18 +90,26 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
-        Oddity.askAnimation(tick);
-        Oddity.animation("idle", tick);
-        Impatience.fill(tick);
-        //syringe.trackToMouse();
-        //magnifyingGlass.trackToMouse();
-        //laserPointer.trackToMouse();
-        //questioner.trackToMouse();
-        background.clock.tick(tick, 20);
+
+
+        if (Background.getBackground().equals("checkpoint_menu")) {
+            Oddity.askAnimation(tick);
+            Oddity.animation("idle", tick);
+            syringe.trackToMouse();
+            magnifyingGlass.trackToMouse();
+            laserPointer.trackToMouse();
+            questioner.trackToMouse();
+            Impatience.fill(tick);
+            CheckpointHealth.checkCheckpointHealth();
+            Background.clock.tick(tick, 20);
+        }
+        if (Background.clock.isFinished()) {
+            Background.changeBackground("results_menu");
+        }
+
 
         if (tick >= 40) {
             tick = 0;
-            System.out.println(CheckpointHealth.getCheckpointHealth());
         }
         //System.out.println(graphics.nextId);
     }
@@ -122,6 +129,8 @@ public class Game extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         //game.audio.play("res\\music\\test.wav");
+        gameWidth = game.getWidth();
+        gameHeight = game.getHeight();
 
 
         while (true)

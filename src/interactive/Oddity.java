@@ -1,6 +1,7 @@
 package interactive;
 
 import display.Background;
+import display.Impatience;
 import display.Popup;
 import main.Game;
 
@@ -129,9 +130,11 @@ public class Oddity extends Button {
                     //System.out.println("stop");
                     foundPreset = false;
                 }
-                aggression = random.nextBoolean();
+
             }
             br.close();
+            aggression = random.nextBoolean();
+            System.out.println(aggression);
         }
         catch(IOException e) {
             System.err.println("oddity preset did not read the bible");
@@ -158,12 +161,13 @@ public class Oddity extends Button {
     public static void askAnimation (int tick) {
         if (!isOnscreen) {
             //display prompt to let in
+            Impatience.pauseFillAndSetVisibility(true, true);
             if (tick == 20) {
                 ticked++;
             }
             if (ticked == 10) {
-                System.out.println("help");
                 isOnscreen = true;
+                Impatience.pauseFillAndSetVisibility(false, true);
                 game.graphics.setVisible(id, true);
                 game.graphics.setClickable(id, true);
             }
@@ -197,7 +201,6 @@ public class Oddity extends Button {
                     if (action.equals("oddity_clicked") && game.pickup.equals("syringe")) {
                         //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
                         System.out.println("clicked oddity with syringe");
-
                     }
                     if (action.equals("oddity_clicked") && game.pickup.equals("magnifying_glass")) {
                         //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
@@ -210,6 +213,23 @@ public class Oddity extends Button {
                     if (action.equals("oddity_clicked") && game.pickup.equals("questioner")) {
                         //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
                         System.out.println("clicked oddity with questioner");
+                    }
+
+                    if (action.equals("oddity_clicked") && game.pickup.equals("acid")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with acid");
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("crucifix")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with crucifix");
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("flashlight")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with flashlight");
+                    }
+                    if (action.equals("oddity_clicked") && game.pickup.equals("wooden_stake")) {
+                        //add action to determine which interrogation/dispatch item is being carried & resulting in value returns & results addtions
+                        System.out.println("clicked oddity with wooden_stake");
                     }
                 }
 

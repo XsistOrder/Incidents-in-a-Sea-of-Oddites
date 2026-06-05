@@ -37,6 +37,7 @@ public class Background {
         game.graphics.addToGroup("checkpoint_menu_buttons", game.magnifyingGlass.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", game.laserPointer.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", game.questioner.getId());
+        clock.addToGroup("checkpoint_menu_buttons");
 
         game.graphics.createGroup("results_menu_buttons");
 
@@ -67,6 +68,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                clock.setPaused(true);
                 break;
             case "checkpoint_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu.jpg");
@@ -80,9 +82,10 @@ public class Background {
                 Impatience.pauseFillAndSetVisibility(false,true);
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
                 Oddity.generate();
+                clock.setPaused(false);
                 break;
             case "results_menu":
-                game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.jpg");
+                game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
                 game.graphics.setGroupVisible("all_menu_buttons", false);
@@ -92,6 +95,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                clock.setPaused(true);
                 break;
             case "game_over_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\gameover_menu.jpg");
@@ -104,6 +108,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                clock.setPaused(true);
                 break;
             default:
                 System.err.println("da background ain't right bro");

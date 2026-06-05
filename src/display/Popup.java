@@ -21,8 +21,8 @@ public class Popup {
     public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_popup.png", 20, false);
-        id2 = game.graphics.addObject(0,0, game.getWidth(), game.getHeight(),"res\\textures\\menus\\popup_overlay.png", 19, false);
-        //game.graphics.setAlpha(id2, 0.5f);
+        id2 = game.graphics.addObject(0,0, 1000, 700,"res\\textures\\menus\\popup_overlay.png", 19, false);
+        game.graphics.setAlpha(id2, 0.5f);
         closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");

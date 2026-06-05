@@ -25,6 +25,7 @@ public class Impatience {
                 game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + 1 * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));
             }
             if (game.graphics.getHeight(id) <= game.graphics.getHeight(id2)) {
+                System.out.println(CheckpointHealth.getCheckpointHealth());
                 if (Oddity.getAggression()) {
                     filledAggressiveOddityReset();
                 } else {

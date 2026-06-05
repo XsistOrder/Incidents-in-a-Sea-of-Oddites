@@ -22,7 +22,7 @@ public class CheckpointHealth {
     }
     public static void checkCheckpointHealth () {
         if (checkpointHealth <= 0) {
-            Background.changeBackground("gameover_menu");
+            Background.changeBackground("game_over_menu");
         }
     }
 }
