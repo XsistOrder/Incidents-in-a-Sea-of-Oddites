@@ -59,7 +59,7 @@ public class Oddity extends Button {
     public static String getEyeColor () {
         return skinColor;
     }
-    public static boolean getEyeDialation () {
+    public static boolean getEyeDilation () {
         return eyeDialation;
     }
     public static String getTeethColor () {
@@ -68,7 +68,7 @@ public class Oddity extends Button {
     public static String getBlood () {
         return blood;
     }
-    private static int getAge () {
+    public static int getAge () {
         return age;
     }
     public static String getBirthPlace () {
