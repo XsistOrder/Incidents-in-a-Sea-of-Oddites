@@ -222,6 +222,7 @@ public class Popup {
         if (currentPage > 1) {
             currentPage--;
             game.graphics.setImageDir(id, "res\\textures\\menus\\" + setting +"_"+ currentPage + ".png");
+            //hi
         }
     }
     public static String getPopup() {
