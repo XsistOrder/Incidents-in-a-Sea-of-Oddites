@@ -47,11 +47,11 @@ public class Button {
         if (game.graphics.clickAllowed(id)) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
-                if (action.equals("close_settings_popup")) {
-                    Popup.changeAndShowPopup("settings_popup", false);
+                if (action.equals("close_popup")) {
+                    Popup.changeAndShowPopup("", false);
                 }
-                if (action.equals("close_difficulty_popup")) {
-                    Popup.changeAndShowPopup("difficulty_popup", false);
+                if (action.equals("open_pause_popup")) {
+                    Popup.changeAndShowPopup("pause_popup", true);
                 }
 
             }
@@ -62,12 +62,12 @@ public class Button {
         if (isHoveredOver()) {
             if (game.graphics.clickAllowed(id)) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (action.equals("close_popup")) {
+                    Popup.changeAndShowPopup("", false);
+                    //game.audio.playSFX("res\\music\\click.wav");
+                }
                     if (action.equals("open_difficulty_popup")) {
                         Popup.changeAndShowPopup("difficulty_popup", true);
-                    }
-                    if (action.equals("close_difficulty_popup")) {
-                        Popup.changeAndShowPopup("", false);
-                        //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("to_checkpoint_menu_difficulty_1")) {
                         Background.changeBackground("checkpoint_menu");
@@ -89,17 +89,9 @@ public class Button {
                         Popup.changeAndShowPopup("settings_popup", true);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
-                    if (action.equals("close_settings_popup")) {
-                        Popup.changeAndShowPopup("", false);
-                        //game.audio.playSFX("res\\music\\click.wav");
-                    }
 
                     if (action.equals("open_information_popup")) {
                         Popup.changeAndShowPopup("information_popup", true);
-                        //game.audio.playSFX("res\\music\\click.wav");
-                    }
-                    if (action.equals("close_information_popup")) {
-                        Popup.changeAndShowPopup("", false);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
                     if (action.equals("popup_pager_next")) {
@@ -108,7 +100,15 @@ public class Button {
                     if (action.equals("popup_pager_previous")) {
                         Popup.popupPreviousPage();
                     }
-
+                    if (action.equals("open_encyclopedia_popup")) {
+                        Popup.changeAndShowPopup("encyclopedia_popup", true);
+                    }
+                    if (action.equals("open_documentation_popup")) {
+                        Popup.changeAndShowPopup("documentation_popup", true);
+                    }
+                    if (action.equals("open_pause_popup")) {
+                        Popup.changeAndShowPopup("pause_popup", true);
+                    }
                 }
 
             }

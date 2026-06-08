@@ -36,7 +36,7 @@ public class Oddity extends Button {
     private static String teethColor;
     private static String blood;
     private static int age;
-    private static String birthday;
+    private static String birthPlace;
 
     private static String portrait;
 
@@ -71,8 +71,8 @@ public class Oddity extends Button {
     private static int getAge () {
         return age;
     }
-    private static String getBirthday () {
-        return birthday;
+    private static String getBrithPlace () {
+        return birthPlace;
     }
     public static boolean getAggression () {
         return aggression;
@@ -139,11 +139,17 @@ public class Oddity extends Button {
                     weakness = line.substring(line.indexOf(':'));
                     weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                 }
+                if (line.contains("\"birthPlace\" :")) {
+                    birthPlace = line.substring(line.indexOf(':'));
+                    birthPlace = birthPlace.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                }
 
             }
             br.close();
             aggression = random.nextBoolean();
             System.out.println(aggression);
+            age = random.nextInt(20, 400);
+            System.out.println(age);
         }
         catch(IOException e) {
             System.err.println("oddity preset did not read the bible");
@@ -171,6 +177,8 @@ public class Oddity extends Button {
         if (!isOnscreen) {
             //display prompt to let in
             Impatience.pauseFillAndSetVisibility(true, true);
+            game.graphics.setClickable(Background.documentationButton.getId(), false);
+            game.graphics.setVisible(Background.documentationButton.getId(), false);
             game.graphics.setVisible(id, false);
             game.graphics.setClickable(id, false);
             if (tick == 20) {
@@ -179,6 +187,8 @@ public class Oddity extends Button {
             if (ticked == 5) {
                 isOnscreen = true;
                 Oddity.generate();
+                game.graphics.setClickable(Background.documentationButton.getId(), true);
+                game.graphics.setVisible(Background.documentationButton.getId(), true);
                 Impatience.pauseFillAndSetVisibility(false, true);
                 Results.addToOddityCount();
                 game.graphics.setVisible(id, true);

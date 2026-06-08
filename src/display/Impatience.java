@@ -19,7 +19,7 @@ public class Impatience {
     }
 
     public static void fill (int tick) {
-        System.out.println(permanentImpatienceMultiplier);
+        //System.out.println(permanentImpatienceMultiplier);
         if (!paused) {
             if (tick == 20 || tick == 40) {
                 game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + (game.graphics.getHeight(id)/100) * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));

@@ -17,8 +17,12 @@ public class Popup {
     public static Button diffculty1Button;
     public static Button diffculty2Button;
     public static Button diffculty3Button;
-    public static Button pagerNext;
-    public static Button pagerPrevious;
+    public static Button pagerNextButton;
+    public static Button pagerPreviousButton;
+    public static Button pauseSettingsButton;
+    public static Button pauseInformationButton;
+    public static Button quitButton;
+
     private static int musicText;
     private static int SFXText;
 
@@ -31,9 +35,9 @@ public class Popup {
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        pagerNextButton = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        pagerPreviousButton = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
 
-        pagerNext = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
-        pagerPrevious = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
 
         musicText = game.graphics.addText("Music Volume", 175, 225, 25, Color.WHITE, 25, false);
         SFXText = game.graphics.addText("SFX Volume", 175, 325, 25, Color.WHITE, 25, false);
@@ -81,16 +85,16 @@ public class Popup {
 
         game.graphics.createGroup("information_popup_buttons");
         game.graphics.addToGroup("information_popup_buttons", closeButton.getId());
-        game.graphics.addToGroup("information_popup_buttons", pagerNext.getId());
-        game.graphics.addToGroup("information_popup_buttons", pagerPrevious.getId());
+        game.graphics.addToGroup("information_popup_buttons", pagerNextButton.getId());
+        game.graphics.addToGroup("information_popup_buttons", pagerPreviousButton.getId());
 
         game.graphics.createGroup("documentation_popup_buttons");
         game.graphics.addToGroup("documentation_popup_buttons", closeButton.getId());
 
         game.graphics.createGroup("encyclopedia_popup_buttons");
         game.graphics.addToGroup("encyclopedia_popup_buttons", closeButton.getId());
-        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerNext.getId());
-        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerPrevious.getId());
+        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerNextButton.getId());
+        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerPreviousButton.getId());
 
         game.graphics.createGroup("all_popup_buttons");
         game.graphics.mergeIntoGroup("settings_popup_buttons", "all_popup_buttons");

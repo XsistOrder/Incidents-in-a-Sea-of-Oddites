@@ -12,6 +12,9 @@ public class Background {
     public static Button playButton;
     public static Button settingsButton;
     public static Button infomationButton;
+    public static Button encyclopediaButton;
+    public static Button documentationButton;
+    public static Button departButton;
     public static Clock clock;
     //private static Button
 
@@ -21,6 +24,10 @@ public class Background {
         playButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
         settingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         infomationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+        documentationButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+
+
         clock = new Clock(game, 420, 120, 50, 15);
         clock.setTime(7, 0);
         clock.attachHoverListener();
@@ -41,6 +48,8 @@ public class Background {
         game.graphics.addToGroup("checkpoint_menu_buttons", game.crucifix.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", game.flashlight.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", game.woodenStake.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", encyclopediaButton.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", documentationButton.getId());
         clock.addToGroup("checkpoint_menu_buttons");
 
         game.graphics.createGroup("results_menu_buttons");
@@ -55,6 +64,7 @@ public class Background {
         game.graphics.mergeIntoGroup("results_menu_buttons", "all_menu_buttons");
         game.graphics.mergeIntoGroup("gameover_menu_buttons", "all_menu_buttons");
         game.graphics.addToGroup("all_menu_buttons", game.interrogatedOddity.getId());
+
     }
     public static void changeBackground(String background) {
 

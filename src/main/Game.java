@@ -48,7 +48,7 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                Popup.closeButton.keyPressed(e, "close_" + Popup.getPopup() + "");
+                Popup.closeButton.keyPressed(e, "close_popup");
             }
         });
         addMouseListener(new MouseListener() {
@@ -58,12 +58,14 @@ public class Game extends JPanel{
                 Background.playButton.mousePressed(e,"open_difficulty_popup");
                 Background.settingsButton.mousePressed(e, "open_settings_popup");
                 Background.infomationButton.mousePressed(e, "open_information_popup");
+                Background.encyclopediaButton.mousePressed(e, "open_encyclopedia_popup");
+                Background.documentationButton.mousePressed(e, "open_documentation_popup");
                 Popup.diffculty1Button.mousePressed(e, "to_checkpoint_menu_difficulty_1");
                 Popup.diffculty2Button.mousePressed(e, "to_checkpoint_menu_difficulty_2");
                 Popup.diffculty3Button.mousePressed(e, "to_checkpoint_menu_difficulty_3");
-                Popup.pagerNext.mousePressed(e, "popup_pager_next");
-                Popup.pagerPrevious.mousePressed(e, "popup_pager_previous");
-                Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
+                Popup.pagerNextButton.mousePressed(e, "popup_pager_next");
+                Popup.pagerPreviousButton.mousePressed(e, "popup_pager_previous");
+                Popup.closeButton.mousePressed(e, "close_popup");
                 interrogatedOddity.mousePressed(e, "oddity_clicked");
                 syringe.mousePressed(e, "pickup_syringe");
                 magnifyingGlass.mousePressed(e, "pickup_magnifying_glass");

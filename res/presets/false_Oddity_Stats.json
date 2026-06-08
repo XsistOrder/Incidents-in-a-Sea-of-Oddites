@@ -1,22 +1,21 @@
 {
-  "skinColor": {
-    "1": ""
+  "skinColor" : {
+    "1" : ""
   },
-  "eyeColor": {
-    "1": ""
+  "eyeColor" : {
+    "1" : ""
   },
-  "eyeDilation": {
-    "1": ""
+  "teethColor" : {
+    "1" : ""
   },
-
-  "teethColor": {
-    "1": ""
+  "blood" : {
+    "1" : ""
   },
-
-  "blood": {
-    "1": ""
+  "portrait" : {
+    "1" : ""
   },
-  "portrait": {
-    "1": ""
+  "birthPlace" : {
+    "1" : "Japan",
+    "2" : "Backrooms"
   }
 }
