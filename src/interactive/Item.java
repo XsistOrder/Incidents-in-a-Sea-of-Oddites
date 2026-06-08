@@ -34,7 +34,7 @@ public class Item extends Button {
     public void mousePressed (MouseEvent e, String action) {
 
         if (game.graphics.clickAllowed(getId())){
-            if (isHoveredOver() && !isPickedUp) {
+            if (isHoveredOver() && game.pickup.equals("")) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     if (action.equals("pickup_syringe")) {
                         System.out.println("syringe");

@@ -16,7 +16,7 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
     private int tick = 0;
-    public String pickup;
+    public String pickup = "";
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
