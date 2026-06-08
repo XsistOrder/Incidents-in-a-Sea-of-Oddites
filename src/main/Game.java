@@ -16,7 +16,7 @@ import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
     private int tick = 0;
-    public String pickup;
+    public String pickup = "";
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
@@ -24,6 +24,10 @@ public class Game extends JPanel{
     public Item magnifyingGlass = new Item(this, 50, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
     public Item laserPointer = new Item(this, 100, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
     public Item questioner = new Item(this, 150, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item acid = new Item(this, 350, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item crucifix = new Item(this, 400, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item flashlight = new Item(this, 450, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Item woodenStake = new Item(this, 500, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
     public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
@@ -44,7 +48,8 @@ public class Game extends JPanel{
             @Override
             public void keyPressed(KeyEvent e) {
 
-                Popup.closeButton.keyPressed(e, "close_" + Popup.getPopup() + "");
+                Popup.closeButton.keyPressed(e, "close_popup");
+                Background.pauseButton.keyPressed(e, "open_pause_popup");
             }
         });
         addMouseListener(new MouseListener() {
@@ -52,17 +57,35 @@ public class Game extends JPanel{
             public void mouseClicked(MouseEvent e) {
 
                 Background.playButton.mousePressed(e,"open_difficulty_popup");
+                Background.resumePlayButton.mousePressed(e, "resume_checkpoint");
+                Background.quitButton.mousePressed(e, "close_game");
                 Background.settingsButton.mousePressed(e, "open_settings_popup");
                 Background.infomationButton.mousePressed(e, "open_information_popup");
-                Popup.diffculty1Button.mousePressed(e, "main_menu_to_checkpoint_menu");
-                //Popup.diffculty2Button.mousePressed(e, "main_menu_to_checkpoint_menu");
-                //Popup.diffculty3Button.mousePressed(e, "main_menu_to_checkpoint_menu");
-                Popup.closeButton.mousePressed(e, "close_" + Popup.getPopup() + "");
+                Background.encyclopediaButton.mousePressed(e, "open_encyclopedia_popup");
+                Background.documentationButton.mousePressed(e, "open_documentation_popup");
+                Background.departButton.mousePressed(e, "depart_oddity");
+                Background.pauseButton.mousePressed(e, "open_pause_popup");
+                Background.newDayButton.mousePressed(e, "open_checkpoint_menu");
+                Background.newGameButton.mousePressed(e, "open_checkpoint_menu");
+                Background.returnMenuButton.mousePressed(e, "");
+                Popup.diffculty1Button.mousePressed(e, "to_checkpoint_menu_difficulty_1");
+                Popup.diffculty2Button.mousePressed(e, "to_checkpoint_menu_difficulty_2");
+                Popup.diffculty3Button.mousePressed(e, "to_checkpoint_menu_difficulty_3");
+                Popup.pagerNextButton.mousePressed(e, "popup_pager_next");
+                Popup.pagerPreviousButton.mousePressed(e, "popup_pager_previous");
+                Popup.pauseSettingsButton.mousePressed(e, "open_settings_popup");
+                Popup.pauseInformationButton.mousePressed(e, "open_information_popup");
+                Popup.quitButton.mousePressed(e, "close_game");
+                Popup.closeButton.mousePressed(e, "close_popup");
                 interrogatedOddity.mousePressed(e, "oddity_clicked");
                 syringe.mousePressed(e, "pickup_syringe");
                 magnifyingGlass.mousePressed(e, "pickup_magnifying_glass");
                 laserPointer.mousePressed(e, "pickup_laser_pointer");
                 questioner.mousePressed(e, "pickup_questioner");
+                acid.mousePressed(e, "pickup_acid");
+                crucifix.mousePressed(e, "pickup_crucifix");
+                flashlight.mousePressed(e, "pickup_flashlight");
+                woodenStake.mousePressed(e, "pickup_wooden_stake");
 
             }
 
@@ -92,26 +115,35 @@ public class Game extends JPanel{
         tick++;
 
 
-        if (Background.getBackground().equals("checkpoint_menu")) {
-            Oddity.askAnimation(tick);
-            Oddity.animation("idle", tick);
+        if (Background.getBackground().equals("checkpoint_menu") ) {
+            Oddity.askAnimation(tick, false);
+            Oddity.loopAnimation("idle", tick);
+
             syringe.trackToMouse();
             magnifyingGlass.trackToMouse();
             laserPointer.trackToMouse();
             questioner.trackToMouse();
+            acid.trackToMouse();
+            crucifix.trackToMouse();
+            flashlight.trackToMouse();
+            woodenStake.trackToMouse();
+
+
             Impatience.fill(tick);
             CheckpointHealth.checkCheckpointHealth();
             Background.clock.tick(tick, 20);
+
+            if (Background.clock.isFinished() && Oddity.getTicked()==0) {
+                Background.changeBackground("results_menu");
+            }
         }
-        if (Background.clock.isFinished()) {
-            Background.changeBackground("results_menu");
-        }
+
 
 
         if (tick >= 40) {
             tick = 0;
         }
-        //System.out.println(graphics.nextId);
+        //System.out.println(CheckpointHealth.getCheckpointHealth());
     }
     public void paint(Graphics g) {
         super.paint(g);

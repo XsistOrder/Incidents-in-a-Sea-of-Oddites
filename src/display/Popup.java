@@ -1,6 +1,7 @@
 package display;
 
 import interactive.Button;
+import interactive.Oddity;
 import interactive.Slider;
 import main.Game;
 
@@ -10,11 +11,19 @@ public class Popup {
     private static String setting = "settings_popup";
     private static int id;
     private static int id2;
+    private static int currentInformationPage = 1;
+    private static int currentEncyclopediaPage = 1;
     private static Game game;
     public static Button closeButton;
     public static Button diffculty1Button;
     public static Button diffculty2Button;
     public static Button diffculty3Button;
+    public static Button pagerNextButton;
+    public static Button pagerPreviousButton;
+    public static Button pauseSettingsButton;
+    public static Button pauseInformationButton;
+    public static Button quitButton;
+
     private static int musicText;
     private static int SFXText;
 
@@ -24,13 +33,24 @@ public class Popup {
         id2 = game.graphics.addObject(0,0, 1000, 700,"res\\textures\\menus\\popup_overlay.png", 19, false);
         game.graphics.setAlpha(id2, 0.5f);
         closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
+
         diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
         diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+
+        pagerNextButton = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        pagerPreviousButton = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+
+        pauseSettingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+        pauseInformationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
+        quitButton = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+
+
         musicText = game.graphics.addText("Music Volume", 175, 225, 25, Color.WHITE, 25, false);
         SFXText = game.graphics.addText("SFX Volume", 175, 325, 25, Color.WHITE, 25, false);
         Slider musicVolume = new Slider(game, 150, 250, 250, 10, 0, 100, 25, true, true);
         Slider SFXVolume = new Slider(game, 150, 350, 250, 10, 0, 100, 25, true, true);
+
         game.graphics.createGroup("settings_popup_buttons");
         game.graphics.addToGroup("settings_popup_buttons", closeButton.getId());
         game.graphics.addToGroup("settings_popup_buttons", musicVolume.getFillId());
@@ -69,15 +89,22 @@ public class Popup {
 
         game.graphics.createGroup("pause_popup_buttons");
         game.graphics.addToGroup("pause_popup_buttons", closeButton.getId());
+        game.graphics.addToGroup("pause_popup_buttons", pauseSettingsButton.getId());
+        game.graphics.addToGroup("pause_popup_buttons", pauseInformationButton.getId());
+        game.graphics.addToGroup("pause_popup_buttons", quitButton.getId());
 
         game.graphics.createGroup("information_popup_buttons");
         game.graphics.addToGroup("information_popup_buttons", closeButton.getId());
+        game.graphics.addToGroup("information_popup_buttons", pagerNextButton.getId());
+        game.graphics.addToGroup("information_popup_buttons", pagerPreviousButton.getId());
 
         game.graphics.createGroup("documentation_popup_buttons");
         game.graphics.addToGroup("documentation_popup_buttons", closeButton.getId());
 
         game.graphics.createGroup("encyclopedia_popup_buttons");
         game.graphics.addToGroup("encyclopedia_popup_buttons", closeButton.getId());
+        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerNextButton.getId());
+        game.graphics.addToGroup("encyclopedia_popup_buttons", pagerPreviousButton.getId());
 
         game.graphics.createGroup("all_popup_buttons");
         game.graphics.mergeIntoGroup("settings_popup_buttons", "all_popup_buttons");
@@ -95,6 +122,7 @@ public class Popup {
         switch (setting) {
 
             case "settings_popup":
+                maxPages=0;
                 game.graphics.setImageDir(id, "res\\textures\\menus\\settings_popup.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
@@ -108,8 +136,10 @@ public class Popup {
 
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+
                 break;
             case "difficulty_popup":
+                maxPages=0;
                 game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_popup.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
@@ -121,8 +151,10 @@ public class Popup {
                 game.graphics.setGroupVisible("difficulty_popup_buttons", visibility);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+
                 break;
             case "pause_popup":
+                maxPages=0;
                 game.graphics.setImageDir(id, "res\\textures\\menus\\pause_popup.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
@@ -133,10 +165,12 @@ public class Popup {
                 game.graphics.setGroupClickable("pause_popup_buttons", visibility);
                 game.graphics.setGroupVisible("pause_popup_buttons", visibility);
 
-                Impatience.pauseFillAndSetVisibility(true,false);
+                Impatience.pauseFillAndSetVisibility(true,true);
+                Oddity.setPaused(true);
                 break;
             case "information_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\information_popup.png");
+                maxPages=4;
+                game.graphics.setImageDir(id, "res\\textures\\menus\\information_popup_"+ currentInformationPage +".png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
 
@@ -147,9 +181,11 @@ public class Popup {
                 game.graphics.setGroupVisible("information_popup_buttons", visibility);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
+
                 break;
             case "documentation_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                maxPages=0;
+                game.graphics.setImageDir(id, "res\\textures\\menus\\documentation_popup.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
 
@@ -162,7 +198,7 @@ public class Popup {
                 Impatience.pauseFillAndSetVisibility(false,true);
                 break;
             case "encyclopedia_popup":
-                game.graphics.setImageDir(id, "res\\textures\\menus\\difficulty_menu.png");
+                game.graphics.setImageDir(id, "res\\textures\\menus\\encyclopedia_popup_"+ currentEncyclopediaPage + ".png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
 
@@ -173,6 +209,7 @@ public class Popup {
                 game.graphics.setGroupVisible("encyclopedia_popup_buttons", visibility);
 
                 Impatience.pauseFillAndSetVisibility(false,true);
+
                 break;
             default:
                 game.graphics.setGroupClickable("" + Background.getBackground() + "_buttons", true);
@@ -184,7 +221,26 @@ public class Popup {
                 break;
         }
     }
-
+    public static void popupNextPage () {
+        if (currentInformationPage < 4 && getPopup().equals("information_popup")) {
+            currentInformationPage++;
+            game.graphics.setImageDir(id, "res\\textures\\menus\\information_popup_"+ currentInformationPage + ".png");
+        }
+        if (currentEncyclopediaPage > 10 && getPopup().equals("encyclopedia_popup")) {
+            currentEncyclopediaPage--;
+            game.graphics.setImageDir(id, "res\\textures\\menus\\encyclopedia_popup_"+ currentEncyclopediaPage + ".png");
+        }
+    }
+    public static void popupPreviousPage () {
+        if (currentInformationPage > 1 && getPopup().equals("information_popup")) {
+            currentInformationPage--;
+            game.graphics.setImageDir(id, "res\\textures\\menus\\information_popup_"+ currentInformationPage + ".png");
+        }
+        if (currentEncyclopediaPage > 1 && getPopup().equals("encyclopedia_popup")) {
+            currentEncyclopediaPage--;
+            game.graphics.setImageDir(id, "res\\textures\\menus\\encyclopedia_popup_"+ currentEncyclopediaPage + ".png");
+        }
+    }
     public static String getPopup() {
 
         return setting;

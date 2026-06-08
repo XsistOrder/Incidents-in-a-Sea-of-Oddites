@@ -8,7 +8,7 @@ public class Impatience {
     private static int id2;
     private static Game game;
     private static boolean paused = true;
-    private static float permanentImpatienceMultiplier = 10.0f;
+    private static float permanentImpatienceMultiplier = 1.0f;
     private static float temporaryImpatienceMultiplier = 1.0f;
 
 
@@ -17,21 +17,23 @@ public class Impatience {
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\non_interactive\\impatience_meter.jpg", 30, true);
         id2 = game.graphics.addObject(x,y, width,  height/100,"res\\textures\\non_interactive\\impatience_meter_fill.jpg", 31, true);
     }
-
+    public static void setPermanentImpatienceMultiplier (float f) {
+        permanentImpatienceMultiplier = f;
+    }
     public static void fill (int tick) {
-        //System.out.println(paused);
+        //System.out.println(permanentImpatienceMultiplier);
         if (!paused) {
             if (tick == 20 || tick == 40) {
-                game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + 1 * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));
+                game.graphics.setHeight(id2, (int) (game.graphics.getHeight(id2) + (game.graphics.getHeight(id)/100) * temporaryImpatienceMultiplier * permanentImpatienceMultiplier));
             }
             if (game.graphics.getHeight(id) <= game.graphics.getHeight(id2)) {
-                System.out.println(CheckpointHealth.getCheckpointHealth());
+                Results.addImpatienceFillResults();
                 if (Oddity.getAggression()) {
                     filledAggressiveOddityReset();
                 } else {
                     filledNormalOddityReset();
                 }
-
+                System.out.println(CheckpointHealth.getCheckpointHealth());
             }
         }
     }
@@ -46,18 +48,19 @@ public class Impatience {
 
     public static void filledAggressiveOddityReset () {
         game.graphics.setHeight(id2, game.graphics.getHeight(id)/100);
-        permanentImpatienceMultiplier = 10.0f;
+        permanentImpatienceMultiplier = 1.0f;
         temporaryImpatienceMultiplier = 1.0f;
         CheckpointHealth.subtractCheckpointHealth();
+        Oddity.askAnimation(0,true);
     }
     public static void filledNormalOddityReset () {
         game.graphics.setHeight(id2, game.graphics.getHeight(id)/100);
-        permanentImpatienceMultiplier = permanentImpatienceMultiplier + 0.5f;
+        permanentImpatienceMultiplier += 0.5f;
         temporaryImpatienceMultiplier = 1.0f;
+        Oddity.askAnimation(0,true);
     }
     public static void reset () {
         game.graphics.setHeight(id2, game.graphics.getHeight(id)/100);
-        permanentImpatienceMultiplier = 1.0f;
         temporaryImpatienceMultiplier = 1.0f;
     }
     public static void pauseFillAndSetVisibility (boolean pause, boolean visibility) {

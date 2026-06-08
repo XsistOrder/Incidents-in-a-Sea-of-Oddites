@@ -1,0 +1,36 @@
+{
+  "1": {
+    "skinColor" : "brown",
+    "eyeColor" : "brown",
+    "eyeDilation" : true,
+    "teethColor" : "yellow",
+    "blood" : "pale_yellow",
+    "portrait" : "1"
+  },
+  "2": {
+    "skinColor" : "beige",
+    "eyeColor" : "brown",
+    "eyeDilation" : true,
+    "teethColor" : "white",
+    "blood" : "red",
+    "portrait" : "2"
+  },
+  "3": {
+    "skinColor" : "brown",
+    "eyeColor" : "blue",
+    "eyeDilation" : true,
+    "teethColor" : "white",
+    "blood" : "red",
+    "portrait" : "1"
+  },
+  "4": {
+    "skinColor" : "beige",
+    "eyeColor" : "blue",
+    "eyeDilation" : true,
+    "teethColor" : "yellow",
+    "blood" : "pale_yellow",
+    "portrait" : "2"
+  },
+  "birthPlace" : "Backrooms",
+  "weakness" : "acid"
+}

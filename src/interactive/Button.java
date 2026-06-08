@@ -1,8 +1,8 @@
 package interactive;
 
+import display.*;
 import display.Popup;
 import main.Game;
-import display.Background;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,11 +46,11 @@ public class Button {
         if (game.graphics.clickAllowed(id)) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
-                if (action.equals("close_settings_popup")) {
-                    Popup.changeAndShowPopup("settings_popup", false);
+                if (action.equals("close_popup")) {
+                    Popup.changeAndShowPopup("", false);
                 }
-                if (action.equals("close_difficulty_popup")) {
-                    Popup.changeAndShowPopup("difficulty_popup", false);
+                if (action.equals("open_pause_popup") && Popup.getPopup().isEmpty()) {
+                    Popup.changeAndShowPopup("pause_popup", true);
                 }
 
             }
@@ -61,36 +61,98 @@ public class Button {
         if (isHoveredOver()) {
             if (game.graphics.clickAllowed(id)) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (action.equals("close_popup")) {
+                        Popup.changeAndShowPopup("", false);
+
+                        if (Background.getBackground().equals("checkpoint_menu")) {
+                            Oddity.setPaused(false);
+                            Impatience.pauseFillAndSetVisibility(false, true);
+                        }
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
                     if (action.equals("open_difficulty_popup")) {
                         Popup.changeAndShowPopup("difficulty_popup", true);
                     }
-                    if (action.equals("close_difficulty_popup")) {
-                        Popup.changeAndShowPopup("", false);
-                        //game.audio.playSFX("res\\music\\click.wav");
-                    }
-                    if (action.equals("main_menu_to_checkpoint_menu") && Background.getBackground().equals("main_menu")) {
+                    if (action.equals("resume_checkpoint")) {
+
+                        //CheckpointHealth.setCheckpointHealth(5);
+                        //Results.setDay();
+                        //Results.setTotalScore();
+                        //Impatience.setPermanentImpatienceMultiplier();
+                        //use action to open a checkpoint with the saved values. make sure to add to the if statement if save even exists
                         Background.changeBackground("checkpoint_menu");
+                    }
+                    if (action.equals("to_checkpoint_menu_difficulty_1")) {
+                        Background.changeBackground("checkpoint_menu");
+                        CheckpointHealth.setCheckpointHealth(5);
+                        Popup.changeAndShowPopup("", false);
+                    }
+                    if (action.equals("to_checkpoint_menu_difficulty_2")) {
+                        Background.changeBackground("checkpoint_menu");
+                        CheckpointHealth.setCheckpointHealth(3);
+                        Popup.changeAndShowPopup("", false);
+                    }
+                    if (action.equals("to_checkpoint_menu_difficulty_3")) {
+                        Background.changeBackground("checkpoint_menu");
+                        CheckpointHealth.setCheckpointHealth(1);
                         Popup.changeAndShowPopup("", false);
                     }
 
                     if (action.equals("open_settings_popup")) {
+                        if (Popup.getPopup().equals("pause_popup")) {
+
+                        }
                         Popup.changeAndShowPopup("settings_popup", true);
-                        //game.audio.playSFX("res\\music\\click.wav");
-                    }
-                    if (action.equals("close_settings_popup")) {
-                        Popup.changeAndShowPopup("", false);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
 
                     if (action.equals("open_information_popup")) {
+                        if (Popup.getPopup().equals("pause_popup")) {
+
+                        }
                         Popup.changeAndShowPopup("information_popup", true);
                         //game.audio.playSFX("res\\music\\click.wav");
                     }
-                    if (action.equals("close_information_popup")) {
-                        Popup.changeAndShowPopup("", false);
-                        //game.audio.playSFX("res\\music\\click.wav");
+                    if (action.equals("popup_pager_next")) {
+                        Popup.popupNextPage();
                     }
+                    if (action.equals("popup_pager_previous")) {
+                        Popup.popupPreviousPage();
+                    }
+                    if (action.equals("open_encyclopedia_popup")) {
+                        Popup.changeAndShowPopup("encyclopedia_popup", true);
+                    }
+                    if (action.equals("open_documentation_popup")) {
+                        Popup.changeAndShowPopup("documentation_popup", true);
+                    }
+                    if (action.equals("open_pause_popup")) {
+                        Popup.changeAndShowPopup("pause_popup", true);
+                    }
+                    if (action.equals("depart_oddity")) {
+                        if (Oddity.getAggression()) {
+                            Impatience.addPermanentFillMultiplier(0.25f);
+                            Impatience.reset();
+                            Oddity.askAnimation(0,true);
+                            Results.addOddityDepartResults(false);
+                        } else {
+                            Impatience.reset();
+                            Oddity.askAnimation(0,true);
+                            Results.addOddityDepartResults(true);
+                        }
+                    }
+                    if (action.equals("close_game")) {
 
+                    }
+                    if (action.equals("open_main_menu")) {
+                        Background.changeBackground("main_menu");
+                    }
+                    if (action.equals("open_checkpoint")) {
+                        Background.changeBackground("checkpoint_menu");
+                    }
+                    if (action.equals("reset_checkpoint")) {
+                        Background.changeBackground("checkpoint_menu");
+                        CheckpointHealth.setCheckpointHealth(CheckpointHealth.getStartingCheckpointHealth());
+                    }
                 }
 
             }

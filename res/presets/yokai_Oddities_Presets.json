@@ -30,5 +30,7 @@
     "teethColor" : "pale_white",
     "blood" : "none",
     "portrait" : "2"
-  }
+  },
+  "birthPlace" : "Japan",
+  "weakness" : "flashlight"
 }
