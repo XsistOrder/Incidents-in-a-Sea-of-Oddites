@@ -15,6 +15,7 @@ public class Background {
     public static Button encyclopediaButton;
     public static Button documentationButton;
     public static Button departButton;
+    public static Button pauseButton;
     public static Clock clock;
     //private static Button
 
@@ -26,7 +27,8 @@ public class Background {
         infomationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         documentationButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-
+        departButton = new Button(game,950,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
+        pauseButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
 
         clock = new Clock(game, 420, 120, 50, 15);
         clock.setTime(7, 0);
@@ -50,6 +52,8 @@ public class Background {
         game.graphics.addToGroup("checkpoint_menu_buttons", game.woodenStake.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", encyclopediaButton.getId());
         game.graphics.addToGroup("checkpoint_menu_buttons", documentationButton.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", departButton.getId());
+        game.graphics.addToGroup("checkpoint_menu_buttons", pauseButton.getId());
         clock.addToGroup("checkpoint_menu_buttons");
 
         game.graphics.createGroup("results_menu_buttons");
@@ -82,6 +86,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                Oddity.setPaused(true);
                 clock.setPaused(true);
                 break;
             case "checkpoint_menu":
@@ -95,6 +100,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(false,true);
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
+                Oddity.setPaused(false);
                 clock.setPaused(false);
                 break;
             case "results_menu":
@@ -108,6 +114,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                Oddity.setPaused(true);
                 clock.setPaused(true);
                 Results.dayReset();
                 break;
@@ -122,6 +129,7 @@ public class Background {
 
                 Impatience.pauseFillAndSetVisibility(true,false);
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
+                Oddity.setPaused(true);
                 clock.setPaused(true);
                 break;
             default:

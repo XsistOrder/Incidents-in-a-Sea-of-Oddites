@@ -1,9 +1,8 @@
 package interactive;
 
-import display.CheckpointHealth;
+import display.*;
 import display.Popup;
 import main.Game;
-import display.Background;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,9 +62,14 @@ public class Button {
             if (game.graphics.clickAllowed(id)) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     if (action.equals("close_popup")) {
-                    Popup.changeAndShowPopup("", false);
-                    //game.audio.playSFX("res\\music\\click.wav");
-                }
+                        Popup.changeAndShowPopup("", false);
+
+                        if (Background.getBackground().equals("checkpoint_menu")) {
+                            Oddity.setPaused(false);
+                            Impatience.pauseFillAndSetVisibility(false, true);
+                        }
+                        //game.audio.playSFX("res\\music\\click.wav");
+                    }
                     if (action.equals("open_difficulty_popup")) {
                         Popup.changeAndShowPopup("difficulty_popup", true);
                     }
@@ -108,6 +112,18 @@ public class Button {
                     }
                     if (action.equals("open_pause_popup")) {
                         Popup.changeAndShowPopup("pause_popup", true);
+                    }
+                    if (action.equals("depart_oddity")) {
+                        if (Oddity.getAggression()) {
+                            Impatience.addPermanentFillMultiplier(0.25f);
+                            Impatience.reset();
+                            Oddity.askAnimation(0,true);
+                            Results.addOddityDepartResults(false);
+                        } else {
+                            Impatience.reset();
+                            Oddity.askAnimation(0,true);
+                            Results.addOddityDepartResults(true);
+                        }
                     }
                 }
 

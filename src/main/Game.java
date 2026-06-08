@@ -49,6 +49,7 @@ public class Game extends JPanel{
             public void keyPressed(KeyEvent e) {
 
                 Popup.closeButton.keyPressed(e, "close_popup");
+                Background.pauseButton.keyPressed(e, "open_pause_popup");
             }
         });
         addMouseListener(new MouseListener() {
@@ -60,6 +61,8 @@ public class Game extends JPanel{
                 Background.infomationButton.mousePressed(e, "open_information_popup");
                 Background.encyclopediaButton.mousePressed(e, "open_encyclopedia_popup");
                 Background.documentationButton.mousePressed(e, "open_documentation_popup");
+                Background.departButton.mousePressed(e, "depart_oddity");
+                Background.pauseButton.mousePressed(e, "open_pause_popup");
                 Popup.diffculty1Button.mousePressed(e, "to_checkpoint_menu_difficulty_1");
                 Popup.diffculty2Button.mousePressed(e, "to_checkpoint_menu_difficulty_2");
                 Popup.diffculty3Button.mousePressed(e, "to_checkpoint_menu_difficulty_3");
@@ -104,9 +107,9 @@ public class Game extends JPanel{
         tick++;
 
 
-        if (Background.getBackground().equals("checkpoint_menu")) {
+        if (Background.getBackground().equals("checkpoint_menu") ) {
             Oddity.askAnimation(tick, false);
-            Oddity.animation("idle", tick);
+            Oddity.loopAnimation("idle", tick);
 
             syringe.trackToMouse();
             magnifyingGlass.trackToMouse();

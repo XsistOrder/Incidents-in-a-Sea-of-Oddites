@@ -18,7 +18,7 @@ public class Oddity extends Button {
     private static int ticked = 0;
     private static boolean isOnscreen = false;
     private static int id;
-    private static boolean clickedInto = false;
+    private static boolean paused = true;
     private static String[] possibleOdditySpecies = {
             "yokai",
             "yokai",
@@ -76,6 +76,10 @@ public class Oddity extends Button {
     }
     public static boolean getAggression () {
         return aggression;
+    }
+
+    public static void setPaused (boolean b) {
+        paused = b;
     }
 
     public static void generate () {
@@ -155,30 +159,33 @@ public class Oddity extends Button {
             System.err.println("oddity preset did not read the bible");
         }
     }
-    public static void animation (String state, int tick) {
+    public static void loopAnimation (String state, int tick) {
+        if (!paused) {
+            switch (state) {
+                case "idle":
+                    game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
+                    if (tick <= 20) {
+                        game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_2.png");
+                    }
+                    break;
+                case "think":
+                    game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\think\\think_1.png");
+                    if (tick <= 20) {
+                        game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\think\\think_2.png");
+                    }
+                    break;
 
-        switch (state) {
-            case "idle" :
-                game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + portrait + "\\idle\\idle_1.png");
-                if (tick <= 20) {
-                    game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + portrait + "\\idle\\idle_2.png");
-                }
-                break;
-            case "think" :
-                game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + portrait + "\\think\\think_1.png");
-                if (tick <= 20) {
-                    game.graphics.setImageDir(id,"res\\textures\\oddities\\" + species +"\\" + portrait + "\\think\\think_2.png");
-                }
-                break;
-
+            }
         }
     }
     public static void askAnimation (int tick, boolean reset) {
-        if (!isOnscreen) {
+        if (!isOnscreen && !paused) {
             //display prompt to let in
             Impatience.pauseFillAndSetVisibility(true, true);
             game.graphics.setClickable(Background.documentationButton.getId(), false);
             game.graphics.setVisible(Background.documentationButton.getId(), false);
+            game.graphics.setClickable(Background.departButton.getId(), false);
+            game.graphics.setVisible(Background.departButton.getId(), false);
             game.graphics.setVisible(id, false);
             game.graphics.setClickable(id, false);
             if (tick == 20) {
@@ -189,6 +196,8 @@ public class Oddity extends Button {
                 Oddity.generate();
                 game.graphics.setClickable(Background.documentationButton.getId(), true);
                 game.graphics.setVisible(Background.documentationButton.getId(), true);
+                game.graphics.setClickable(Background.departButton.getId(), true);
+                game.graphics.setVisible(Background.departButton.getId(), true);
                 Impatience.pauseFillAndSetVisibility(false, true);
                 Results.addToOddityCount();
                 game.graphics.setVisible(id, true);

@@ -1,6 +1,7 @@
 package display;
 
 import interactive.Button;
+import interactive.Oddity;
 import interactive.Slider;
 import main.Game;
 
@@ -155,8 +156,8 @@ public class Popup {
                 game.graphics.setGroupClickable("pause_popup_buttons", visibility);
                 game.graphics.setGroupVisible("pause_popup_buttons", visibility);
 
-                Impatience.pauseFillAndSetVisibility(true,false);
-
+                Impatience.pauseFillAndSetVisibility(true,true);
+                Oddity.setPaused(true);
                 break;
             case "information_popup":
                 maxPages=4;
