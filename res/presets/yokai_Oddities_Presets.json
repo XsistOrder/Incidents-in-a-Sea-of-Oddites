@@ -1,0 +1,35 @@
+{
+  "1": {
+    "skinColor" : "pale_white",
+    "eyeColor" : "black",
+    "eyeDilation" : false,
+    "teethColor" : "pale_white",
+    "blood" : "none",
+    "portrait" : "1"
+  },
+  "2": {
+    "skinColor" : "black",
+    "eyeColor" : "black",
+    "eyeDilation" : false,
+    "teethColor" : "pale_white",
+    "blood" : "none",
+    "portrait" : "2"
+  },
+  "3": {
+    "skinColor" : "pale_white",
+    "eyeColor" : "pale_white",
+    "eyeDilation" : false,
+    "teethColor" : "pale_white",
+    "blood" : "none",
+    "portrait" : "1"
+  },
+  "4": {
+    "skinColor" : "black",
+    "eyeColor" : "pale_white",
+    "eyeDilation" : false,
+    "teethColor" : "pale_white",
+    "blood" : "none",
+    "portrait" : "2"
+  },
+  "weakness" : "flashlight"
+}

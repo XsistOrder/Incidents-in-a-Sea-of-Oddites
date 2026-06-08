@@ -1,0 +1,10 @@
+{
+  "1": {
+    "skinColor" : "simple stat could be anything",
+    "eyeColor" : "simple stat could be anything",
+    "eyeDilation" : false,
+    "teethColor" : "simple stat could be anything",
+    "blood" : "simple stat could be anything",
+    "portrait" : "Used to determine the file path towards the oddities textures"
+  }
+}
