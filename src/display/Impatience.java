@@ -3,9 +3,12 @@ package display;
 import interactive.Oddity;
 import main.Game;
 
+import java.awt.*;
+
 public class Impatience {
     private static int id;
     private static int id2;
+    private static int textId;
     private static Game game;
     private static boolean paused = true;
     private static float permanentImpatienceMultiplier = 1.0f;
@@ -16,6 +19,7 @@ public class Impatience {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\non_interactive\\impatience_meter.jpg", 30, true);
         id2 = game.graphics.addObject(x,y, width,  height/100,"res\\textures\\non_interactive\\impatience_meter_fill.jpg", 31, true);
+        textId = game.graphics.addText("Multiplier = X" + permanentImpatienceMultiplier, x-50, y+100, 20, Color.WHITE, 30, true);
     }
     public static void setPermanentImpatienceMultiplier (float f) {
         permanentImpatienceMultiplier = f;
@@ -40,6 +44,7 @@ public class Impatience {
 
     public static void addPermanentFillMultiplier (float f) {
         permanentImpatienceMultiplier = permanentImpatienceMultiplier + f;
+        game.graphics.setText(textId, "Multiplier = X" + permanentImpatienceMultiplier);
     }
 
     public static void addTemporaryFillMultiplier (float f) {

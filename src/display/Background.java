@@ -29,11 +29,11 @@ public class Background {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_1.png", 0, true);
         id2 = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_2.png", 0, true);
-        playButton = new Button(game,50,100,50,50, "res\\textures\\interactive\\play_button.png", 1,"help me");
-        resumePlayButton = new Button(game,300,50,50,50, "res\\textures\\interactive\\resume_button.png", 1,"help me");
+        playButton = new Button(game,450,275,125,75, "res\\textures\\interactive\\play_button.png", 1,"help me");
+        resumePlayButton = new Button(game,450,200,125,75, "res\\textures\\interactive\\resume_button.png", 1,"help me");
         quitButton = new Button(game,400,50,50,50, "res\\textures\\interactive\\quit_button.png", 1,"help me");
-        settingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\settings_button.png", 1,"placeholder");
-        infomationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\informtation_button.png", 1,"placeholder");
+        settingsButton = new Button(game, 450,350, 125,75, "res\\textures\\interactive\\settings_button.png", 1,"placeholder");
+        infomationButton = new Button(game, 450,425, 125,75, "res\\textures\\interactive\\information_button.png", 1,"placeholder");
         encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         documentationButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
         departButton = new Button(game,950,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
@@ -43,7 +43,7 @@ public class Background {
         returnMenuButton = new Button(game, 500,700, 50,50, "res\\textures\\interactive\\return_main_menu_button.png", 1,"placeholder");
 
         clock = new Clock(game, 420, 120, 50, 15);
-        clock.setTime(7, 0);
+        clock.setTime(1, 5);
         clock.attachHoverListener();
         clock.setVisible(true);
 
@@ -152,6 +152,7 @@ public class Background {
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
                 Oddity.setPaused(true);
                 clock.setPaused(true);
+                Results.totalReset();
                 break;
             default:
                 System.err.println("da background ain't right bro");

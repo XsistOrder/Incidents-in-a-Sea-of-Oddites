@@ -2,7 +2,10 @@ package display;
 
 import main.Game;
 
+import java.awt.*;
+
 public class Results {
+    private static Game game;
     private static int correctlyDispatched;
     private static int incorrectlyDispatched;
     private static int correctlyDeparted;
@@ -15,7 +18,7 @@ public class Results {
     private static int totalScore;
 
     public Results (Game game) {
-
+        this.game = game;
     }
     public static int getDay () {
         return day;
@@ -62,7 +65,15 @@ public class Results {
         totalScore += dayScore;
         System.out.println(dayScore);
 
-        //Game.graphics.
+        game.graphics.addText("Total Score: " + totalScore, 50, 100, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Daily Score: " + dayScore, 50, 150, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Oddities Successfully Dispatched: " + correctlyDispatched, 50, 200, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Oddities Successfully Departed: " + correctlyDeparted, 50, 250, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Oddities Incorrectly Dispatched: " + incorrectlyDispatched, 50, 300, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Oddities Incorrectly Departed: " + incorrectlyDeparted, 50, 350, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Impatience filled: " + impatienceFilled, 50, 400, 20, Color.WHITE, 25, true);
+        game.graphics.addText("Item Usage: " + interrogationItemUsage, 50, 450, 20, Color.WHITE, 25, true);
+        game.graphics.addText("DAY " + day, 300, 50, 100, new Color(140, 20, 11), 25, true);
     }
 
     public static void totalReset () {

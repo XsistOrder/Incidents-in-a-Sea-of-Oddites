@@ -32,6 +32,7 @@ public class Game extends JPanel{
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
     private Impatience impatienceMeter = new Impatience(this,700,350, 50,100);
+    public Results results = new Results(this);
     public static int gameWidth = 1000;
     public static int gameHeight = 700;
     public Game() {
