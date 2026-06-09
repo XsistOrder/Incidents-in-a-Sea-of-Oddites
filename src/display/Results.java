@@ -61,6 +61,8 @@ public class Results {
         dayScore = (int) (correctlyDeparted + correctlyDispatched) * 100 - (incorrectlyDeparted + incorrectlyDispatched) * 25 - impatienceFilled * 50 - interrogationItemUsage / oddityCount * 25;
         totalScore += dayScore;
         System.out.println(dayScore);
+
+        //Game.graphics.
     }
 
     public static void totalReset () {

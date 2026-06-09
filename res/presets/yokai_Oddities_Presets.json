@@ -31,6 +31,7 @@
     "blood" : "none",
     "portrait" : "2"
   },
+  "age" : "200",
   "birthPlace" : "Japan",
   "weakness" : "flashlight"
 }

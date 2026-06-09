@@ -1,9 +1,6 @@
 package interactive;
 
-import display.Background;
-import display.Impatience;
-import display.Popup;
-import display.Results;
+import display.*;
 import main.Game;
 
 import java.awt.event.KeyEvent;
@@ -168,13 +165,6 @@ public class Oddity extends Button {
                         game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_2.png");
                     }
                     break;
-                case "think":
-                    game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\think\\think_1.png");
-                    if (tick <= 20) {
-                        game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\think\\think_2.png");
-                    }
-                    break;
-
             }
         }
     }
@@ -188,12 +178,14 @@ public class Oddity extends Button {
             game.graphics.setVisible(Background.departButton.getId(), false);
             game.graphics.setVisible(id, false);
             game.graphics.setClickable(id, false);
+            Popup.changeAndShowPopup("", false);
             if (tick == 20) {
                 ticked++;
             }
             if (ticked == 5) {
                 isOnscreen = true;
                 Oddity.generate();
+                Popup.documentation.refresh();
                 game.graphics.setClickable(Background.documentationButton.getId(), true);
                 game.graphics.setVisible(Background.documentationButton.getId(), true);
                 game.graphics.setClickable(Background.departButton.getId(), true);

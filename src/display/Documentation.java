@@ -192,5 +192,32 @@ public class Documentation {
         }
     }
 
+    private String pickDifferent(String[] alternatives, String trueValue) {
+        ArrayList<String> pool = new ArrayList<>();
+        for (String s : alternatives) {
+            if (!s.equalsIgnoreCase(nullSafe(trueValue))) pool.add(s);
+        }
+        if (pool.isEmpty()) return alternatives[0];
+        return pool.get(random.nextInt(pool.size()));
+    }
 
+    private String corruptPlace(String place) {
+        if (place == null || place.isEmpty()) return "unknown";
+        String[] suffixes = {" Valley", " Peaks", " Bay", " Hollow", " Ridge", " Coast", " Wastes"};
+
+        for (String s : suffixes) {
+            if (place.endsWith(s)) {
+                String base = place.substring(0, place.length() - s.length());
+                String newSuffix = suffixes[random.nextInt(suffixes.length)];
+                while (newSuffix.equals(s)) newSuffix = suffixes[random.nextInt(suffixes.length)];
+                return base + newSuffix;
+            }
+        }
+
+        return place + suffixes[random.nextInt(suffixes.length)];
+    }
+
+    private String nullSafe(String s) {
+        return (s == null || s.isEmpty()) ? "unknown" : s;
+    }
 }
