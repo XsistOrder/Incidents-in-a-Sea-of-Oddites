@@ -18,10 +18,12 @@ public class Oddity extends Button {
     private static boolean paused = true;
     private static String[] possibleOdditySpecies = {
             "yokai",
-            "yokai",
-            "yokai"
+            "still_life",
+            "void_based"
     };
     private static Random random = new Random();
+    private static int maxAge;
+    private static int minAge;
 
     private static boolean foundPreset = false;
     private static String species = possibleOdditySpecies[random.nextInt(possibleOdditySpecies.length)];
@@ -136,6 +138,14 @@ public class Oddity extends Button {
                     //System.out.println("stop");
                     foundPreset = false;
                 }
+                if (line.contains("\"age\" :")) {
+                    String subline = line.substring(line.indexOf(':'),line.indexOf('-'));
+                    subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    minAge = Integer.parseInt(subline);
+                    String subline2 = line.substring(line.indexOf('-'));
+                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    maxAge = Integer.parseInt(subline);
+                }
                 if (line.contains("\"weakness\" :")) {
                     weakness = line.substring(line.indexOf(':'));
                     weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
@@ -149,7 +159,7 @@ public class Oddity extends Button {
             br.close();
             aggression = random.nextBoolean();
             System.out.println(aggression);
-            age = random.nextInt(20, 400);
+            age = random.nextInt(minAge, maxAge);
             System.out.println(age);
         }
         catch(IOException e) {

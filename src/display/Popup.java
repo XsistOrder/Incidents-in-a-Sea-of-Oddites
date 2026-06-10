@@ -31,29 +31,29 @@ public class Popup {
 
     public Popup(Game game, int x, int y, int width, int height) {
         this.game = game;
-        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_popup.png", 20, false);
-        id2 = game.graphics.addObject(0,0, 1000, 700,"res\\textures\\menus\\popup_overlay.png", 19, false);
+        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\settings_popup.png", 21, false);
+        id2 = game.graphics.addObject(0,0, 1000, 700,"res\\textures\\menus\\popup_overlay.png", 20, false);
         game.graphics.setAlpha(id2, 0.5f);
-        closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 25, "helphelphelp");
+        closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 22, "helphelphelp");
 
-        diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
-        diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
-        diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        diffculty1Button = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 22, "helphelphelp");
+        diffculty2Button = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 22, "helphelphelp");
+        diffculty3Button = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 22, "helphelphelp");
 
-        pagerNextButton = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        pagerNextButton = new Button(game, 600,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 22, "helphelphelp");
         pagerPreviousButton = new Button(game, 400,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
 
-        pauseSettingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\settings_button.png", 1,"placeholder");
-        pauseInformationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\information_button.png", 1,"placeholder");
-        quitButton = new Button(game, 200,200,200,200, "res\\textures\\interactive\\difficulty_1_button.jpg", 25, "helphelphelp");
+        pauseSettingsButton = new Button(game, 120,120, 50,50, "res\\textures\\interactive\\settings_button.png", 22,"placeholder");
+        pauseInformationButton = new Button(game, 200,200, 50,50, "res\\textures\\interactive\\information_button.png", 22,"placeholder");
+        quitButton = new Button(game, 200,200,200,200, "res\\textures\\interactive\\quit_button.png", 22, "helphelphelp");
 
 
-        musicText = game.graphics.addText("Music Volume", 175, 225, 25, Color.WHITE, 25, false);
-        SFXText = game.graphics.addText("SFX Volume", 175, 325, 25, Color.WHITE, 25, false);
-        Slider musicVolume = new Slider(game, 150, 250, 250, 10, 0, 100, 25, true, true);
-        Slider SFXVolume = new Slider(game, 150, 350, 250, 10, 0, 100, 25, true, true);
+        musicText = game.graphics.addText("Music Volume", 175, 225, 25, Color.WHITE, 22, false);
+        SFXText = game.graphics.addText("SFX Volume", 175, 325, 25, Color.WHITE, 22, false);
+        Slider musicVolume = new Slider(game, 150, 250, 250, 10, 0, 100, 22, true, true);
+        Slider SFXVolume = new Slider(game, 150, 350, 250, 10, 0, 100, 22, true, true);
 
-        documentation = new Documentation(game,x,y,20,5,25);
+        documentation = new Documentation(game,x,y,20,5,22);
 
         game.graphics.createGroup("settings_popup_buttons");
         game.graphics.addToGroup("settings_popup_buttons", closeButton.getId());

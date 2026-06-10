@@ -27,22 +27,22 @@ public class Background {
 
     public Background(Game game, int x, int y, int width, int height) {
         this.game = game;
-        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_1.png", 0, true);
-        id2 = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_2.png", 0, true);
-        playButton = new Button(game,450,275,125,75, "res\\textures\\interactive\\play_button.png", 1,"help me");
-        resumePlayButton = new Button(game,450,200,125,75, "res\\textures\\interactive\\resume_button.png", 1,"help me");
-        quitButton = new Button(game,400,50,50,50, "res\\textures\\interactive\\quit_button.png", 1,"help me");
-        settingsButton = new Button(game, 450,350, 125,75, "res\\textures\\interactive\\settings_button.png", 1,"placeholder");
-        infomationButton = new Button(game, 450,425, 125,75, "res\\textures\\interactive\\information_button.png", 1,"placeholder");
-        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-        documentationButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\button.jpg", 1,"placeholder");
-        departButton = new Button(game,950,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
-        pauseButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 1,"help me");
-        newDayButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_day_button.png", 1,"placeholder");
-        newGameButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_game_button.png", 1,"placeholder");
-        returnMenuButton = new Button(game, 500,700, 50,50, "res\\textures\\interactive\\return_main_menu_button.png", 1,"placeholder");
+        id = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_backdrop.png", 0, true);
+        id2 = game.graphics.addObject(x,y,width, height,"res\\textures\\menus\\main_menu_foreground_1.png", 10, true);
+        playButton = new Button(game,525,200,125,75, "res\\textures\\interactive\\play_button.png", 11,"help me");
+        resumePlayButton = new Button(game,375,200,125,75, "res\\textures\\interactive\\resume_button.png", 11,"help me");
+        quitButton = new Button(game,450,350,125,75, "res\\textures\\interactive\\quit_button.png", 11,"help me");
+        settingsButton = new Button(game, 525,275, 125,75, "res\\textures\\interactive\\settings_button.png", 11,"placeholder");
+        infomationButton = new Button(game, 375,275, 125,75, "res\\textures\\interactive\\information_button.png", 11,"placeholder");
+        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 11,"placeholder");
+        documentationButton = new Button(game, 450,430, 80,80, "res\\textures\\interactive\\documentation_button.png", 11,"placeholder");
+        departButton = new Button(game,950,500,50,50, "res\\textures\\interactive\\depart_button_1.png", 11,"help me");
+        pauseButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 11,"help me");
+        newDayButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_day_button.png", 11,"placeholder");
+        newGameButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_game_button.png", 11,"placeholder");
+        returnMenuButton = new Button(game, 500,700, 50,50, "res\\textures\\interactive\\return_main_menu_button.png", 11,"placeholder");
 
-        clock = new Clock(game, 420, 120, 50, 15);
+        clock = new Clock(game, 420, 120, 50, 11);
         clock.setTime(1, 5);
         clock.attachHoverListener();
         clock.setVisible(true);
@@ -93,8 +93,8 @@ public class Background {
         switch (setting) {
 
             case "main_menu":
-                game.graphics.setImageDir(id,"res\\textures\\menus\\main_menu_1.png");
-                game.graphics.setImageDir(id2,"res\\textures\\menus\\main_menu_2.png");
+                game.graphics.setImageDir(id,"res\\textures\\menus\\main_menu_backdrop.png");
+                game.graphics.setImageDir(id2,"res\\textures\\menus\\main_menu_foreground_1.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
                 game.graphics.setGroupVisible("all_menu_buttons", false);
@@ -108,8 +108,8 @@ public class Background {
                 clock.setPaused(true);
                 break;
             case "checkpoint_menu":
-                game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu_1.png");
-                game.graphics.setImageDir(id2,"res\\textures\\menus\\checkpoint_menu_2.png");
+                game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu_backdrop_1.png");
+                game.graphics.setImageDir(id2,"res\\textures\\menus\\checkpoint_menu_foreground.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
                 game.graphics.setGroupVisible("all_menu_buttons", false);
@@ -123,8 +123,8 @@ public class Background {
                 clock.setPaused(false);
                 break;
             case "results_menu":
-                game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_1.png");
-                game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_2.png");
+                game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_backdrop.png");
+                game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_1.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
                 game.graphics.setGroupVisible("all_menu_buttons", false);
@@ -139,8 +139,8 @@ public class Background {
                 Results.dayReset();
                 break;
             case "game_over_menu":
-                game.graphics.setImageDir(id,"res\\textures\\menus\\gameover_menu_1.png");
-                game.graphics.setImageDir(id2,"res\\textures\\menus\\gameover_menu_2.png");
+                game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_backdrop.png");
+                game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_1.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
                 game.graphics.setGroupVisible("all_menu_buttons", false);

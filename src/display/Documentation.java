@@ -4,6 +4,9 @@ import interactive.Oddity;
 import main.Game;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -44,6 +47,13 @@ public class Documentation {
 
     private final ArrayList<Integer> allIds = new ArrayList<>();
 
+    private static String falseSkinColor;
+    private static String falseEyeColor;
+    private static boolean falseEyeDilation;
+    private static String falseTeethColor;
+    private static String falseBlood;
+    private static String falseAge;
+    private static String falseBirthPlace;
     private static final String[] ALT_SKIN_COLORS = {"pale", "grey", "green", "blue", "tan", "charcoal", "ivory", "rust"};
     private static final String[] ALT_EYE_COLORS = {"red", "yellow", "white", "violet", "black", "silver", "amber", "cyan"};
     private static final String[] ALT_TEETH_COLORS = {"white", "black", "yellow", "grey", "crimson", "brown", "ivory", "silver"};
@@ -78,17 +88,17 @@ public class Documentation {
 
     public void refresh() {
 
-        String trueSpecies = "Species: yokai"; //species isn't a public getter
-        String trueSkinColor = "Skin: " + nullSafe(Oddity.getSkinColor());
-        String trueEyeColor = "Eyes: " + nullSafe(Oddity.getEyeColor());
-        String trueEyeDilation = "Dilation: " + (Oddity.getEyeDilation() ? "dilated" : "normal");
-        String trueTeethColor = "Teeth: " + nullSafe(Oddity.getTeethColor());
+        //String trueSpecies = "Species: " + ; //species isn't a public getter
+        String trueSkinColor = "Skin Color: " + nullSafe(Oddity.getSkinColor());
+        String trueEyeColor = "Eye Color: " + nullSafe(Oddity.getEyeColor());
+        String trueEyeDilation = "Eye Dilation: " + (Oddity.getEyeDilation() ? "dilated" : "normal");
+        String trueTeethColor = "Teeth Color: " + nullSafe(Oddity.getTeethColor());
         String trueBlood = "Blood: " + nullSafe(Oddity.getBlood());
         String trueAge = "Age: " + Oddity.getAge();
-        String trueBirthPlace = "Origin: " + nullSafe(Oddity.getBirthPlace());
+        String trueBirthPlace = "Birth Place: " + nullSafe(Oddity.getBirthPlace());
 
         String[] lines = {
-                trueSpecies,
+                //trueSpecies,
                 trueSkinColor,
                 trueEyeColor,
                 trueEyeDilation,
@@ -219,5 +229,91 @@ public class Documentation {
 
     private String nullSafe(String s) {
         return (s == null || s.isEmpty()) ? "unknown" : s;
+    }
+
+    private void setFalse () {
+
+        try {
+            FileReader fr = new FileReader("res\\presets\\false_Oddity_Stats.json");
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+
+            while ((line=br.readLine()) != null) {
+
+                if (line.contains("\"" + presetPick + "\"")) {
+                    foundPreset = true;
+                }
+                if (line.contains("\"skinColor\" :") && foundPreset) {
+                    skinColor = line.substring(line.indexOf(':'));
+                    skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    //System.out.println(skinColor);
+                }
+                if (line.contains("\"eyeColor\" :") && foundPreset) {
+                    eyeColor = line.substring(line.indexOf(':'));
+                    eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    //System.out.println(eyeColor);
+                }
+                if (line.contains("\"eyeDilation\" :") && foundPreset) {
+                    String lineSub = line.substring(line.indexOf(':'));
+                    lineSub = lineSub.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    switch (lineSub) {
+                        case "true" :
+                            eyeDialation = true;
+                            break;
+                        case "false" :
+                            eyeDialation = false;
+                            break;
+
+                    }
+                    //System.out.println(eyeDialation);
+                }
+                if (line.contains("\"teethColor\" :") && foundPreset) {
+                    teethColor = line.substring(line.indexOf(':'));
+                    teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    //System.out.println(teethColor);
+                }
+                if (line.contains("\"blood\" :") && foundPreset) {
+                    blood = line.substring(line.indexOf(':'));
+                    blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    //System.out.println(blood);
+                }
+                if (line.contains("\"portrait\" :") && foundPreset) {
+                    portrait = line.substring(line.indexOf(':'));
+                    portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
+                    //System.out.println(game.graphics.getImageDir(id));
+                }
+                if (line.contains(" }") && foundPreset) {
+
+                    //System.out.println("stop");
+                    foundPreset = false;
+                }
+                if (line.contains("\"age\" :")) {
+                    String subline = line.substring(line.indexOf(':'),line.indexOf('-'));
+                    subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    minAge = Integer.parseInt(subline);
+                    String subline2 = line.substring(line.indexOf('-'));
+                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    maxAge = Integer.parseInt(subline);
+                }
+                if (line.contains("\"weakness\" :")) {
+                    weakness = line.substring(line.indexOf(':'));
+                    weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                }
+                if (line.contains("\"birthPlace\" :")) {
+                    birthPlace = line.substring(line.indexOf(':'));
+                    birthPlace = birthPlace.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                }
+
+            }
+            br.close();
+            aggression = random.nextBoolean();
+            System.out.println(aggression);
+            age = random.nextInt(minAge, maxAge);
+            System.out.println(age);
+        }
+        catch(IOException e) {
+            System.err.println("oddity preset did not read the bible");
+        }
     }
 }

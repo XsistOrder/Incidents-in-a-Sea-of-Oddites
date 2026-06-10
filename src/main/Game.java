@@ -19,15 +19,15 @@ public class Game extends JPanel{
     public String pickup = "";
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
-    public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 2);
-    public Item syringe = new Item(this, 0, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item magnifyingGlass = new Item(this, 50, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item laserPointer = new Item(this, 100, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item questioner = new Item(this, 150, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item acid = new Item(this, 350, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item crucifix = new Item(this, 400, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item flashlight = new Item(this, 450, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
-    public Item woodenStake = new Item(this, 500, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 2, "gulp");
+    public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 1);
+    public Item syringe = new Item(this, 100, 550, 120, 120, "res\\textures\\interactive\\syringe_item.png", 11, "gulp");
+    public Item magnifyingGlass = new Item(this, 350, 550, 120, 120, "res\\textures\\interactive\\magnifying_glass_item.png", 11, "gulp");
+    public Item laserPointer = new Item(this, 600, 550, 120, 120, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item questioner = new Item(this, 850, 550, 120, 120, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item acid = new Item(this, 350, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item crucifix = new Item(this, 400, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item flashlight = new Item(this, 450, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item woodenStake = new Item(this, 500, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
     public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details();
@@ -37,7 +37,8 @@ public class Game extends JPanel{
     public static int gameHeight = 700;
     public Game() {
         //controls menu you start on
-        Background.changeBackground("main_menu");
+        Background.changeBackground("checkpoint_menu");
+        Popup.changeAndShowPopup("", false);
 
         addKeyListener(new KeyListener() {
             @Override
@@ -56,19 +57,6 @@ public class Game extends JPanel{
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                Background.playButton.mousePressed(e,"open_difficulty_popup");
-                Background.resumePlayButton.mousePressed(e, "resume_checkpoint");
-                Background.quitButton.mousePressed(e, "close_game");
-                Background.settingsButton.mousePressed(e, "open_settings_popup");
-                Background.infomationButton.mousePressed(e, "open_information_popup");
-                Background.encyclopediaButton.mousePressed(e, "open_encyclopedia_popup");
-                Background.documentationButton.mousePressed(e, "open_documentation_popup");
-                Background.departButton.mousePressed(e, "depart_oddity");
-                Background.pauseButton.mousePressed(e, "open_pause_popup");
-                Background.newDayButton.mousePressed(e, "open_checkpoint_menu");
-                Background.newGameButton.mousePressed(e, "open_checkpoint_menu");
-                Background.returnMenuButton.mousePressed(e, "");
                 Popup.diffculty1Button.mousePressed(e, "to_checkpoint_menu_difficulty_1");
                 Popup.diffculty2Button.mousePressed(e, "to_checkpoint_menu_difficulty_2");
                 Popup.diffculty3Button.mousePressed(e, "to_checkpoint_menu_difficulty_3");
@@ -87,6 +75,19 @@ public class Game extends JPanel{
                 crucifix.mousePressed(e, "pickup_crucifix");
                 flashlight.mousePressed(e, "pickup_flashlight");
                 woodenStake.mousePressed(e, "pickup_wooden_stake");
+                Background.playButton.mousePressed(e,"open_difficulty_popup");
+                Background.resumePlayButton.mousePressed(e, "resume_checkpoint");
+                Background.quitButton.mousePressed(e, "close_game");
+                Background.settingsButton.mousePressed(e, "open_settings_popup");
+                Background.infomationButton.mousePressed(e, "open_information_popup");
+                Background.encyclopediaButton.mousePressed(e, "open_encyclopedia_popup");
+                Background.documentationButton.mousePressed(e, "open_documentation_popup");
+                Background.departButton.mousePressed(e, "depart_oddity");
+                Background.pauseButton.mousePressed(e, "open_pause_popup");
+                Background.newDayButton.mousePressed(e, "open_checkpoint_menu");
+                Background.newGameButton.mousePressed(e, "open_checkpoint_menu");
+                Background.returnMenuButton.mousePressed(e, "");
+
 
             }
 
@@ -114,7 +115,6 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
-
 
         if (Background.getBackground().equals("checkpoint_menu") ) {
             Oddity.askAnimation(tick, false);

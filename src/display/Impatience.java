@@ -8,6 +8,7 @@ import java.awt.*;
 public class Impatience {
     private static int id;
     private static int id2;
+    private static int id3;
     private static int textId;
     private static Game game;
     private static boolean paused = true;
@@ -17,9 +18,10 @@ public class Impatience {
 
     public Impatience (Game game, int x, int y, int width, int height) {
         this.game = game;
-        id = game.graphics.addObject(x,y,width, height,"res\\textures\\non_interactive\\impatience_meter.jpg", 30, true);
-        id2 = game.graphics.addObject(x,y, width,  height/100,"res\\textures\\non_interactive\\impatience_meter_fill.jpg", 31, true);
-        textId = game.graphics.addText("Multiplier = X" + permanentImpatienceMultiplier, x-50, y+100, 20, Color.WHITE, 30, true);
+        id = game.graphics.addObject(x,y,width, height,"res\\textures\\non_interactive\\impatience_foreground.png", 3, true);
+        id2 = game.graphics.addObject(x,y, width,  height/100,"res\\textures\\non_interactive\\impatience_fill.png", 2, true);
+        id3 = game.graphics.addObject(x,y, width,  height,"res\\textures\\non_interactive\\impatience_backdrop.png", 1, true);
+        textId = game.graphics.addText("X " + permanentImpatienceMultiplier, x-50, y+100, 20, Color.WHITE, 11, true);
     }
     public static void setPermanentImpatienceMultiplier (float f) {
         permanentImpatienceMultiplier = f;
@@ -77,10 +79,14 @@ public class Impatience {
         if (visibility) {
             game.graphics.setVisible(id, true);
             game.graphics.setVisible(id2, true);
+            game.graphics.setVisible(id3, true);
+            game.graphics.setVisible(textId, true);
         } else {
             paused = true;
             game.graphics.setVisible(id, false);
             game.graphics.setVisible(id2, false);
+            game.graphics.setVisible(id3, false);
+            game.graphics.setVisible(textId, false);
         }
     }
 }
