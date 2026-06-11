@@ -34,7 +34,7 @@ public class Background {
         quitButton = new Button(game,450,350,125,75, "res\\textures\\interactive\\quit_button.png", 11,"help me");
         settingsButton = new Button(game, 525,275, 125,75, "res\\textures\\interactive\\settings_button.png", 11,"placeholder");
         infomationButton = new Button(game, 375,275, 125,75, "res\\textures\\interactive\\information_button.png", 11,"placeholder");
-        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\button.jpg", 11,"placeholder");
+        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\encyclopedia_button.png", 11,"placeholder");
         documentationButton = new Button(game, 450,430, 80,80, "res\\textures\\interactive\\documentation_button.png", 11,"placeholder");
         departButton = new Button(game,950,500,50,50, "res\\textures\\interactive\\depart_button_1.png", 11,"help me");
         pauseButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 11,"help me");
@@ -106,6 +106,14 @@ public class Background {
                 game.graphics.setVisible(CheckpointHealth.getId(), false);
                 Oddity.setPaused(true);
                 clock.setPaused(true);
+                game.save.load();
+                if (game.save.getInt("current_day", 1) == 1) {
+                    game.graphics.setClickable(resumePlayButton.getId(), false);
+                    game.graphics.setAlpha(resumePlayButton.getId(), 0.5f);
+                } else {
+                    //game.graphics.setClickable(resumePlayButton.getId(), true);
+                    game.graphics.setAlpha(resumePlayButton.getId(), 1.0f);
+                }
                 break;
             case "checkpoint_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu_backdrop_1.png");
@@ -121,6 +129,7 @@ public class Background {
                 game.graphics.setVisible(CheckpointHealth.getId(), true);
                 Oddity.setPaused(false);
                 clock.setPaused(false);
+
                 break;
             case "results_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_backdrop.png");
@@ -137,6 +146,7 @@ public class Background {
                 Oddity.setPaused(true);
                 clock.setPaused(true);
                 Results.dayReset();
+                Popup.changeAndShowPopup("", false);
                 break;
             case "game_over_menu":
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_backdrop.png");
@@ -153,6 +163,7 @@ public class Background {
                 Oddity.setPaused(true);
                 clock.setPaused(true);
                 Results.totalReset();
+                Popup.changeAndShowPopup("", false);
                 break;
             default:
                 System.err.println("da background ain't right bro");
@@ -163,5 +174,18 @@ public class Background {
     public static String getBackground() {
 
         return setting;
+    }
+
+    public static void loopAnimation (String anim, int tick) {
+
+            switch (anim) {
+                case "main_menu":
+                    game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_1.png");
+                    if (tick <= 20) {
+                        game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_2.png");
+                    }
+                    break;
+            }
+
     }
 }

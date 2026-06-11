@@ -131,6 +131,18 @@ public class Details {
     }
 
     private boolean isOverObject(int id, int mx, int my) {
-
+        if (!game.graphics.getVisibility(id)) return false;
+        int ox = game.graphics.getX(id);
+        int oy = game.graphics.getY(id);
+        int ow = game.graphics.getWidth(id);
+        int oh = game.graphics.getHeight(id);
+        return mx >= ox && mx <= ox + ow && my >= oy && my <= oy + oh;
     }
+
+    private boolean isOverItemAtRest(Item item, int mx, int my) {
+        if (!game.pickup.isEmpty()) return false;
+        return isOverObject(item.getId(), mx, my);
+    }
+
+    public int getLabelId() { return labelId; }
 }

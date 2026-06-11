@@ -74,10 +74,12 @@ public class Button {
                         Popup.changeAndShowPopup("difficulty_popup", true);
                     }
                     if (action.equals("resume_checkpoint")) {
-
+                        game.save.load();
                         //CheckpointHealth.setCheckpointHealth(5);
-                        //Results.setDay();
+                        Results.setDay(game.save.getInt("current_day", 1));
                         //Results.setTotalScore();
+                        //Results.setTotalCorrectlyDispatched();
+                        //Results.setTotalIncorrectlyDispatched();
                         //Impatience.setPermanentImpatienceMultiplier();
                         //use action to open a checkpoint with the saved values. make sure to add to the if statement if save even exists
                         Background.changeBackground("checkpoint_menu");
@@ -141,7 +143,7 @@ public class Button {
                         }
                     }
                     if (action.equals("close_game")) {
-
+                        System.exit(1);
                     }
                     if (action.equals("open_main_menu")) {
                         Background.changeBackground("main_menu");

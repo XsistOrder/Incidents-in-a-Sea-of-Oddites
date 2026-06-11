@@ -31,6 +31,7 @@ public class CheckpointHealth {
     public static void checkCheckpointHealth () {
         if (checkpointHealth <= 0) {
             Background.changeBackground("game_over_menu");
+            Results.gameOver();
         }
     }
 }

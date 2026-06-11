@@ -18,8 +18,7 @@ public class Oddity extends Button {
     private static boolean paused = true;
     private static String[] possibleOdditySpecies = {
             "yokai",
-            "still_life",
-            "void_based"
+            "yokai"
     };
     private static Random random = new Random();
     private static int maxAge;
@@ -52,6 +51,7 @@ public class Oddity extends Button {
         return id;
     }
     public static int getTicked () {return ticked; }
+    public static String getSpecies () {return species; }
     public static String getSkinColor () {
         return skinColor;
     }
@@ -143,8 +143,10 @@ public class Oddity extends Button {
                     subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
                     minAge = Integer.parseInt(subline);
                     String subline2 = line.substring(line.indexOf('-'));
-                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    maxAge = Integer.parseInt(subline);
+                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("-", "");
+                    maxAge = Integer.parseInt(subline2);
+                    System.out.println(maxAge);
+                    System.out.println(minAge);
                 }
                 if (line.contains("\"weakness\" :")) {
                     weakness = line.substring(line.indexOf(':'));

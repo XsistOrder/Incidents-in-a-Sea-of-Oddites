@@ -88,7 +88,7 @@ public class Documentation {
 
     public void refresh() {
 
-        //String trueSpecies = "Species: " + ; //species isn't a public getter
+        String trueSpecies = "Species: " + nullSafe(Oddity.getSpecies());
         String trueSkinColor = "Skin Color: " + nullSafe(Oddity.getSkinColor());
         String trueEyeColor = "Eye Color: " + nullSafe(Oddity.getEyeColor());
         String trueEyeDilation = "Eye Dilation: " + (Oddity.getEyeDilation() ? "dilated" : "normal");
@@ -98,7 +98,7 @@ public class Documentation {
         String trueBirthPlace = "Birth Place: " + nullSafe(Oddity.getBirthPlace());
 
         String[] lines = {
-                //trueSpecies,
+                trueSpecies,
                 trueSkinColor,
                 trueEyeColor,
                 trueEyeDilation,
@@ -114,12 +114,11 @@ public class Documentation {
 
         game.graphics.setText(idSpecies, lines[0]);
         game.graphics.setText(idSkinColor, lines[1]);
-        game.graphics.setText(idSkinColor, lines[2]);
-        game.graphics.setText(idEyeDilation, lines[3]);
-        game.graphics.setText(idTeethColor, lines[4]);
-        game.graphics.setText(idBlood, lines[5]);
-        game.graphics.setText(idAge, lines[6]);
-        game.graphics.setText(idBirthPlace, lines[7]);
+        game.graphics.setText(idEyeDilation, lines[2]);
+        game.graphics.setText(idTeethColor, lines[3]);
+        game.graphics.setText(idBlood, lines[4]);
+        game.graphics.setText(idAge, lines[5]);
+        game.graphics.setText(idBirthPlace, lines[6]);
     }
 
     public void setVisible(boolean visible) {
@@ -231,89 +230,4 @@ public class Documentation {
         return (s == null || s.isEmpty()) ? "unknown" : s;
     }
 
-    private void setFalse () {
-
-        try {
-            FileReader fr = new FileReader("res\\presets\\false_Oddity_Stats.json");
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-
-            while ((line=br.readLine()) != null) {
-
-                if (line.contains("\"" + presetPick + "\"")) {
-                    foundPreset = true;
-                }
-                if (line.contains("\"skinColor\" :") && foundPreset) {
-                    skinColor = line.substring(line.indexOf(':'));
-                    skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    //System.out.println(skinColor);
-                }
-                if (line.contains("\"eyeColor\" :") && foundPreset) {
-                    eyeColor = line.substring(line.indexOf(':'));
-                    eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    //System.out.println(eyeColor);
-                }
-                if (line.contains("\"eyeDilation\" :") && foundPreset) {
-                    String lineSub = line.substring(line.indexOf(':'));
-                    lineSub = lineSub.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    switch (lineSub) {
-                        case "true" :
-                            eyeDialation = true;
-                            break;
-                        case "false" :
-                            eyeDialation = false;
-                            break;
-
-                    }
-                    //System.out.println(eyeDialation);
-                }
-                if (line.contains("\"teethColor\" :") && foundPreset) {
-                    teethColor = line.substring(line.indexOf(':'));
-                    teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    //System.out.println(teethColor);
-                }
-                if (line.contains("\"blood\" :") && foundPreset) {
-                    blood = line.substring(line.indexOf(':'));
-                    blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    //System.out.println(blood);
-                }
-                if (line.contains("\"portrait\" :") && foundPreset) {
-                    portrait = line.substring(line.indexOf(':'));
-                    portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
-                    //System.out.println(game.graphics.getImageDir(id));
-                }
-                if (line.contains(" }") && foundPreset) {
-
-                    //System.out.println("stop");
-                    foundPreset = false;
-                }
-                if (line.contains("\"age\" :")) {
-                    String subline = line.substring(line.indexOf(':'),line.indexOf('-'));
-                    subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    minAge = Integer.parseInt(subline);
-                    String subline2 = line.substring(line.indexOf('-'));
-                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                    maxAge = Integer.parseInt(subline);
-                }
-                if (line.contains("\"weakness\" :")) {
-                    weakness = line.substring(line.indexOf(':'));
-                    weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                }
-                if (line.contains("\"birthPlace\" :")) {
-                    birthPlace = line.substring(line.indexOf(':'));
-                    birthPlace = birthPlace.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
-                }
-
-            }
-            br.close();
-            aggression = random.nextBoolean();
-            System.out.println(aggression);
-            age = random.nextInt(minAge, maxAge);
-            System.out.println(age);
-        }
-        catch(IOException e) {
-            System.err.println("oddity preset did not read the bible");
-        }
-    }
 }
