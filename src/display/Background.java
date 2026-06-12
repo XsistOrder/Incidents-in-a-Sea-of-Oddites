@@ -23,6 +23,7 @@ public class Background {
     public static Button newGameButton;
     public static Button returnMenuButton;
     public static Clock clock;
+    public static boolean gameStart = true;
     //private static Button
 
     public Background(Game game, int x, int y, int width, int height) {
@@ -34,16 +35,16 @@ public class Background {
         quitButton = new Button(game,450,350,125,75, "res\\textures\\interactive\\quit_button.png", 11,"help me");
         settingsButton = new Button(game, 525,275, 125,75, "res\\textures\\interactive\\settings_button.png", 11,"placeholder");
         infomationButton = new Button(game, 375,275, 125,75, "res\\textures\\interactive\\information_button.png", 11,"placeholder");
-        encyclopediaButton = new Button(game, 800,600, 50,50, "res\\textures\\interactive\\encyclopedia_button.png", 11,"placeholder");
+        encyclopediaButton = new Button(game, 900,400, 75,75, "res\\textures\\interactive\\encyclopedia_button.png", 11,"placeholder");
         documentationButton = new Button(game, 450,430, 80,80, "res\\textures\\interactive\\documentation_button.png", 11,"placeholder");
-        departButton = new Button(game,950,500,50,50, "res\\textures\\interactive\\depart_button_1.png", 11,"help me");
-        pauseButton = new Button(game,50,50,50,50, "res\\textures\\interactive\\button.jpg", 11,"help me");
+        departButton = new Button(game,825,400,75,75, "res\\textures\\interactive\\depart_button_1.png", 11,"help me");
+        pauseButton = new Button(game,150,0,50,50, "res\\textures\\interactive\\pause_button.png", 11,"help me");
         newDayButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_day_button.png", 11,"placeholder");
         newGameButton = new Button(game, 500,600, 50,50, "res\\textures\\interactive\\new_game_button.png", 11,"placeholder");
         returnMenuButton = new Button(game, 500,700, 50,50, "res\\textures\\interactive\\return_main_menu_button.png", 11,"placeholder");
 
-        clock = new Clock(game, 420, 120, 50, 11);
-        clock.setTime(1, 5);
+        clock = new Clock(game, 800, 120, 100, 11);
+        clock.setTime(7, 0);
         clock.attachHoverListener();
         clock.setVisible(true);
 
@@ -93,6 +94,13 @@ public class Background {
         switch (setting) {
 
             case "main_menu":
+                if (gameStart) {
+                    gameStart = false;
+                    game.audio.play("res/music/main_menu_music.wav");
+                }
+                else {
+                    game.audio.crossfade("res/music/main_menu_music.wav", 2);
+                }
                 game.graphics.setImageDir(id,"res\\textures\\menus\\main_menu_backdrop.png");
                 game.graphics.setImageDir(id2,"res\\textures\\menus\\main_menu_foreground_1.png");
 
@@ -116,6 +124,7 @@ public class Background {
                 }
                 break;
             case "checkpoint_menu":
+                game.audio.crossfade("res/music/checkpoint_music.wav", 2);
                 game.graphics.setImageDir(id,"res\\textures\\menus\\checkpoint_menu_backdrop_1.png");
                 game.graphics.setImageDir(id2,"res\\textures\\menus\\checkpoint_menu_foreground.png");
 
@@ -132,6 +141,7 @@ public class Background {
 
                 break;
             case "results_menu":
+                game.audio.crossfade("res/music/day_complete_music.wav", 2);
                 game.graphics.setImageDir(id,"res\\textures\\menus\\results_menu_backdrop.png");
                 game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_1.png");
 
@@ -180,10 +190,25 @@ public class Background {
 
             switch (anim) {
                 case "main_menu":
-                    game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_1.png");
+                    game.graphics.setImageDir(id2,"res\\textures\\menus\\main_menu_foreground_1.png");
                     if (tick <= 20) {
-                        game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_foreground_2.png");
+                        game.graphics.setImageDir(id2,"res\\textures\\menus\\main_menu_foreground_2.png");
                     }
+                    break;
+                case "checkpoint_menu" :
+                    game.graphics.setImageDir(id2,"res\\textures\\menus\\checkpoint_menu_backdrop_1.png");
+                    if (tick <= 20) {
+                        game.graphics.setImageDir(id2,"res\\textures\\menus\\checkpoint_menu_backdrop_2.png");
+                    }
+                    break;
+                case "results_menu":
+                    game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_forground_1.png");
+                    if (tick <= 20) {
+                        game.graphics.setImageDir(id2,"res\\textures\\menus\\results_menu_forground_2.png");
+                    }
+                    break;
+                case "gameover_menu":
+
                     break;
             }
 

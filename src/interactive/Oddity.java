@@ -95,17 +95,17 @@ public class Oddity extends Button {
                 }
                 if (line.contains("\"skinColor\" :") && foundPreset) {
                     skinColor = line.substring(line.indexOf(':'));
-                    skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    skinColor = skinColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     //System.out.println(skinColor);
                 }
                 if (line.contains("\"eyeColor\" :") && foundPreset) {
                     eyeColor = line.substring(line.indexOf(':'));
-                    eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    eyeColor = eyeColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     //System.out.println(eyeColor);
                 }
                 if (line.contains("\"eyeDilation\" :") && foundPreset) {
                     String lineSub = line.substring(line.indexOf(':'));
-                    lineSub = lineSub.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    lineSub = lineSub.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     switch (lineSub) {
                         case "true" :
                             eyeDialation = true;
@@ -119,17 +119,17 @@ public class Oddity extends Button {
                 }
                 if (line.contains("\"teethColor\" :") && foundPreset) {
                     teethColor = line.substring(line.indexOf(':'));
-                    teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    teethColor = teethColor.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     //System.out.println(teethColor);
                 }
                 if (line.contains("\"blood\" :") && foundPreset) {
                     blood = line.substring(line.indexOf(':'));
-                    blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    blood = blood.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     //System.out.println(blood);
                 }
                 if (line.contains("\"portrait\" :") && foundPreset) {
                     portrait = line.substring(line.indexOf(':'));
-                    portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    portrait = portrait.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     game.graphics.setImageDir(id, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
                     //System.out.println(game.graphics.getImageDir(id));
                 }
@@ -140,21 +140,21 @@ public class Oddity extends Button {
                 }
                 if (line.contains("\"age\" :")) {
                     String subline = line.substring(line.indexOf(':'),line.indexOf('-'));
-                    subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    subline = subline.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                     minAge = Integer.parseInt(subline);
                     String subline2 = line.substring(line.indexOf('-'));
-                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("-", "");
+                    subline2 = subline2.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("-", "").replace("_", " ");
                     maxAge = Integer.parseInt(subline2);
                     System.out.println(maxAge);
                     System.out.println(minAge);
                 }
                 if (line.contains("\"weakness\" :")) {
                     weakness = line.substring(line.indexOf(':'));
-                    weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    weakness = weakness.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                 }
                 if (line.contains("\"birthPlace\" :")) {
                     birthPlace = line.substring(line.indexOf(':'));
-                    birthPlace = birthPlace.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "");
+                    birthPlace = birthPlace.replace(" ", "").replace("\"", "").replace(":", "").replace(",", "").replace("_", " ");
                 }
 
             }
@@ -187,21 +187,23 @@ public class Oddity extends Button {
             game.graphics.setClickable(Background.documentationButton.getId(), false);
             game.graphics.setVisible(Background.documentationButton.getId(), false);
             game.graphics.setClickable(Background.departButton.getId(), false);
-            game.graphics.setVisible(Background.departButton.getId(), false);
+            game.graphics.setImageDir(Background.departButton.getId(), "res\\textures\\interactive\\depart_button_2.png");
             game.graphics.setVisible(id, false);
             game.graphics.setClickable(id, false);
             Popup.changeAndShowPopup("", false);
+            Background.loopAnimation("checkpoint_menu", game.tick);
             if (tick == 20) {
                 ticked++;
             }
             if (ticked == 5) {
                 isOnscreen = true;
                 Oddity.generate();
+                Popup.changePortrait(species, portrait);
                 Popup.documentation.refresh();
                 game.graphics.setClickable(Background.documentationButton.getId(), true);
                 game.graphics.setVisible(Background.documentationButton.getId(), true);
                 game.graphics.setClickable(Background.departButton.getId(), true);
-                game.graphics.setVisible(Background.departButton.getId(), true);
+                game.graphics.setImageDir(Background.departButton.getId(), "res\\textures\\interactive\\depart_button_1.png");
                 Impatience.pauseFillAndSetVisibility(false, true);
                 Results.addToOddityCount();
                 game.graphics.setVisible(id, true);
@@ -214,8 +216,14 @@ public class Oddity extends Button {
         }
 
     }
-    public static void walkover () {
+    public static void exitAnimation () {
 
+    }
+    public static void deathAnimation () {
+
+    }
+    public static void enterAnimation () {
+        //add vlaues from complete ask animation
     }
     @Override
     public void keyPressed (KeyEvent e, String action) {

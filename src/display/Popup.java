@@ -11,6 +11,7 @@ public class Popup {
     private static String setting = "settings_popup";
     private static int id;
     private static int id2;
+    private static int id3;
     private static int currentInformationPage = 1;
     private static int currentEncyclopediaPage = 1;
     private static Game game;
@@ -33,6 +34,7 @@ public class Popup {
         this.game = game;
         id = game.graphics.addObject(x,y,width, height,"res\\textures\\popup\\settings_popup.png", 21, false);
         id2 = game.graphics.addObject(0,0, 1000, 700,"res\\textures\\popup\\popup_overlay.png", 20, false);
+        id3 = game.graphics.addObject(0,0,200,200,"", 20, false);
         game.graphics.setAlpha(id2, 0.5f);
         closeButton = new Button(game, 900,80,200,200, "res\\textures\\interactive\\close_button.png", 22, "helphelphelp");
 
@@ -104,6 +106,7 @@ public class Popup {
 
         game.graphics.createGroup("documentation_popup_buttons");
         game.graphics.addToGroup("documentation_popup_buttons", closeButton.getId());
+        game.graphics.addToGroup("documentation_popup_buttons", id3);
         documentation.addToGroup("documentation_popup_buttons");
 
         game.graphics.createGroup("encyclopedia_popup_buttons");
@@ -141,7 +144,7 @@ public class Popup {
 
 
                 Impatience.pauseFillAndSetVisibility(true,false);
-
+                Background.clock.setPaused(true);
                 break;
             case "difficulty_popup":
                 game.graphics.setImageDir(id, "res\\textures\\popup\\difficulty_popup.png");
@@ -155,7 +158,7 @@ public class Popup {
                 game.graphics.setGroupVisible("difficulty_popup_buttons", visibility);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
-
+                Background.clock.setPaused(true);
                 break;
             case "pause_popup":
                 game.graphics.setImageDir(id, "res\\textures\\popup\\pause_popup.png");
@@ -170,6 +173,7 @@ public class Popup {
 
                 Impatience.pauseFillAndSetVisibility(true,true);
                 Oddity.setPaused(true);
+                Background.clock.setPaused(true);
                 break;
             case "information_popup":
                 game.graphics.setImageDir(id, "res\\textures\\popup\\information_popup_"+ currentInformationPage +".png");
@@ -183,9 +187,10 @@ public class Popup {
                 game.graphics.setGroupVisible("information_popup_buttons", visibility);
 
                 Impatience.pauseFillAndSetVisibility(true,false);
-
+                Background.clock.setPaused(true);
                 break;
             case "documentation_popup":
+                game.audio.playSFX("res/music/Documentation_open_SFX.wav");
                 game.graphics.setImageDir(id, "res\\textures\\popup\\documentation_popup_backdrop.png");
 
                 game.graphics.setGroupClickable("all_menu_buttons", false);
@@ -214,6 +219,7 @@ public class Popup {
                 break;
             default:
                 game.graphics.setGroupClickable("" + Background.getBackground() + "_buttons", true);
+                Background.clock.setPaused(false);
                 if (game.save.getInt("current_day", 1) == 1) {
                     game.graphics.setClickable(Background.resumePlayButton.getId(), false);
                 } else {
@@ -270,6 +276,9 @@ public class Popup {
             game.graphics.setImageDir(id, "res\\textures\\popup\\encyclopedia_popup_"+ currentEncyclopediaPage + ".png");
             game.graphics.setImageDir(pagerPreviousButton.getId(), "res\\textures\\interactive\\pager_left_button_1.png");
         }
+    }
+    public static void changePortrait (String species, String portrait) {
+        game.graphics.setImageDir(id3, "res\\textures\\oddities\\" + species + "\\" + portrait + "\\idle\\idle_1.png");
     }
     public static String getPopup() {
 

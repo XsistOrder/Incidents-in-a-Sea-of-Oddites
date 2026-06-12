@@ -15,31 +15,31 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Game extends JPanel{
-    private int tick = 0;
+    public int tick = 0;
     public String pickup = "";
     public GraphicsManager graphics = new GraphicsManager();
     public AudioManager audio = new AudioManager();
     public SaveManager save = new SaveManager();
-    public Oddity interrogatedOddity = new Oddity(this, 80, 0, 300, 400, 1);
+    public Oddity interrogatedOddity = new Oddity(this, 350, 50, 300, 400, 1);
     public Item syringe = new Item(this, 100, 550, 120, 120, "res\\textures\\interactive\\syringe_item.png", 11, "gulp");
     public Item magnifyingGlass = new Item(this, 350, 550, 120, 120, "res\\textures\\interactive\\magnifying_glass_item.png", 11, "gulp");
-    public Item laserPointer = new Item(this, 600, 550, 120, 120, "res\\textures\\interactive\\magnifying_glass_item.png", 11, "gulp");
+    public Item laserPointer = new Item(this, 600, 550, 120, 120, "res\\textures\\interactive\\laser_pointer_item.png", 11, "gulp");
     public Item questioner = new Item(this, 850, 550, 120, 120, "res\\textures\\interactive\\questioner_item.png", 11, "gulp");
-    public Item acid = new Item(this, 350, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
-    public Item crucifix = new Item(this, 400, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
-    public Item flashlight = new Item(this, 450, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
-    public Item woodenStake = new Item(this, 500, 500, 50, 50, "res\\textures\\interactive\\button.jpg", 11, "gulp");
+    public Item acid = new Item(this, 0, 0, 120, 120, "res\\textures\\interactive\\acid_item.png", 11, "gulp");
+    public Item crucifix = new Item(this, 0, 150, 120, 120, "res\\textures\\interactive\\crucifix_item.png", 11, "gulp");
+    public Item flashlight = new Item(this, 0, 275, 120, 120, "res\\textures\\interactive\\flashlight_item.png", 11, "gulp");
+    public Item woodenStake = new Item(this, 0, 400, 120, 120, "res\\textures\\interactive\\wooden_stake_item.png", 11, "gulp");
     public Background background = new Background(this, 0, 0, 1000, 700);
     private Popup popup = new Popup(this, 80, 80, 820, 540);
     private Details details = new Details(this);
 
-    private Impatience impatienceMeter = new Impatience(this,200,350, 50,100);
+    private Impatience impatienceMeter = new Impatience(this,175,200, 50,100);
     public Results results = new Results(this);
     public static int gameWidth = 1000;
     public static int gameHeight = 700;
     public Game() {
         //controls menu you start on
-        Background.changeBackground("main_menu");
+        Background.changeBackground("checkpoint_menu");
         Popup.changeAndShowPopup("", false);
         details.attachListener();
 
@@ -118,6 +118,9 @@ public class Game extends JPanel{
     }
     public void move() {
         tick++;
+        if (Background.getBackground().equals("main_menu")) {
+            Background.loopAnimation("main_menu", tick);
+        }
         if (Background.getBackground().equals("checkpoint_menu") ) {
             Oddity.askAnimation(tick, false);
             Oddity.loopAnimation("idle", tick);
@@ -139,6 +142,9 @@ public class Game extends JPanel{
             if (Background.clock.isFinished() && Oddity.getTicked()==0) {
                 Background.changeBackground("results_menu");
             }
+        }
+        if (Background.getBackground().equals("results_menu")) {
+            Background.loopAnimation("results_menu", tick);
         }
 
 

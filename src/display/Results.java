@@ -116,6 +116,7 @@ public class Results {
     }
 
     public static void gameOver() {
+        game.audio.playSFX("res/music/game_over_SFX.wav");
         game.graphics.addText("Total Score: " + totalScore, 200, 100, 20, Color.RED, 25, true);
         game.graphics.addText("Total Oddities Successfully Dispatched: " + totalCorrectlyDispatched, 200, 150, 20, Color.RED, 25, true);
         game.graphics.addText("Total Oddities Incorrectly Dispatched: " + totalIncorrectlyDispatched, 200, 200, 20, Color.RED, 25, true);

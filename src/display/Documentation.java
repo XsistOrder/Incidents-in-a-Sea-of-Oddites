@@ -47,17 +47,11 @@ public class Documentation {
 
     private final ArrayList<Integer> allIds = new ArrayList<>();
 
-    private static String falseSkinColor;
-    private static String falseEyeColor;
-    private static boolean falseEyeDilation;
-    private static String falseTeethColor;
-    private static String falseBlood;
-    private static String falseAge;
-    private static String falseBirthPlace;
-    private static final String[] ALT_SKIN_COLORS = {"pale", "grey", "green", "blue", "tan", "charcoal", "ivory", "rust"};
-    private static final String[] ALT_EYE_COLORS = {"red", "yellow", "white", "violet", "black", "silver", "amber", "cyan"};
+    private static final String[] ALT_SKIN_COLORS = {"pale white", "black", "brown", "beige", "purple", "black", "grey", "red"};
+    private static final String[] ALT_EYE_COLORS = {"pale white", "black", "brown", "blue", "red", "none"};
     private static final String[] ALT_TEETH_COLORS = {"white", "black", "yellow", "grey", "crimson", "brown", "ivory", "silver"};
-    private static final String[] ALT_BLOOD_TYPES = {"red", "black", "blue", "green", "silver", "gold", "clear", "purple"};
+    private static final String[] ALT_BLOOD_TYPES = {"none", "red", "black", "pale yellow"};
+    private static final String[] ALT_BIRTHPLACE_TYPES = {"Japan", "Backrooms", "void"};
 
     public Documentation(Game game, int startX, int startY, int fontSize, int lineSpacing, int priority) {
         this.game = game;
@@ -195,7 +189,7 @@ public class Documentation {
                 fakeAge = Math.max(1, fakeAge);
                 return label + " " + fakeAge;
             case 7:
-                return label + " " + corruptPlace(Oddity.getBirthPlace());
+                return label + " " + pickDifferent(ALT_BIRTHPLACE_TYPES, Oddity.getBirthPlace());
             default:
                 return originalLine;
         }
